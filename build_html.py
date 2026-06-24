@@ -132,6 +132,34 @@ churn_rows+=f"""<tr style="background:#f3f7ff;font-weight:800"><td style="text-a
     <td class="pos">{CH['managed']['pct']}% <span class="muted">(n={CH['managed']['cohort']})</span></td>
     <td class="neg">{CH['unmanaged']['pct']}% <span class="muted">(n={CH['unmanaged']['cohort']})</span></td></tr>"""
 
+# ---- partner-level churn rows ----
+def pseg(s): return next(x for x in CH["p_by_seg_mgmt"] if x["seg"]==s)
+def pcseg(s): return next(x for x in CH["p_by_segment"] if x["seg"]==s)
+pchurn_rows=""
+for s in ["Enterprise","Mid-market","SMB"]:
+    bs=pcseg(s); bm=pseg(s)
+    pchurn_rows+=f"""<tr><td style="text-align:left"><span class="dot {seg_class[s]}"></span>{seg_label[s]}</td>
+    <td>{num(bs['cohort'])}</td><td><b>{bs['pct']}%</b></td>
+    <td class="pos">{bm['man_pct']}% <span class="muted">(n={bm['man_n']})</span></td>
+    <td class="neg">{bm['unm_pct']}% <span class="muted">(n={bm['unm_n']})</span></td></tr>"""
+pchurn_rows+=f"""<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">All</td>
+    <td>{num(CH['p_overall']['cohort'])}</td><td>{CH['p_overall']['pct']}%</td>
+    <td class="pos">{CH['p_managed']['pct']}% <span class="muted">(n={CH['p_managed']['cohort']})</span></td>
+    <td class="neg">{CH['p_unmanaged']['pct']}% <span class="muted">(n={CH['p_unmanaged']['cohort']})</span></td></tr>"""
+
+# ---- GMV lost rows ----
+def glseg(s): return next(x for x in CH["gmv_lost_by_segment"] if x["seg"]==s)
+gmv_lost_rows=""
+for s in ["Enterprise","Mid-market","SMB"]:
+    g=glseg(s)
+    gmv_lost_rows+=f"""<tr><td style="text-align:left"><span class="dot {seg_class[s]}"></span>{seg_label[s]}</td>
+    <td>{num(g['count'])}</td><td class="r">{eur(g['total'])}</td><td>{g['pct_of_gmv']}%</td><td class="r">{eur(g['runrate'])}</td></tr>"""
+GL=CH["gmv_lost"]
+gmv_lost_rows+=f"""<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">All</td>
+    <td>{num(GL['count'])}</td><td class="r">{eur(GL['total'])}</td><td>{GL['pct_of_gmv']}%</td><td class="r">{eur(GL['runrate'])}</td></tr>
+    <tr><td style="text-align:left" class="muted">— with a dedicated AM</td><td>{num(CH['gmv_lost_managed']['count'])}</td><td class="r">{eur(CH['gmv_lost_managed']['total'])}</td><td>—</td><td class="r">{eur(CH['gmv_lost_managed']['runrate'])}</td></tr>
+    <tr><td style="text-align:left" class="muted">— no dedicated AM</td><td>{num(CH['gmv_lost_unmanaged']['count'])}</td><td class="r">{eur(CH['gmv_lost_unmanaged']['total'])}</td><td>—</td><td class="r">{eur(CH['gmv_lost_unmanaged']['runrate'])}</td></tr>"""
+
 HTML=f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Partner Portfolio — Coverage & Segmentation</title>
@@ -278,14 +306,30 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="kpi good"><div class="n">{CH['managed']['pct']}%</div><div class="l">Churn — with a dedicated AM</div></div>
 <div class="kpi crit"><div class="n">{CH['unmanaged']['pct']}%</div><div class="l">Churn — no dedicated AM</div></div>
 <div class="kpi high"><div class="n">~{churn_ratio}×</div><div class="l">Higher churn without an AM</div></div></div>
-<div class="card"><div class="top">Churn by segment — with vs without a dedicated AM</div><div class="body tablewrap"><table>
-<thead><tr><th style="text-align:left">Segment</th><th>Active cohort</th><th>Churn (all)</th><th>Churn — managed (n)</th><th>Churn — no AM (n)</th></tr></thead>
+<div class="card"><div class="top">Location-level churn by segment — with vs without a dedicated AM</div><div class="body tablewrap"><table>
+<thead><tr><th style="text-align:left">Segment</th><th>Active cohort (locations)</th><th>Churn (all)</th><th>Churn — managed (n)</th><th>Churn — no AM (n)</th></tr></thead>
 <tbody>{churn_rows}</tbody></table></div></div>
+
+<div class="split">
+<div class="card"><div class="top">Partner-level churn (whole network)</div><div class="body tablewrap"><table>
+<thead><tr><th style="text-align:left">Segment</th><th>Partners</th><th>Churn (all)</th><th>Managed (n)</th><th>No AM (n)</th></tr></thead>
+<tbody>{pchurn_rows}</tbody></table></div></div>
+<div class="card"><div class="top">GMV lost via churned locations</div><div class="body tablewrap"><table>
+<thead><tr><th style="text-align:left">Segment</th><th>Churned loc.</th><th class="r">GMV lost (Jan–May)</th><th>% of seg GMV</th><th class="r">Run-rate / mo</th></tr></thead>
+<tbody>{gmv_lost_rows}</tbody></table></div></div>
+</div>
+<div class="grid kpis">
+<div class="kpi good"><div class="n">{CH['p_managed']['pct']}%</div><div class="l">Partners churned — with a dedicated AM ({CH['p_managed']['churned']} of {CH['p_managed']['cohort']})</div></div>
+<div class="kpi crit"><div class="n">{CH['p_unmanaged']['pct']}%</div><div class="l">Partners churned — no dedicated AM ({CH['p_unmanaged']['churned']} of {CH['p_unmanaged']['cohort']})</div></div>
+<div class="kpi high"><div class="n">{eur(GL['total'])}</div><div class="l">GMV lost to churn (Jan–May, {GL['pct_of_gmv']}% of GMV)</div></div>
+<div class="kpi"><div class="n">{eur(GL['runrate'])}</div><div class="l">Monthly run-rate lost</div></div></div>
 <div class="callout"><h3>How to read it</h3><ul>
 <li><b>A dedicated AM cuts churn ~{churn_ratio}×</b>: {CH['managed']['pct']}% with an AM vs {CH['unmanaged']['pct']}% without. Hands-on coverage clearly keeps partners alive.</li>
 <li><b>The tail bleeds fastest exactly where we have no capacity:</b> SMB with no AM churns {chseg('SMB','by_seg_mgmt')['unm_pct']}%, while managed SMB stays at {chseg('SMB','by_seg_mgmt')['man_pct']}%. Enterprise is stickier but still churns {chseg('Enterprise','by_seg_mgmt')['unm_pct']}% without an AM.</li>
+<li><b>At network (partner) level it is even starker:</b> {CH['p_managed']['pct']}% of partners with a dedicated AM fully churned ({CH['p_managed']['churned']} of {CH['p_managed']['cohort']}) vs {CH['p_unmanaged']['pct']}% without ({CH['p_unmanaged']['churned']} of {CH['p_unmanaged']['cohort']}). A dedicated AM essentially stops whole partners from dying.</li>
+<li><b>In money:</b> churned locations represent {eur(GL['total'])} of Jan–May GMV ({GL['pct_of_gmv']}% of the total) and ~{eur(GL['runrate'])}/month of run-rate now gone. Most of it ({eur(glseg('SMB')['total'])}, {glseg('SMB')['pct_of_gmv']}% of SMB GMV) is the unmanaged SMB tail.</li>
 <li><b>Implication:</b> the existing book genuinely needs retention attention, but the {MT['managers']} AMs are already full — so the answer is added capacity / self-serve for the tail, not piling more partners onto {MT['managers']} people.</li></ul>
-<p class="note">Churn = location active in Jan–Feb 2026 with no delivered orders in Apr–May 2026. Some managed/no-AM cells have small cohorts (n shown) — read those as directional.</p></div>
+<p class="note">Churn = active in Jan–Feb 2026 with no delivered orders in Apr–May 2026. Location churn counts stores; partner churn counts whole groups (a partner churns only if all its stores go silent). GMV lost = the Jan–May GMV of churned locations; run-rate = their pre-churn Jan–Feb monthly average. Small cohorts (n shown) are directional.</p></div>
 <div class="callout"><h3>How each metric is calculated</h3>
 <ul>
 <li><b>Unit = location</b> (an individual store / <code>provider_id</code>), not the partner-chain. Source: Databricks <code>fact_order_delivery</code> × <code>dim_provider_v2</code> — Ukraine, store vertical, delivered orders, 2026. Monthly delivered-order counts per location (Jan…May).</li>
@@ -296,6 +340,8 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <li><b>Churn — managed (n)</b> = churn only among locations whose partner has one of the 3 dedicated AMs; <b>(n)</b> = that sub-cohort's size.</li>
 <li><b>Churn — no AM (n)</b> = churn among locations with no dedicated AM; <b>(n)</b> = that sub-cohort's size. Note: managed n + no-AM n = Active cohort.</li>
 <li><b>"Churn (all)" is a weighted figure, not the average</b> of the two sub-columns — it leans toward whichever group has more locations (e.g. Enterprise toward managed, SMB toward no-AM).</li>
+<li><b>Partner-level churn</b> applies the same rule to the whole chain (group): a partner is in the cohort if any of its stores was active in Jan–Feb, and churns only if <b>all</b> its stores went silent by Apr–May. Big multi-store chains almost never fully churn, so this is naturally lower than location churn.</li>
+<li><b>GMV lost</b> = the actual Jan–May GMV generated by churned locations (revenue that existed and has now stopped). <b>Run-rate / mo</b> = those same locations' average monthly GMV while active (Jan–Feb), i.e. the recurring revenue no longer coming in. <b>% of seg GMV</b> = GMV lost ÷ that segment's total GMV.</li>
 </ul>
 <p class="note">Example — Enterprise: 532 active in Jan–Feb; 14 churned → 2.6%. Of those, 521 are managed (12 churned → 2.3%) and 11 have no AM (2 churned → 18.2%); 12 + 2 = 14.</p></div></section>
 

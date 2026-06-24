@@ -198,23 +198,55 @@ for am in [BRYN,SKAL,BER]:
 managed_live_groups=set()
 for keys in resolver.values():
     for k in keys: managed_live_groups.add(k)
-def cstats(rows):
-    cohort=[r for r in rows if (r.get("m01") or r.get("m02"))]
-    churned=[r for r in cohort if not (r.get("m04") or r.get("m05"))]
+def active_early(r): return bool(r.get("m01") or r.get("m02"))
+def active_late(r):  return bool(r.get("m04") or r.get("m05"))
+def cstats(rows):  # location-level churn
+    cohort=[r for r in rows if active_early(r)]
+    churned=[r for r in cohort if not active_late(r)]
     n=len(cohort)
     return {"cohort":n,"churned":len(churned),"pct":round(len(churned)/n*100,1) if n else 0}
+def pstats(rows):  # partner-level (group) churn
+    g={}
+    for r in rows:
+        d=g.setdefault(str(r.get("grp")),{"m01":0,"m02":0,"m04":0,"m05":0})
+        for k in ("m01","m02","m04","m05"): d[k]+=r.get(k) or 0
+    cohort=[k for k,d in g.items() if d["m01"] or d["m02"]]
+    churned=[k for k in cohort if not (g[k]["m04"] or g[k]["m05"])]
+    n=len(cohort)
+    return {"cohort":n,"churned":len(churned),"pct":round(len(churned)/n*100,1) if n else 0}
+def gmv5(r): return sum(r.get(f"g0{i}") or 0 for i in range(1,6))
+def glost(rows):  # GMV lost via churned locations
+    churned=[r for r in rows if active_early(r) and not active_late(r)]
+    total=sum(gmv5(r) for r in churned)
+    runrate=sum(((r.get("g01") or 0)+(r.get("g02") or 0))/2 for r in churned)
+    return {"count":len(churned),"total":round(total),"runrate":round(runrate)}
+
 ch=C.get("churn",[])
 for r in ch: r["_seg"]=norm_seg(r.get("seg")); r["_man"]=str(r.get("grp")) in managed_live_groups
+seg_gmv={s["seg"]:s["gmv"] for s in seg_overview}
 churn={"overall":cstats(ch),
        "managed":cstats([r for r in ch if r["_man"]]),
        "unmanaged":cstats([r for r in ch if not r["_man"]]),
-       "by_segment":[],"by_seg_mgmt":[]}
+       "by_segment":[],"by_seg_mgmt":[],
+       # partner-level
+       "p_overall":pstats(ch),"p_managed":pstats([r for r in ch if r["_man"]]),
+       "p_unmanaged":pstats([r for r in ch if not r["_man"]]),"p_by_segment":[],"p_by_seg_mgmt":[],
+       # gmv lost
+       "gmv_lost":glost(ch),"gmv_lost_managed":glost([r for r in ch if r["_man"]]),
+       "gmv_lost_unmanaged":glost([r for r in ch if not r["_man"]]),"gmv_lost_by_segment":[]}
 for s in ["Enterprise","Mid-market","SMB"]:
     rows=[r for r in ch if r["_seg"]==s]
     st=cstats(rows); st["seg"]=s; churn["by_segment"].append(st)
     m=cstats([r for r in rows if r["_man"]]); u=cstats([r for r in rows if not r["_man"]])
     churn["by_seg_mgmt"].append({"seg":s,"man_pct":m["pct"],"man_n":m["cohort"],
                                  "unm_pct":u["pct"],"unm_n":u["cohort"]})
+    ps=pstats(rows); ps["seg"]=s; churn["p_by_segment"].append(ps)
+    pm=pstats([r for r in rows if r["_man"]]); pu=pstats([r for r in rows if not r["_man"]])
+    churn["p_by_seg_mgmt"].append({"seg":s,"man_pct":pm["pct"],"man_n":pm["cohort"],
+                                   "unm_pct":pu["pct"],"unm_n":pu["cohort"]})
+    gl=glost(rows); gl["seg"]=s; gl["pct_of_gmv"]=round(gl["total"]/seg_gmv[s]*100,1) if seg_gmv.get(s) else 0
+    churn["gmv_lost_by_segment"].append(gl)
+churn["gmv_lost"]["pct_of_gmv"]=round(churn["gmv_lost"]["total"]/T["gmv"]*100,1) if T["gmv"] else 0
 
 out={"totals":T,"seg_overview":seg_overview,"partners":partners,"managed_totals":managed_totals,
      "team":team,"full":full,"months":MONTHS,"data_start":C["start"],"data_end":C["end"],"churn":churn}
