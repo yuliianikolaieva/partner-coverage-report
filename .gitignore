@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+preview*.png
+full*.png
+*.tmp
+.DS_Store
