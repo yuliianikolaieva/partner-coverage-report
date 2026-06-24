@@ -2,5 +2,10 @@ __pycache__/
 *.pyc
 preview*.png
 full*.png
+r.png
+s*.png
+c_*.png
+v.png
 *.tmp
 .DS_Store
+.env

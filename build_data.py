@@ -1,178 +1,192 @@
 # -*- coding: utf-8 -*-
-import pandas as pd, re, json
-BASE="/Users/yuliia.nikolaieva/Library/CloudStorage/GoogleDrive-yuliia.nikolaieva@bolt.eu/My Drive/Cursor/"
-SRC=BASE+"Key Account dashboard/data/Merchant-level Overview.csv"
-df=pd.read_csv(SRC)
+"""Build data.json for the Partner Coverage report from Databricks cache (Jan-May 2026)."""
+import json, os
+from collections import defaultdict
+HERE=os.path.dirname(os.path.abspath(__file__))
+C=json.load(open(os.path.join(HERE,"dbx_cache.json"),encoding="utf-8"))
+MONTHS=["2026-01","2026-02","2026-03","2026-04","2026-05"]
+NUMCOLS=["orders","locations","gmv","commission","eater_fees","camp_bolt","camp_merch",
+         "delivery_rev","courier_cost","refunds","demand_incentives","supply_incentives"]
 
-def money(s):
-    if pd.isna(s):return 0.0
-    s=str(s).replace("€","").replace(",","").replace('"','').strip()
-    if s in ("","-"):return 0.0
-    try:return float(s)
-    except:return 0.0
-def norm(s):
-    if pd.isna(s):return ""
-    s=str(s).upper().strip().replace("`","'"); s=re.sub(r"\s+"," ",s);return s
+def f(x):
+    try: return float(x) if x is not None else 0.0
+    except: return 0.0
+def norm_seg(s):
+    if not s: return "Missing Segment"
+    return str(s).replace(" (AM Segment)","").strip() or "Missing Segment"
 
-df["gmv"]=df["Total GMV Before Discounts, €"].apply(money)
-df["comm"]=df["Total Invoiced Merchant Commission, €"].apply(money)
-df["orders"]=df["Merchant Delivered Orders Count, #"].apply(money)
-df["seg"]=df["Business Segment V2"].fillna("Missing Segment").str.replace(" (AM Segment)","",regex=False)
-df["grp"]=df["Group Name"].fillna(df["Brand Name"]).fillna(df["Provider Name"])
+def cp_l1(d):
+    return (d["commission"]+d["eater_fees"]+d["delivery_rev"]-d["courier_cost"]
+            -d["demand_incentives"]-d["camp_bolt"]-d["refunds"])
 
-pn2grp=dict(zip(df["Provider Name"].astype(str),df["grp"].astype(str)))
-# brand upper -> group (mode)
-brand2grp={}
-for b,sub in df.dropna(subset=["Brand Name"]).groupby(df["Brand Name"].str.upper()):
-    brand2grp[b]=sub["grp"].mode().iloc[0]
+def agg_monthly(rows):
+    """grp -> {totals..., gmv_m{month:v}, loc_m{month:v}}"""
+    g=defaultdict(lambda:{c:0.0 for c in NUMCOLS_INIT()})
+    gmv_m=defaultdict(lambda:{m:0.0 for m in MONTHS})
+    loc_m=defaultdict(lambda:{m:0.0 for m in MONTHS})
+    for r in rows:
+        k=str(r["grp"])
+        for c in NUMCOLS: g[k][c]+=f(r.get(c))
+        p=r.get("period")
+        if p in MONTHS:
+            gmv_m[k][p]+=f(r.get("gmv")); loc_m[k][p]+=f(r.get("locations"))
+    return g,gmv_m,loc_m
+def NUMCOLS_INIT(): return NUMCOLS
 
-# ---------------- monthly GMV per group (Jan-Apr) ----------------
-dyn=pd.read_csv(BASE+"Key Account dashboard/data/Entity performance dynamics (PoP) (2).csv",header=[0,1])
-ent=dyn.iloc[:,1].astype(str)
-gmv_months=['2026-01','2026-02','2026-03','2026-04']
-gmv_trend={}
-for m in gmv_months:
-    col=dyn[(m,'Total GMV Before Discounts, €')].apply(money)
-    for e,v in zip(ent,col):
-        g=pn2grp.get(e)
-        if g is None:continue
-        gmv_trend.setdefault(g,{}).setdefault(m,0.0)
-        gmv_trend[g][m]+=v
-def gmv_series(g):
-    d=gmv_trend.get(g)
-    if not d:return None
-    return [round(d.get(m,0.0)) for m in gmv_months]
+def agg_dim(rows):
+    """grp -> {stores,active,seg,am,cities,brand}"""
+    by=defaultdict(list)
+    for r in rows: by[str(r["grp"])].append(r)
+    out={}
+    for k,rs in by.items():
+        stores=sum(int(f(r.get("stores"))) for r in rs)
+        active=sum(int(f(r.get("stores"))) for r in rs if r.get("status")=="active")
+        # seg / am by max stores
+        seg_row=max(rs,key=lambda r:f(r.get("stores")))
+        seg=norm_seg(seg_row.get("seg"))
+        am_rows=[r for r in rs if r.get("am")]
+        am=None
+        if am_rows:
+            am=max(am_rows,key=lambda r:f(r.get("stores"))).get("am")
+        cities=len({r.get("city") for r in rs if r.get("city")})
+        out[k]={"stores":stores,"active":active,"seg":seg,"am":am,"cities":cities,
+                "brand":seg_row.get("brand")}
+    return out
 
-# ---------------- monthly locations per group (Jan-May) ----------------
-act=pd.read_csv(BASE+"Active store/active_stores_from_dbx.csv")
-act["m"]=act["Report Time (dynamic)"].str[:7]
-def act2grp(row):
-    pn=str(row["Provider Name"])
-    if pn in pn2grp:return pn2grp[pn]
-    b=str(row["Brand Name"]).upper()
-    return brand2grp.get(b)
-act["g"]=act.apply(act2grp,axis=1)
-loc_months=['2026-01','2026-02','2026-03','2026-04','2026-05']
-# per month, use the LAST weekly snapshot in that month
-loc_trend={}
-for m in loc_months:
-    sub=act[act["m"]==m]
-    if len(sub)==0:continue
-    last_week=sub["Report Time (dynamic)"].max()
-    snap_w=sub[sub["Report Time (dynamic)"]==last_week]
-    agg=snap_w.dropna(subset=["g"]).groupby("g")["Active Merchant Count, #"].sum()
-    for g,v in agg.items():
-        loc_trend.setdefault(g,{})[m]=int(v)
-def loc_series(g):
-    d=loc_trend.get(g)
-    if not d:return None
-    return [int(d.get(m,0)) for m in loc_months]
+UM,UGMV,ULOC=agg_monthly(C["monthly"])
+UD=agg_dim(C["dim"])
+MM,MGMV,MLOC=agg_monthly(C["man_monthly"])
+MD=agg_dim(C["man_dim"])
 
-# ---------------- managed partners (with AM overrides) ----------------
-BRYN="Mykhailo Brynchak"; SKAL="Viktor Skalivskiy"; BER="Khrystyna Berezna"
-am_override={}
-for n in ["KOPIYKA","PYVNA BORODA","WINETIME","SANTIM","MAXBEER","SPRAGA","O'NDE","SPAR","OKKO",
-          "BRSM","FLOWERS UA","ATB","FORA","ANRI","HOP HEY","BEER MARKET","LOKO","KOPIYKA MINI",
-          "CAFE RYNOK","BEERLAND","TAISTRA","RUKAVYCHKA"]: am_override[n]=BRYN
-for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","РОСТ","MASTER ZOO"]: am_override[n]=SKAL
-for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA"]: am_override[n]=BER
+def series(dmap,k): return [round(dmap[k][m]) for m in MONTHS] if k in dmap else None
 
-# managed list -> match key in snapshot
-managed_match=[
- ("LEPRUKON","LEPRUKON"),("DIMPYVA","DIMPYVA"),("CHILL TIME","CHILL TIME"),
- ("RODYNNA KOVBASKA","RODYNNA KOVBASKA"),("NO TABOO","NO TABOO"),("VAPE SHOP KYIV","VAPE SHOP KYIV"),
- ("VAPORS","VAPORS"),("HOP HEY","HOP HEY"),("BEER MARKET","BEER MARKET"),("KOPIYKA","KOPIYKA"),
- ("LOKO","LOKO"),("PYVNA BORODA","PYVNA BORODA"),("SANTIM","SANTIM"),("KOPIYKA MINI","KOPIYKA MINI"),
- ("OKKO","OKKO CAFE"),("BRSM","BRSM-NAFTA"),("LIKI 24","LIKI24"),("CAFE RYNOK","CAFE RYNOK"),
- ("BEERLAND","BEERLAND"),("WINETIME","WINETIME"),("SPRAGA","SPRAGA"),("MAXBEER","MAXBEER"),
- ("FLOWERS UA","FLOWERS"),("TAISTRA","TAISTRA"),("O'NDE","O'NDE"),("SPAR","SPAR"),
- ("RUKAVYCHKA","RUKAVYCHKA"),("REMESLO BREWERY","REMESLO BREWERY"),("TOCHKA","TOCHKA"),
- ("FLOWER SHOP","FLOWER SHOP"),
-]
-enterprise_external=["ATB","FORA","ANRI","ROZETKA","VARUS","THRASH","E-ZOO","РОСТ","MASTER ZOO"]
+def partner_record(k,mt,dim,gmv_m,loc_m):
+    d=mt.get(k,{c:0.0 for c in NUMCOLS})
+    di=dim.get(k,{"stores":0,"active":0,"seg":"Missing Segment","am":None,"cities":0})
+    gmv=d["gmv"]; comm=d["commission"]
+    return {"name":k,"seg":di["seg"],"stores":di["stores"],"active":di["active"],
+        "am_data":di["am"],
+        "gmv":round(gmv),"orders":int(d["orders"]),"comm":round(comm),
+        "comm_pct":round(comm/gmv*100,1) if gmv>0 else None,
+        "eater_fees":round(d["eater_fees"]),"camp_bolt":round(d["camp_bolt"]),
+        "camp_merch":round(d["camp_merch"]),"cp_l1":round(cp_l1(d)),
+        "cp_pct":round(cp_l1(d)/gmv*100,1) if gmv>0 else None,
+        "gmv_trend":series(gmv_m,k),"loc_trend":series(loc_m,k)}
 
-nb={norm(b) for b in df["Brand Name"].dropna()}; ng={norm(g) for g in df["Group Name"].dropna()}
-partners=[]
-for disp,key in managed_match:
-    nn=norm(key)
-    if nn in nb: sub=df[df["Brand Name"].apply(norm)==nn]
-    elif nn in ng: sub=df[df["Group Name"].apply(norm)==nn]
-    else: sub=df[(df["Brand Name"].apply(norm)==nn)|(df["Group Name"].apply(norm)==nn)]
-    if len(sub)==0: print("MISS",disp); continue
-    seg=sub["seg"].mode().iloc[0] if len(sub["seg"].mode()) else "Missing Segment"
-    gkey=sub["grp"].mode().iloc[0]
-    partners.append({"name":disp,"seg":seg,"stores":int(len(sub)),
-        "active":int((sub["Provider Status"]=="active").sum()),
-        "gmv":round(float(sub["gmv"].sum())),"orders":int(sub["orders"].sum()),
-        "comm":round(float(sub["comm"].sum())),"am":am_override.get(disp,"—"),
-        "gmv_trend":gmv_series(gkey),"loc_trend":loc_series(gkey)})
-for e in enterprise_external:
-    partners.append({"name":e,"seg":"Enterprise","stores":None,"active":None,
-        "gmv":None,"orders":None,"comm":None,"am":am_override.get(e,SKAL),
-        "gmv_trend":None,"loc_trend":None})
-partners_sorted=sorted(partners,key=lambda x:(x["gmv"] is None,-(x["gmv"] or 0)))
-
-# ---------------- segment overview (+comm per partner) ----------------
-seg_overview=[]
-for seg in ["Enterprise","Mid-market","SMB","Missing Segment"]:
-    s=df[df["seg"]==seg]
-    np_=int(s["grp"].nunique())
-    seg_overview.append({"seg":seg,"partners":np_,"stores":int(len(s)),
-        "active":int((s["Provider Status"]=="active").sum()),
-        "gmv":round(float(s["gmv"].sum())),"orders":int(s["orders"].sum()),
-        "comm":round(float(s["comm"].sum())),
-        "comm_per":round(float(s["comm"].sum())/np_) if np_ else 0})
-
-# ---------------- full partner list (all groups) with trend ----------------
-full=[]
-for g,s in df.groupby("grp"):
-    seg=s["seg"].mode().iloc[0] if len(s["seg"].mode()) else "Missing Segment"
-    full.append({"name":g,"seg":seg,"stores":int(len(s)),
-        "active":int((s["Provider Status"]=="active").sum()),
-        "gmv":round(float(s["gmv"].sum())),"orders":int(s["orders"].sum()),
-        "comm":round(float(s["comm"].sum())),
-        "gmv_trend":gmv_series(g),"loc_trend":loc_series(g)})
+# ---------------- universe full list ----------------
+universe_keys=set(UD)|set(UM)
+full=[partner_record(k,UM,UD,UGMV,ULOC) for k in universe_keys]
 full=sorted(full,key=lambda x:-x["gmv"])
 
-# ---------------- team (3 managers) workload over managed ----------------
+# ---------------- totals ----------------
+def sumf(lst,key): return round(sum(p[key] for p in lst))
+T={"partners":len(full),
+   "active_partners":sum(1 for p in full if p["gmv"]>0),
+   "stores":sumf(full,"stores"),"active":sumf(full,"active"),
+   "gmv":sumf(full,"gmv"),"orders":sumf(full,"orders"),"comm":sumf(full,"comm"),
+   "eater_fees":sumf(full,"eater_fees"),"camp_bolt":sumf(full,"camp_bolt"),
+   "camp_merch":sumf(full,"camp_merch"),"cp_l1":sumf(full,"cp_l1")}
+T["comm_pct"]=round(T["comm"]/T["gmv"]*100,1)
+T["cp_pct"]=round(T["cp_l1"]/T["gmv"]*100,1)
+# unassigned (data AM null)
+unassigned=[p for p in full if not p["am_data"]]
+T["unassigned_partners"]=len(unassigned)
+T["unassigned_stores"]=sumf(unassigned,"stores")
+T["unassigned_gmv"]=sumf(unassigned,"gmv")
+T["am_count"]=len({p["am_data"] for p in full if p["am_data"]})
+
+# ---------------- segment overview ----------------
+SEGS=["Enterprise","Mid-market","SMB","Missing Segment"]
+seg_overview=[]
+for s in SEGS:
+    g=[p for p in full if p["seg"]==s]
+    np_=len(g); gmv=sumf(g,"gmv"); comm=sumf(g,"comm")
+    seg_overview.append({"seg":s,"partners":np_,"stores":sumf(g,"stores"),
+        "active":sumf(g,"active"),"gmv":gmv,"orders":sumf(g,"orders"),"comm":comm,
+        "cp_l1":sumf(g,"cp_l1"),
+        "gmv_per":round(gmv/np_) if np_ else 0,"comm_per":round(comm/np_) if np_ else 0,
+        "comm_pct":round(comm/gmv*100,1) if gmv>0 else 0})
+
+# ---------------- managed partners ----------------
+BRYN="Mykhailo Brynchak"; SKAL="Viktor Skalivskiy"; BER="Khrystyna Berezna"
+resolver={
+ "LEPRUKON":["LEPRUKON"],"DIMPYVA":["DIMPYVA"],"CHILL TIME":["CHILL TIME"],
+ "RODYNNA KOVBASKA":["RODYNNA KOVBASKA"],"NO TABOO":["NO TABOO"],
+ "VAPE SHOP KYIV":["VAPE SHOP KYIV"],"VAPORS":["VAPORS"],"HOP HEY":["HOP HEY"],
+ "BEER MARKET":["BEER MARKET"],"KOPIYKA":["KOPIYKA"],"LOKO":["LOKO"],
+ "PYVNA BORODA":["PYVNA BORODA"],"SANTIM":["SANTIM"],"BRSM":["BRSM"],
+ "CAFE RYNOK":["CAFE RYNOK"],"BEERLAND":["BEERLAND"],"WINETIME":["WINETIME"],
+ "SPRAGA":["SPRAGA"],"MAXBEER":["MAXBEER"],"FLOWERS UA":["FLOWERS"],
+ "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
+ "REMESLO BREWERY":["REMESLO BREWERY"],"TOCHKA":["TOCHKA"],"FLOWER SHOP":["FLOWER SHOP"],
+ "OKKO":["OKKO CAFE GROUP"],"LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],
+ "ATB":["ATB CHERKASY","ATB KYIV"],
+}
+external_nodata=["O'NDE","FORA","ANRI","THRASH","E-ZOO","MASTER ZOO","ROST"]
+am_map={}
+for n in ["KOPIYKA","PYVNA BORODA","WINETIME","SANTIM","MAXBEER","SPRAGA","O'NDE","SPAR","OKKO",
+          "BRSM","FLOWERS UA","ATB","FORA","ANRI","HOP HEY","BEER MARKET","LOKO",
+          "CAFE RYNOK","BEERLAND","TAISTRA","RUKAVYCHKA"]: am_map[n]=BRYN
+for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO"]: am_map[n]=SKAL
+for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA"]: am_map[n]=BER
+
+def merge_groups(dispname,keys):
+    d={c:0.0 for c in NUMCOLS}; gmv_m={m:0.0 for m in MONTHS}; loc_m={m:0.0 for m in MONTHS}
+    stores=active=cities=0; segs=[]
+    for k in keys:
+        dd=MM.get(k)
+        if dd:
+            for c in NUMCOLS: d[c]+=dd[c]
+            for m in MONTHS: gmv_m[m]+=MGMV[k][m]; loc_m[m]+=MLOC[k][m]
+        di=MD.get(k)
+        if di:
+            stores+=di["stores"]; active+=di["active"]; cities+=di["cities"]; segs.append((di["stores"],di["seg"]))
+    seg=max(segs,key=lambda x:x[0])[1] if segs else "Missing Segment"
+    gmv=d["gmv"]; comm=d["commission"]
+    return {"name":dispname,"seg":seg,"stores":stores,"active":active,
+        "gmv":round(gmv),"orders":int(d["orders"]),"comm":round(comm),
+        "comm_pct":round(comm/gmv*100,1) if gmv>0 else None,
+        "eater_fees":round(d["eater_fees"]),"camp_bolt":round(d["camp_bolt"]),
+        "camp_merch":round(d["camp_merch"]),"cp_l1":round(cp_l1(d)),
+        "cp_pct":round(cp_l1(d)/gmv*100,1) if gmv>0 else None,
+        "am":am_map.get(dispname,"—"),
+        "gmv_trend":[round(gmv_m[m]) for m in MONTHS] if gmv>0 else None,
+        "loc_trend":[round(loc_m[m]) for m in MONTHS] if gmv>0 else None,
+        "external":False}
+
+partners=[merge_groups(n,ks) for n,ks in resolver.items()]
+for e in external_nodata:
+    partners.append({"name":("РОСТ" if e=="ROST" else e),"seg":"Enterprise","stores":None,"active":None,
+        "gmv":None,"orders":None,"comm":None,"comm_pct":None,"eater_fees":None,
+        "camp_bolt":None,"camp_merch":None,"cp_l1":None,"cp_pct":None,
+        "am":am_map.get(e,SKAL),"gmv_trend":None,"loc_trend":None,"external":True})
+partners=sorted(partners,key=lambda x:(x["gmv"] is None,-(x["gmv"] or 0)))
+
+mp=[p for p in partners if p["gmv"] is not None]
+managed_totals={"partners":len(partners),"in_data":len(mp),
+    "external":len(external_nodata),"managers":3,
+    "stores":round(sum(p["stores"] for p in mp)),"gmv":round(sum(p["gmv"] for p in mp)),
+    "orders":round(sum(p["orders"] for p in mp)),"comm":round(sum(p["comm"] for p in mp)),
+    "cp_l1":round(sum(p["cp_l1"] for p in mp))}
+
 team=[]
 for am in [BRYN,SKAL,BER]:
-    mp=[p for p in partners if p["am"]==am]
-    indata=[p for p in mp if p["gmv"] is not None]
-    team.append({"am":am,"partners":len(mp),"in_data":len(indata),
-        "external":len(mp)-len(indata),
-        "stores":sum(p["stores"] for p in indata),
-        "gmv":sum(p["gmv"] for p in indata),
-        "orders":sum(p["orders"] for p in indata),
-        "comm":sum(p["comm"] for p in indata),
-        "names":[p["name"] for p in mp]})
+    g=[p for p in partners if p["am"]==am]
+    ind=[p for p in g if p["gmv"] is not None]
+    team.append({"am":am,"partners":len(g),"external":len(g)-len(ind),
+        "stores":round(sum(p["stores"] for p in ind)),"gmv":round(sum(p["gmv"] for p in ind)),
+        "orders":round(sum(p["orders"] for p in ind)),"comm":round(sum(p["comm"] for p in ind)),
+        "cp_l1":round(sum(p["cp_l1"] for p in ind))})
 
-mp_all=[p for p in partners if p["gmv"] is not None]
-managed_totals={"partners":len(partners),"in_data":len(mp_all),
-    "external":len(enterprise_external),"managers":3,
-    "stores":sum(p["stores"] for p in mp_all),"gmv":sum(p["gmv"] for p in mp_all),
-    "orders":sum(p["orders"] for p in mp_all),"comm":sum(p["comm"] for p in mp_all)}
+out={"totals":T,"seg_overview":seg_overview,"partners":partners,"managed_totals":managed_totals,
+     "team":team,"full":full,"months":MONTHS,"data_start":C["start"],"data_end":C["end"]}
+json.dump(out,open(os.path.join(HERE,"data.json"),"w"),ensure_ascii=False,indent=1)
 
-unassigned=df[df["Account Manager Name"].isna()]
-totals={"providers":int(len(df)),"partners":int(df["grp"].nunique()),
-    "active":int((df["Provider Status"]=="active").sum()),
-    "onboarding":int((df["Provider Status"]=="onboarding").sum()),
-    "gmv":round(float(df["gmv"].sum())),"orders":int(df["orders"].sum()),
-    "comm":round(float(df["comm"].sum())),
-    "unassigned_stores":int(df["Account Manager Name"].isna().sum()),
-    "unassigned_gmv":round(float(unassigned["gmv"].sum())),
-    "unassigned_partners":int(unassigned["grp"].nunique())}
-
-out={"totals":totals,"seg_overview":seg_overview,"partners":partners_sorted,
-     "managed_totals":managed_totals,"enterprise_external":enterprise_external,
-     "team":team,"full":full,"gmv_months":gmv_months,"loc_months":loc_months}
-with open(BASE+"Reports GIT HUB/Partner-Coverage/data.json","w") as f:
-    json.dump(out,f,ensure_ascii=False,indent=1)
-
-print("TOTALS",totals)
-print("\nTEAM:")
-for t in team: print(f"  {t['am']}: {t['partners']} партн ({t['external']} зовн), {t['stores']} лок, €{t['gmv']:,}, ком €{t['comm']:,}")
-print("\nSEG:")
-for s in seg_overview: print(" ",s["seg"],s["partners"],"партн, €",s["gmv"],"comm/partner €",s["comm_per"])
-print("\nfull partners:",len(full),"| with gmv_trend:",sum(1 for f in full if f["gmv_trend"]),"| with loc_trend:",sum(1 for f in full if f["loc_trend"]))
-print("managed:",len(partners_sorted))
+print("TOTALS",{k:T[k] for k in ['partners','active_partners','stores','gmv','comm','comm_pct','cp_l1','cp_pct','unassigned_partners','unassigned_stores']})
+print("SEG:")
+for s in seg_overview: print(f"  {s['seg']:16} {s['partners']:4} partn  GMV {s['gmv']:>9,}  GMV/p {s['gmv_per']:>7,}  comm% {s['comm_pct']}  CP {s['cp_l1']:>8,}")
+print("MANAGED:",managed_totals)
+for t in team: print(f"  {t['am']}: {t['partners']}p ({t['external']} ext) {t['stores']}loc GMV {t['gmv']:,} CP {t['cp_l1']:,}")
+print("managed list:")
+for p in partners: print(f"  {p['name']:18} {p['seg']:12} GMV {str(p['gmv']):>8} comm% {p['comm_pct']} CP {p['cp_l1']} AM {p['am']}")
+print("full partners:",len(full)," gmv>0:",T['active_partners'])

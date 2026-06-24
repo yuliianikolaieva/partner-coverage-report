@@ -1,32 +1,38 @@
-# Покриття та сегментація партнерського портфеля
+# Partner Portfolio — Coverage & Segmentation
 
-Внутрішній звіт для керівництва (директор + директор з продажів): скільки в нас партнерів,
-як вони діляться за сегментами (Enterprise / Mid-market / SMB), товарообіг (GMV) та прибутковість,
-який обсяг команда веде сьогодні і чому немає капасіті брати нових партнерів — особливо SMB/MM.
+Internal report for management (director + sales director): how many partners we have,
+how they split by segment (Enterprise / Mid-market / SMB), turnover (GMV) and profitability,
+how much the team currently covers, and why there is no capacity to take on new partners —
+especially in SMB / MM.
 
-## Структура
+## Structure
 
-- `index.html` — готовий звіт (публікується на GitHub Pages).
-- `build_data.py` — читає `Merchant-level Overview.csv` з Key Account dashboard, рахує агрегати → `data.json`.
-- `build_html.py` — генерує `index.html` з `data.json`.
-- `data.json` — проміжні агреговані дані.
+- `index.html` — the report (published to GitHub Pages). English.
+- `fetch_dbx.py` — pulls per-partner (group_name) per-month metrics from Databricks (Jan–May 2026) → `dbx_cache.json`.
+- `build_data.py` — aggregates the cache into `data.json` (segments, managed partners, team load, full list, trends).
+- `build_html.py` — renders `index.html` from `data.json`.
 
-## Як оновити
+## How to refresh
 
 ```bash
-python3 build_data.py   # перерахувати агрегати з CSV
-python3 build_html.py   # згенерувати index.html
+python3 fetch_dbx.py     # pull fresh data from Databricks (needs VARUS/.env credentials)
+python3 build_data.py    # aggregate
+python3 build_html.py    # render index.html
 ```
 
-## Дані
+## Data & definitions
 
-Джерела:
-- `Key Account dashboard/data/Merchant-level Overview.csv` — знімок портфеля (сегменти, GMV, комісія, локації).
-- `Key Account dashboard/data/Entity performance dynamics (PoP) (2).csv` — помісячний GMV (січ–кві 2026) для відстежуваних партнерів.
-- `Active store/active_stores_from_dbx.csv` — щотижневі активні магазини → тренд локацій (січ–тра 2026).
+Source: Databricks `hive_metastore.ng_delivery_spark.fact_order_delivery` joined to
+`dim_provider_v2`, Bolt UA, `delivery_vertical = store`, delivered orders, Jan–May 2026.
+GMV is before discounts, in EUR. Partner = `group_name`, location = provider.
 
-Партнер = Group/Brand, локація = окремий provider. GMV — до знижок.
+- **CP L1** = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. (Validated against the Key Account dashboard: ≈ −0.1% of GMV.)
+- **Eater fees** = service fee + small order fee.
+- **Camp Bolt / Camp Merch** = campaign spend funded by Bolt / by the merchant.
 
-Менеджери ведення задані вручну в `build_data.py` (`am_override`): Mykhailo Brynchak,
-Viktor Skalivskiy, Khrystyna Berezna. 9 великих мереж (ATB, FORA, ANRI, ROZETKA, VARUS,
-THRASH, E-ZOO, РОСТ, master zoo) ведуться централізовано і позначені у звіті окремо.
+Account managers are set manually for the 38 managed partners (`am_map` in `build_data.py`):
+Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna. For all other partners the AM comes
+from `dim_provider_v2.account_manager_name` (or "Not assigned").
+
+7 chains from the managed list (FORA, ANRI, E-ZOO, master zoo, THRASH, РОСТ, O'NDE) are not on
+Bolt UA stores in the period and are shown as "centralised".
