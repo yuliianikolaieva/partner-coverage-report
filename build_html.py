@@ -124,13 +124,13 @@ churn_rows=""
 for s in ["Enterprise","Mid-market","SMB"]:
     bs=chseg(s,"by_segment"); bm=chseg(s,"by_seg_mgmt")
     churn_rows+=f"""<tr><td style="text-align:left"><span class="dot {seg_class[s]}"></span>{seg_label[s]}</td>
-    <td>{num(bs['cohort'])}</td><td><b>{bs['pct']}%</b></td>
-    <td class="pos">{bm['man_pct']}% <span class="muted">(n={bm['man_n']})</span></td>
-    <td class="neg">{bm['unm_pct']}% <span class="muted">(n={bm['unm_n']})</span></td></tr>"""
+    <td>{num(bs['cohort'])}</td><td><b>{bs['pct']}%</b> <span class="muted">({bs['churned']} loc.)</span></td>
+    <td class="pos">{bm['man_pct']}% <span class="muted">({bm['man_ch']}/{bm['man_n']})</span></td>
+    <td class="neg">{bm['unm_pct']}% <span class="muted">({bm['unm_ch']}/{bm['unm_n']})</span></td></tr>"""
 churn_rows+=f"""<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">All</td>
-    <td>{num(CH['overall']['cohort'])}</td><td>{CH['overall']['pct']}%</td>
-    <td class="pos">{CH['managed']['pct']}% <span class="muted">(n={CH['managed']['cohort']})</span></td>
-    <td class="neg">{CH['unmanaged']['pct']}% <span class="muted">(n={CH['unmanaged']['cohort']})</span></td></tr>"""
+    <td>{num(CH['overall']['cohort'])}</td><td>{CH['overall']['pct']}% <span class="muted">({CH['overall']['churned']} loc.)</span></td>
+    <td class="pos">{CH['managed']['pct']}% <span class="muted">({CH['managed']['churned']}/{CH['managed']['cohort']})</span></td>
+    <td class="neg">{CH['unmanaged']['pct']}% <span class="muted">({CH['unmanaged']['churned']}/{CH['unmanaged']['cohort']})</span></td></tr>"""
 
 # ---- partner-level churn rows ----
 def pseg(s): return next(x for x in CH["p_by_seg_mgmt"] if x["seg"]==s)
@@ -139,13 +139,13 @@ pchurn_rows=""
 for s in ["Enterprise","Mid-market","SMB"]:
     bs=pcseg(s); bm=pseg(s)
     pchurn_rows+=f"""<tr><td style="text-align:left"><span class="dot {seg_class[s]}"></span>{seg_label[s]}</td>
-    <td>{num(bs['cohort'])}</td><td><b>{bs['pct']}%</b></td>
-    <td class="pos">{bm['man_pct']}% <span class="muted">(n={bm['man_n']})</span></td>
-    <td class="neg">{bm['unm_pct']}% <span class="muted">(n={bm['unm_n']})</span></td></tr>"""
+    <td>{num(bs['cohort'])}</td><td><b>{bs['pct']}%</b> <span class="muted">({bs['churned']})</span></td>
+    <td class="pos">{bm['man_pct']}% <span class="muted">({bm['man_ch']}/{bm['man_n']})</span></td>
+    <td class="neg">{bm['unm_pct']}% <span class="muted">({bm['unm_ch']}/{bm['unm_n']})</span></td></tr>"""
 pchurn_rows+=f"""<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">All</td>
-    <td>{num(CH['p_overall']['cohort'])}</td><td>{CH['p_overall']['pct']}%</td>
-    <td class="pos">{CH['p_managed']['pct']}% <span class="muted">(n={CH['p_managed']['cohort']})</span></td>
-    <td class="neg">{CH['p_unmanaged']['pct']}% <span class="muted">(n={CH['p_unmanaged']['cohort']})</span></td></tr>"""
+    <td>{num(CH['p_overall']['cohort'])}</td><td>{CH['p_overall']['pct']}% <span class="muted">({CH['p_overall']['churned']})</span></td>
+    <td class="pos">{CH['p_managed']['pct']}% <span class="muted">({CH['p_managed']['churned']}/{CH['p_managed']['cohort']})</span></td>
+    <td class="neg">{CH['p_unmanaged']['pct']}% <span class="muted">({CH['p_unmanaged']['churned']}/{CH['p_unmanaged']['cohort']})</span></td></tr>"""
 
 # ---- GMV lost rows ----
 def glseg(s): return next(x for x in CH["gmv_lost_by_segment"] if x["seg"]==s)
@@ -307,12 +307,12 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="kpi crit"><div class="n">{CH['unmanaged']['pct']}%</div><div class="l">Churn — no dedicated AM</div></div>
 <div class="kpi high"><div class="n">~{churn_ratio}×</div><div class="l">Higher churn without an AM</div></div></div>
 <div class="card"><div class="top">Location-level churn by segment — with vs without a dedicated AM</div><div class="body tablewrap"><table>
-<thead><tr><th style="text-align:left">Segment</th><th>Active cohort (locations)</th><th>Churn (all)</th><th>Churn — managed (n)</th><th>Churn — no AM (n)</th></tr></thead>
+<thead><tr><th style="text-align:left">Segment</th><th>Active cohort (locations)</th><th>Churn (all) · churned loc.</th><th>Churn — managed (churned/cohort)</th><th>Churn — no AM (churned/cohort)</th></tr></thead>
 <tbody>{churn_rows}</tbody></table></div></div>
 
 <div class="split">
 <div class="card"><div class="top">Partner-level churn (whole network)</div><div class="body tablewrap"><table>
-<thead><tr><th style="text-align:left">Segment</th><th>Partners</th><th>Churn (all)</th><th>Managed (n)</th><th>No AM (n)</th></tr></thead>
+<thead><tr><th style="text-align:left">Segment</th><th>Partners</th><th>Churn (all) · churned</th><th>Managed (churned/cohort)</th><th>No AM (churned/cohort)</th></tr></thead>
 <tbody>{pchurn_rows}</tbody></table></div></div>
 <div class="card"><div class="top">GMV lost via churned locations</div><div class="body tablewrap"><table>
 <thead><tr><th style="text-align:left">Segment</th><th>Churned loc.</th><th class="r">GMV lost (Jan–May)</th><th>% of seg GMV</th><th class="r">Run-rate / mo</th></tr></thead>

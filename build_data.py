@@ -238,12 +238,12 @@ for s in ["Enterprise","Mid-market","SMB"]:
     rows=[r for r in ch if r["_seg"]==s]
     st=cstats(rows); st["seg"]=s; churn["by_segment"].append(st)
     m=cstats([r for r in rows if r["_man"]]); u=cstats([r for r in rows if not r["_man"]])
-    churn["by_seg_mgmt"].append({"seg":s,"man_pct":m["pct"],"man_n":m["cohort"],
-                                 "unm_pct":u["pct"],"unm_n":u["cohort"]})
+    churn["by_seg_mgmt"].append({"seg":s,"man_pct":m["pct"],"man_n":m["cohort"],"man_ch":m["churned"],
+                                 "unm_pct":u["pct"],"unm_n":u["cohort"],"unm_ch":u["churned"]})
     ps=pstats(rows); ps["seg"]=s; churn["p_by_segment"].append(ps)
     pm=pstats([r for r in rows if r["_man"]]); pu=pstats([r for r in rows if not r["_man"]])
-    churn["p_by_seg_mgmt"].append({"seg":s,"man_pct":pm["pct"],"man_n":pm["cohort"],
-                                   "unm_pct":pu["pct"],"unm_n":pu["cohort"]})
+    churn["p_by_seg_mgmt"].append({"seg":s,"man_pct":pm["pct"],"man_n":pm["cohort"],"man_ch":pm["churned"],
+                                   "unm_pct":pu["pct"],"unm_n":pu["cohort"],"unm_ch":pu["churned"]})
     gl=glost(rows); gl["seg"]=s; gl["pct_of_gmv"]=round(gl["total"]/seg_gmv[s]*100,1) if seg_gmv.get(s) else 0
     churn["gmv_lost_by_segment"].append(gl)
 churn["gmv_lost"]["pct_of_gmv"]=round(churn["gmv_lost"]["total"]/T["gmv"]*100,1) if T["gmv"] else 0
