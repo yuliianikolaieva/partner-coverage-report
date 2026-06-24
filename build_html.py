@@ -285,7 +285,19 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <li><b>A dedicated AM cuts churn ~{churn_ratio}×</b>: {CH['managed']['pct']}% with an AM vs {CH['unmanaged']['pct']}% without. Hands-on coverage clearly keeps partners alive.</li>
 <li><b>The tail bleeds fastest exactly where we have no capacity:</b> SMB with no AM churns {chseg('SMB','by_seg_mgmt')['unm_pct']}%, while managed SMB stays at {chseg('SMB','by_seg_mgmt')['man_pct']}%. Enterprise is stickier but still churns {chseg('Enterprise','by_seg_mgmt')['unm_pct']}% without an AM.</li>
 <li><b>Implication:</b> the existing book genuinely needs retention attention, but the {MT['managers']} AMs are already full — so the answer is added capacity / self-serve for the tail, not piling more partners onto {MT['managers']} people.</li></ul>
-<p class="note">Churn = location active in Jan–Feb 2026 with no delivered orders in Apr–May 2026. Some managed/no-AM cells have small cohorts (n shown) — read those as directional.</p></div></section>
+<p class="note">Churn = location active in Jan–Feb 2026 with no delivered orders in Apr–May 2026. Some managed/no-AM cells have small cohorts (n shown) — read those as directional.</p></div>
+<div class="callout"><h3>How each metric is calculated</h3>
+<ul>
+<li><b>Unit = location</b> (an individual store / <code>provider_id</code>), not the partner-chain. Source: Databricks <code>fact_order_delivery</code> × <code>dim_provider_v2</code> — Ukraine, store vertical, delivered orders, 2026. Monthly delivered-order counts per location (Jan…May).</li>
+<li><b>Active cohort</b> = locations that had delivered orders in <b>January OR February</b> (i.e. were "alive" at the start of the year). Two months are used to smooth single-month noise.</li>
+<li><b>Churned</b> = a location in the cohort that had <b>no delivered orders in either April or May</b> (went silent by the end of the period).</li>
+<li><b>Churn % = churned ÷ cohort.</b></li>
+<li><b>Churn (all)</b> = churn over every location in the segment.</li>
+<li><b>Churn — managed (n)</b> = churn only among locations whose partner has one of the 3 dedicated AMs; <b>(n)</b> = that sub-cohort's size.</li>
+<li><b>Churn — no AM (n)</b> = churn among locations with no dedicated AM; <b>(n)</b> = that sub-cohort's size. Note: managed n + no-AM n = Active cohort.</li>
+<li><b>"Churn (all)" is a weighted figure, not the average</b> of the two sub-columns — it leans toward whichever group has more locations (e.g. Enterprise toward managed, SMB toward no-AM).</li>
+</ul>
+<p class="note">Example — Enterprise: 532 active in Jan–Feb; 14 churned → 2.6%. Of those, 521 are managed (12 churned → 2.3%) and 11 have no AM (2 churned → 18.2%); 12 + 2 = 14.</p></div></section>
 
 <section id="fulllist"><h2 class="section"><span class="bar"></span>7. Full partner list</h2>
 <p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–May 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
