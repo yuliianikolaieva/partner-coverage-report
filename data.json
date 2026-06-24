@@ -7,11 +7,9 @@
   "gmv": 1162656,
   "orders": 100817,
   "comm": 172775,
-  "assigned_stores": 1496,
   "unassigned_stores": 1082,
   "unassigned_gmv": 132949,
-  "unassigned_partners": 154,
-  "am_count": 10
+  "unassigned_partners": 154
  },
  "seg_overview": [
   {
@@ -19,132 +17,40 @@
    "partners": 23,
    "stores": 1655,
    "active": 807,
-   "onboarding": 438,
    "gmv": 625865,
    "orders": 57511,
-   "comm": 77584
+   "comm": 77584,
+   "comm_per": 3373
   },
   {
    "seg": "Mid-market",
    "partners": 26,
    "stores": 266,
    "active": 230,
-   "onboarding": 2,
    "gmv": 335074,
    "orders": 27041,
-   "comm": 53351
+   "comm": 53351,
+   "comm_per": 2052
   },
   {
    "seg": "SMB",
    "partners": 268,
    "stores": 500,
    "active": 356,
-   "onboarding": 0,
    "gmv": 199428,
    "orders": 16109,
-   "comm": 41551
+   "comm": 41551,
+   "comm_per": 155
   },
   {
    "seg": "Missing Segment",
    "partners": 59,
    "stores": 157,
    "active": 11,
-   "onboarding": 115,
    "gmv": 2289,
    "orders": 156,
-   "comm": 289
-  }
- ],
- "am_work": [
-  {
-   "am": "Mykhailo Brynchak",
-   "partners": 14,
-   "stores": 745,
-   "active": 604,
-   "gmv": 587594,
-   "orders": 52524,
-   "comm": 68740
-  },
-  {
-   "am": "Stefaniia Oznobishyna",
-   "partners": 103,
-   "stores": 264,
-   "active": 213,
-   "gmv": 148342,
-   "orders": 10545,
-   "comm": 31730
-  },
-  {
-   "am": "Mykyta Maliarchuk",
-   "partners": 88,
-   "stores": 268,
-   "active": 197,
-   "gmv": 113027,
-   "orders": 9403,
-   "comm": 25489
-  },
-  {
-   "am": "Marharyta Zhytnyk",
-   "partners": 14,
-   "stores": 101,
-   "active": 86,
-   "gmv": 95684,
-   "orders": 10125,
-   "comm": 18525
-  },
-  {
-   "am": "Vadym Bardysh",
-   "partners": 13,
-   "stores": 60,
-   "active": 47,
-   "gmv": 44391,
-   "orders": 4428,
-   "comm": 10611
-  },
-  {
-   "am": "Marta Vaskina",
-   "partners": 2,
-   "stores": 34,
-   "active": 33,
-   "gmv": 33578,
-   "orders": 2441,
-   "comm": 9681
-  },
-  {
-   "am": "Khrystyna Berezna",
-   "partners": 8,
-   "stores": 17,
-   "active": 7,
-   "gmv": 7084,
-   "orders": 601,
-   "comm": 1899
-  },
-  {
-   "am": "Denys Sadovsky",
-   "partners": 3,
-   "stores": 3,
-   "active": 0,
-   "gmv": 7,
-   "orders": 1,
-   "comm": 1
-  },
-  {
-   "am": "Nataliia Klymas",
-   "partners": 2,
-   "stores": 2,
-   "active": 0,
-   "gmv": 0,
-   "orders": 0,
-   "comm": 0
-  },
-  {
-   "am": "Valeriia Harmash",
-   "partners": 2,
-   "stores": 2,
-   "active": 0,
-   "gmv": 0,
-   "orders": 0,
-   "comm": 0
+   "comm": 289,
+   "comm_per": 5
   }
  ],
  "partners": [
@@ -153,478 +59,741 @@
    "seg": "Enterprise",
    "stores": 258,
    "active": 200,
-   "onboarding": 0,
-   "cities": 17,
    "gmv": 130584,
    "orders": 14269,
    "comm": 21669,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    17465,
+    13602,
+    18410,
+    14956
+   ],
+   "loc_trend": [
+    139,
+    180,
+    179,
+    189,
+    182
+   ]
   },
   {
    "name": "CAFE RYNOK",
    "seg": "Mid-market",
    "stores": 11,
    "active": 11,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 120466,
    "orders": 9009,
    "comm": 9203,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    25588,
+    26481,
+    23775,
+    16410
+   ],
+   "loc_trend": [
+    10,
+    10,
+    11,
+    11,
+    12
+   ]
   },
   {
    "name": "KOPIYKA",
    "seg": "Enterprise",
    "stores": 67,
    "active": 60,
-   "onboarding": 4,
-   "cities": 2,
    "gmv": 97917,
    "orders": 8305,
    "comm": 4020,
-   "am": "—"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    26688,
+    26473,
+    27251,
+    19056
+   ],
+   "loc_trend": [
+    83,
+    84,
+    81,
+    81,
+    80
+   ]
   },
   {
    "name": "HOP HEY",
    "seg": "Enterprise",
    "stores": 253,
    "active": 162,
-   "onboarding": 1,
-   "cities": 8,
    "gmv": 86260,
    "orders": 8817,
    "comm": 14447,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    10419,
+    12790,
+    14088,
+    10378
+   ],
+   "loc_trend": [
+    151,
+    160,
+    161,
+    161,
+    160
+   ]
   },
   {
    "name": "RUKAVYCHKA",
    "seg": "Enterprise",
    "stores": 24,
    "active": 20,
-   "onboarding": 2,
-   "cities": 6,
    "gmv": 75078,
    "orders": 6142,
    "comm": 2219,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    11738,
+    14475,
+    14301,
+    7237
+   ],
+   "loc_trend": [
+    19,
+    14,
+    11,
+    9,
+    11
+   ]
   },
   {
    "name": "BEERLAND",
    "seg": "Mid-market",
    "stores": 34,
    "active": 32,
-   "onboarding": 0,
-   "cities": 3,
    "gmv": 64643,
    "orders": 5676,
    "comm": 14555,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    10069,
+    9584,
+    8986,
+    6949
+   ],
+   "loc_trend": [
+    29,
+    29,
+    29,
+    29,
+    28
+   ]
   },
   {
    "name": "PYVNA BORODA",
    "seg": "Enterprise",
    "stores": 50,
    "active": 47,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 45157,
    "orders": 4786,
    "comm": 9733,
-   "am": "Marharyta Zhytnyk"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    5916,
+    6709,
+    7219,
+    4924
+   ],
+   "loc_trend": [
+    43,
+    44,
+    47,
+    47,
+    47
+   ]
   },
   {
    "name": "LOKO",
    "seg": "Enterprise",
    "stores": 386,
    "active": 113,
-   "onboarding": 133,
-   "cities": 33,
    "gmv": 43186,
    "orders": 2586,
    "comm": 775,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": [
+    5,
+    7,
+    124,
+    123,
+    122
+   ]
   },
   {
    "name": "TAISTRA",
    "seg": "SMB",
    "stores": 11,
    "active": 9,
-   "onboarding": 0,
-   "cities": 4,
    "gmv": 35240,
    "orders": 3049,
    "comm": 2272,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    3610,
+    6632,
+    11225,
+    8683
+   ],
+   "loc_trend": [
+    10,
+    10,
+    9,
+    10,
+    10
+   ]
   },
   {
    "name": "REMESLO BREWERY",
    "seg": "Enterprise",
    "stores": 36,
    "active": 34,
-   "onboarding": 0,
-   "cities": 5,
    "gmv": 33535,
    "orders": 2437,
    "comm": 9674,
-   "am": "Marta Vaskina, Nataliia Klymas"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": [
+    8466,
+    8199,
+    9676,
+    7313
+   ],
+   "loc_trend": [
+    57,
+    57,
+    57,
+    57,
+    57
+   ]
   },
   {
    "name": "WINETIME",
    "seg": "Mid-market",
    "stores": 33,
    "active": 26,
-   "onboarding": 0,
-   "cities": 14,
    "gmv": 32469,
    "orders": 1541,
    "comm": 5063,
-   "am": "Nataliia Klymas, Stefaniia Oznobishyna"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    5218,
+    4802,
+    5522,
+    3892
+   ],
+   "loc_trend": [
+    24,
+    25,
+    24,
+    21,
+    22
+   ]
   },
   {
    "name": "SANTIM",
    "seg": "Enterprise",
    "stores": 3,
    "active": 3,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 30130,
    "orders": 2054,
    "comm": 1289,
-   "am": "—"
-  },
-  {
-   "name": "PYVNE REMESLO",
-   "seg": "Enterprise",
-   "stores": 25,
-   "active": 25,
-   "onboarding": 0,
-   "cities": 1,
-   "gmv": 21667,
-   "orders": 1933,
-   "comm": 6235,
-   "am": "Vadym Bardysh"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    26688,
+    26473,
+    27251,
+    19056
+   ],
+   "loc_trend": [
+    83,
+    84,
+    81,
+    81,
+    80
+   ]
   },
   {
    "name": "KOPIYKA MINI",
    "seg": "Enterprise",
    "stores": 22,
    "active": 19,
-   "onboarding": 0,
-   "cities": 2,
    "gmv": 21103,
    "orders": 1856,
    "comm": 855,
-   "am": "Mykhailo Brynchak"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    26688,
+    26473,
+    27251,
+    19056
+   ],
+   "loc_trend": [
+    83,
+    84,
+    81,
+    81,
+    80
+   ]
   },
   {
    "name": "TOCHKA",
    "seg": "Mid-market",
    "stores": 20,
    "active": 18,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 20741,
    "orders": 1947,
    "comm": 4138,
-   "am": "Marharyta Zhytnyk"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": [
+    3663,
+    4452,
+    4165,
+    3397
+   ],
+   "loc_trend": [
+    15,
+    15,
+    18,
+    18,
+    19
+   ]
   },
   {
    "name": "MAXBEER",
    "seg": "Mid-market",
    "stores": 19,
    "active": 13,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 16856,
    "orders": 1725,
    "comm": 4254,
-   "am": "Mykhailo Brynchak, Stefaniia Oznobishyna"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    1588,
+    1672,
+    2507,
+    1875
+   ],
+   "loc_trend": [
+    9,
+    9,
+    10,
+    10,
+    10
+   ]
   },
   {
    "name": "LEPRUKON",
    "seg": "Enterprise",
    "stores": 13,
    "active": 11,
-   "onboarding": 0,
-   "cities": 4,
    "gmv": 15329,
    "orders": 1673,
    "comm": 2156,
-   "am": "Marharyta Zhytnyk"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": [
+    2148,
+    1641,
+    3702,
+    3751
+   ],
+   "loc_trend": [
+    10,
+    11,
+    11,
+    11,
+    11
+   ]
   },
   {
    "name": "SPRAGA",
    "seg": "Mid-market",
    "stores": 9,
    "active": 9,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 14457,
    "orders": 1719,
    "comm": 2498,
-   "am": "Marharyta Zhytnyk"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    1738,
+    2180,
+    3716,
+    2940
+   ],
+   "loc_trend": [
+    8,
+    8,
+    9,
+    9,
+    10
+   ]
   },
   {
    "name": "DIMPYVA",
    "seg": "Enterprise",
    "stores": 18,
    "active": 17,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 12112,
    "orders": 1451,
    "comm": 2025,
-   "am": "Mykyta Maliarchuk"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": [
+    1560,
+    1891,
+    2164,
+    1695
+   ],
+   "loc_trend": [
+    16,
+    16,
+    17,
+    16,
+    17
+   ]
   },
   {
    "name": "CHILL TIME",
    "seg": "Mid-market",
    "stores": 19,
    "active": 17,
-   "onboarding": 0,
-   "cities": 3,
    "gmv": 11957,
    "orders": 1517,
    "comm": 2027,
-   "am": "Vadym Bardysh"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": [
+    1913,
+    1998,
+    1750,
+    1247
+   ],
+   "loc_trend": [
+    18,
+    15,
+    16,
+    15,
+    15
+   ]
   },
   {
    "name": "FLOWER SHOP",
    "seg": "Mid-market",
    "stores": 4,
    "active": 4,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 5213,
    "orders": 117,
    "comm": 893,
-   "am": "Stefaniia Oznobishyna"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": [
+    591,
+    825,
+    1363,
+    685
+   ],
+   "loc_trend": [
+    8,
+    7,
+    8,
+    8,
+    8
+   ]
   },
   {
    "name": "O'NDE",
    "seg": "SMB",
    "stores": 1,
    "active": 1,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 4548,
    "orders": 377,
    "comm": 313,
-   "am": "Stefaniia Oznobishyna"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": [
+    3610,
+    6632,
+    11225,
+    8683
+   ],
+   "loc_trend": [
+    10,
+    10,
+    9,
+    10,
+    10
+   ]
   },
   {
    "name": "VAPE SHOP KYIV",
    "seg": "Missing Segment",
    "stores": 8,
    "active": 8,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 2289,
    "orders": 156,
    "comm": 289,
-   "am": "—"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    8,
+    8,
+    1
+   ]
   },
   {
    "name": "NO TABOO",
    "seg": "Enterprise",
    "stores": 9,
    "active": 9,
-   "onboarding": 0,
-   "cities": 3,
    "gmv": 418,
    "orders": 21,
    "comm": 75,
-   "am": "—"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    9,
+    9,
+    9,
+    40
+   ]
   },
   {
    "name": "RODYNNA KOVBASKA",
    "seg": "SMB",
    "stores": 31,
    "active": 31,
-   "onboarding": 0,
-   "cities": 8,
    "gmv": 406,
    "orders": 29,
    "comm": 35,
-   "am": "Mykhailo Brynchak"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    17,
+    15,
+    22
+   ]
   },
   {
    "name": "SPAR",
    "seg": "SMB",
    "stores": 1,
    "active": 1,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 50,
    "orders": 3,
    "comm": 4,
-   "am": "—"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    0,
+    0
+   ]
   },
   {
    "name": "OKKO",
    "seg": "Mid-market",
    "stores": 1,
    "active": 1,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 43,
    "orders": 4,
    "comm": 7,
-   "am": "Marta Vaskina"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
   },
   {
    "name": "VAPORS",
    "seg": "Missing Segment",
    "stores": 128,
    "active": 1,
-   "onboarding": 69,
-   "cities": 15,
    "gmv": 0,
    "orders": 0,
    "comm": 0,
-   "am": "—"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
   },
   {
    "name": "BRSM",
    "seg": "Mid-market",
    "stores": 1,
    "active": 0,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 0,
    "orders": 0,
    "comm": 0,
-   "am": "—"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "LIKI 24",
    "seg": "Enterprise",
    "stores": 314,
    "active": 0,
-   "onboarding": 297,
-   "cities": 2,
    "gmv": 0,
    "orders": 0,
    "comm": 0,
-   "am": "—"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "FLOWERS UA",
    "seg": "SMB",
    "stores": 1,
    "active": 1,
-   "onboarding": 0,
-   "cities": 1,
    "gmv": 0,
    "orders": 0,
    "comm": 0,
-   "am": "—"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "ATB",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "FORA",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "ANRI",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Mykhailo Brynchak",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "ROZETKA",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Khrystyna Berezna",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "VARUS",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "THRASH",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "E-ZOO",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": null,
+   "loc_trend": null
   },
   {
    "name": "РОСТ",
    "seg": "Enterprise",
    "stores": null,
    "active": null,
-   "onboarding": null,
-   "cities": null,
    "gmv": null,
    "orders": null,
    "comm": null,
-   "am": "central KAM"
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MASTER ZOO",
+   "seg": "Enterprise",
+   "stores": null,
+   "active": null,
+   "gmv": null,
+   "orders": null,
+   "comm": null,
+   "am": "Viktor Skalivskiy",
+   "gmv_trend": null,
+   "loc_trend": null
   }
  ],
  "managed_totals": {
   "partners": 39,
-  "in_data": 31,
-  "external": 8,
-  "stores": 1810,
-  "gmv": 941854,
-  "orders": 83199,
-  "comm": 120723
+  "in_data": 30,
+  "external": 9,
+  "managers": 3,
+  "stores": 1785,
+  "gmv": 920187,
+  "orders": 81266,
+  "comm": 114488
  },
  "enterprise_external": [
   "ATB",
@@ -634,6 +803,6053 @@
   "VARUS",
   "THRASH",
   "E-ZOO",
-  "РОСТ"
+  "РОСТ",
+  "MASTER ZOO"
+ ],
+ "team": [
+  {
+   "am": "Mykhailo Brynchak",
+   "partners": 22,
+   "in_data": 19,
+   "external": 3,
+   "stores": 1185,
+   "gmv": 818187,
+   "orders": 71918,
+   "comm": 93176,
+   "names": [
+    "HOP HEY",
+    "BEER MARKET",
+    "KOPIYKA",
+    "LOKO",
+    "PYVNA BORODA",
+    "SANTIM",
+    "KOPIYKA MINI",
+    "OKKO",
+    "BRSM",
+    "CAFE RYNOK",
+    "BEERLAND",
+    "WINETIME",
+    "SPRAGA",
+    "MAXBEER",
+    "FLOWERS UA",
+    "TAISTRA",
+    "O'NDE",
+    "SPAR",
+    "RUKAVYCHKA",
+    "ATB",
+    "FORA",
+    "ANRI"
+   ]
+  },
+  {
+   "am": "Viktor Skalivskiy",
+   "partners": 9,
+   "in_data": 4,
+   "external": 5,
+   "stores": 374,
+   "gmv": 59489,
+   "orders": 4501,
+   "comm": 14705,
+   "names": [
+    "LIKI 24",
+    "REMESLO BREWERY",
+    "TOCHKA",
+    "FLOWER SHOP",
+    "VARUS",
+    "THRASH",
+    "E-ZOO",
+    "РОСТ",
+    "MASTER ZOO"
+   ]
+  },
+  {
+   "am": "Khrystyna Berezna",
+   "partners": 8,
+   "in_data": 7,
+   "external": 1,
+   "stores": 226,
+   "gmv": 42511,
+   "orders": 4847,
+   "comm": 6607,
+   "names": [
+    "LEPRUKON",
+    "DIMPYVA",
+    "CHILL TIME",
+    "RODYNNA KOVBASKA",
+    "NO TABOO",
+    "VAPE SHOP KYIV",
+    "VAPORS",
+    "ROZETKA"
+   ]
+  }
+ ],
+ "full": [
+  {
+   "name": "KOPIYKA",
+   "seg": "Enterprise",
+   "stores": 92,
+   "active": 82,
+   "gmv": 149150,
+   "orders": 12215,
+   "comm": 6164,
+   "gmv_trend": [
+    26688,
+    26473,
+    27251,
+    19056
+   ],
+   "loc_trend": [
+    83,
+    84,
+    81,
+    81,
+    80
+   ]
+  },
+  {
+   "name": "BEER MARKET",
+   "seg": "Enterprise",
+   "stores": 248,
+   "active": 200,
+   "gmv": 130584,
+   "orders": 14269,
+   "comm": 21669,
+   "gmv_trend": [
+    17465,
+    13602,
+    18410,
+    14956
+   ],
+   "loc_trend": [
+    139,
+    180,
+    179,
+    189,
+    182
+   ]
+  },
+  {
+   "name": "CAFE RYNOK",
+   "seg": "Mid-market",
+   "stores": 11,
+   "active": 11,
+   "gmv": 120466,
+   "orders": 9009,
+   "comm": 9203,
+   "gmv_trend": [
+    25588,
+    26481,
+    23775,
+    16410
+   ],
+   "loc_trend": [
+    10,
+    10,
+    11,
+    11,
+    12
+   ]
+  },
+  {
+   "name": "HOP HEY",
+   "seg": "Enterprise",
+   "stores": 253,
+   "active": 162,
+   "gmv": 86260,
+   "orders": 8817,
+   "comm": 14447,
+   "gmv_trend": [
+    10419,
+    12790,
+    14088,
+    10378
+   ],
+   "loc_trend": [
+    151,
+    160,
+    161,
+    161,
+    160
+   ]
+  },
+  {
+   "name": "RUKAVYCHKA",
+   "seg": "Enterprise",
+   "stores": 24,
+   "active": 20,
+   "gmv": 75078,
+   "orders": 6142,
+   "comm": 2219,
+   "gmv_trend": [
+    11738,
+    14475,
+    14301,
+    7237
+   ],
+   "loc_trend": [
+    19,
+    14,
+    11,
+    9,
+    11
+   ]
+  },
+  {
+   "name": "BEERLAND K",
+   "seg": "Mid-market",
+   "stores": 31,
+   "active": 29,
+   "gmv": 62974,
+   "orders": 5532,
+   "comm": 14141,
+   "gmv_trend": [
+    10069,
+    9584,
+    8986,
+    6949
+   ],
+   "loc_trend": [
+    29,
+    29,
+    29,
+    29,
+    28
+   ]
+  },
+  {
+   "name": "REMESLO BREWERY",
+   "seg": "Enterprise",
+   "stores": 60,
+   "active": 59,
+   "gmv": 55202,
+   "orders": 4370,
+   "comm": 15909,
+   "gmv_trend": [
+    8466,
+    8199,
+    9676,
+    7313
+   ],
+   "loc_trend": [
+    57,
+    57,
+    57,
+    57,
+    57
+   ]
+  },
+  {
+   "name": "PYVNA BORODA",
+   "seg": "Enterprise",
+   "stores": 50,
+   "active": 47,
+   "gmv": 45157,
+   "orders": 4786,
+   "comm": 9733,
+   "gmv_trend": [
+    5916,
+    6709,
+    7219,
+    4924
+   ],
+   "loc_trend": [
+    43,
+    44,
+    47,
+    47,
+    47
+   ]
+  },
+  {
+   "name": "LOKO",
+   "seg": "Enterprise",
+   "stores": 386,
+   "active": 113,
+   "gmv": 43186,
+   "orders": 2586,
+   "comm": 775,
+   "gmv_trend": null,
+   "loc_trend": [
+    5,
+    7,
+    124,
+    123,
+    122
+   ]
+  },
+  {
+   "name": "TAISTRA",
+   "seg": "SMB",
+   "stores": 12,
+   "active": 10,
+   "gmv": 39788,
+   "orders": 3426,
+   "comm": 2585,
+   "gmv_trend": [
+    3610,
+    6632,
+    11225,
+    8683
+   ],
+   "loc_trend": [
+    10,
+    10,
+    9,
+    10,
+    10
+   ]
+  },
+  {
+   "name": "WINETIME",
+   "seg": "Mid-market",
+   "stores": 30,
+   "active": 26,
+   "gmv": 32469,
+   "orders": 1541,
+   "comm": 5063,
+   "gmv_trend": [
+    5218,
+    4802,
+    5522,
+    3892
+   ],
+   "loc_trend": [
+    24,
+    25,
+    24,
+    21,
+    22
+   ]
+  },
+  {
+   "name": "TOCHKA",
+   "seg": "Mid-market",
+   "stores": 20,
+   "active": 18,
+   "gmv": 20741,
+   "orders": 1947,
+   "comm": 4138,
+   "gmv_trend": [
+    3663,
+    4452,
+    4165,
+    3397
+   ],
+   "loc_trend": [
+    15,
+    15,
+    18,
+    18,
+    19
+   ]
+  },
+  {
+   "name": "LEPRUKON",
+   "seg": "Enterprise",
+   "stores": 13,
+   "active": 11,
+   "gmv": 15329,
+   "orders": 1673,
+   "comm": 2156,
+   "gmv_trend": [
+    2148,
+    1641,
+    3702,
+    3751
+   ],
+   "loc_trend": [
+    10,
+    11,
+    11,
+    11,
+    11
+   ]
+  },
+  {
+   "name": "SPRAGA",
+   "seg": "Mid-market",
+   "stores": 9,
+   "active": 9,
+   "gmv": 14457,
+   "orders": 1719,
+   "comm": 2498,
+   "gmv_trend": [
+    1738,
+    2180,
+    3716,
+    2940
+   ],
+   "loc_trend": [
+    8,
+    8,
+    9,
+    9,
+    10
+   ]
+  },
+  {
+   "name": "DIMPYVA",
+   "seg": "Enterprise",
+   "stores": 18,
+   "active": 17,
+   "gmv": 12112,
+   "orders": 1451,
+   "comm": 2025,
+   "gmv_trend": [
+    1560,
+    1891,
+    2164,
+    1695
+   ],
+   "loc_trend": [
+    16,
+    16,
+    17,
+    16,
+    17
+   ]
+  },
+  {
+   "name": "CHILL TIME",
+   "seg": "Mid-market",
+   "stores": 19,
+   "active": 17,
+   "gmv": 11957,
+   "orders": 1517,
+   "comm": 2027,
+   "gmv_trend": [
+    1913,
+    1998,
+    1750,
+    1247
+   ],
+   "loc_trend": [
+    18,
+    15,
+    16,
+    15,
+    15
+   ]
+  },
+  {
+   "name": "GOOD BEER VIN",
+   "seg": "Mid-market",
+   "stores": 6,
+   "active": 5,
+   "gmv": 10767,
+   "orders": 978,
+   "comm": 2349,
+   "gmv_trend": [
+    1522,
+    1581,
+    1851,
+    1352
+   ],
+   "loc_trend": [
+    4,
+    5,
+    5,
+    5,
+    5
+   ]
+  },
+  {
+   "name": "MAXBEER",
+   "seg": "Mid-market",
+   "stores": 15,
+   "active": 10,
+   "gmv": 10628,
+   "orders": 1091,
+   "comm": 2710,
+   "gmv_trend": [
+    1588,
+    1672,
+    2507,
+    1875
+   ],
+   "loc_trend": [
+    9,
+    9,
+    10,
+    10,
+    10
+   ]
+  },
+  {
+   "name": "FLOWER SHOP",
+   "seg": "Mid-market",
+   "stores": 11,
+   "active": 11,
+   "gmv": 10583,
+   "orders": 235,
+   "comm": 1900,
+   "gmv_trend": [
+    591,
+    825,
+    1363,
+    685
+   ],
+   "loc_trend": [
+    8,
+    7,
+    8,
+    8,
+    8
+   ]
+  },
+  {
+   "name": "ALTBIER",
+   "seg": "Mid-market",
+   "stores": 23,
+   "active": 18,
+   "gmv": 9973,
+   "orders": 762,
+   "comm": 2288,
+   "gmv_trend": [
+    1196,
+    1076,
+    1827,
+    933
+   ],
+   "loc_trend": [
+    19,
+    19,
+    19,
+    18,
+    19
+   ]
+  },
+  {
+   "name": "HALYTSKYI KUKHOL",
+   "seg": "SMB",
+   "stores": 4,
+   "active": 3,
+   "gmv": 8714,
+   "orders": 775,
+   "comm": 2390,
+   "gmv_trend": [
+    1168,
+    1956,
+    1687,
+    858
+   ],
+   "loc_trend": [
+    2,
+    2,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "GOOD BEER",
+   "seg": "Mid-market",
+   "stores": 9,
+   "active": 7,
+   "gmv": 7084,
+   "orders": 601,
+   "comm": 1899,
+   "gmv_trend": [
+    749,
+    818,
+    851,
+    557
+   ],
+   "loc_trend": [
+    6,
+    5,
+    6,
+    6,
+    5
+   ]
+  },
+  {
+   "name": "LUCKY BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 6719,
+   "orders": 446,
+   "comm": 1767,
+   "gmv_trend": [
+    1358,
+    1351,
+    1098,
+    1367
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "MAXBEER GROUP",
+   "seg": "Mid-market",
+   "stores": 4,
+   "active": 3,
+   "gmv": 6228,
+   "orders": 634,
+   "comm": 1544,
+   "gmv_trend": [
+    1024,
+    868,
+    1095,
+    770
+   ],
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "CHEESE&WINE",
+   "seg": "Enterprise",
+   "stores": 27,
+   "active": 25,
+   "gmv": 5697,
+   "orders": 492,
+   "comm": 798,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "MAHAZYN PYVNYY UKRAIINSKYJ KRAFT",
+   "seg": "SMB",
+   "stores": 6,
+   "active": 6,
+   "gmv": 5121,
+   "orders": 446,
+   "comm": 1322,
+   "gmv_trend": [
+    765,
+    592,
+    708,
+    755
+   ],
+   "loc_trend": [
+    6,
+    6,
+    6,
+    6,
+    6
+   ]
+  },
+  {
+   "name": "PYVNA HAVAN",
+   "seg": "SMB",
+   "stores": 9,
+   "active": 7,
+   "gmv": 4457,
+   "orders": 388,
+   "comm": 1253,
+   "gmv_trend": [
+    401,
+    248,
+    458,
+    138
+   ],
+   "loc_trend": [
+    7,
+    7,
+    7,
+    7,
+    7
+   ]
+  },
+  {
+   "name": "OPILLYA GROUP",
+   "seg": "SMB",
+   "stores": 6,
+   "active": 5,
+   "gmv": 4454,
+   "orders": 343,
+   "comm": 984,
+   "gmv_trend": [
+    465,
+    693,
+    1048,
+    1200
+   ],
+   "loc_trend": [
+    4,
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "name": "BEER COMPANY",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 4228,
+   "orders": 402,
+   "comm": 1207,
+   "gmv_trend": [
+    549,
+    670,
+    910,
+    824
+   ],
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "PRAVDA CRAFT MISSION",
+   "seg": "Mid-market",
+   "stores": 8,
+   "active": 7,
+   "gmv": 4064,
+   "orders": 313,
+   "comm": 538,
+   "gmv_trend": [
+    237,
+    347,
+    659,
+    305
+   ],
+   "loc_trend": [
+    7,
+    7,
+    7,
+    7,
+    7
+   ]
+  },
+  {
+   "name": "CRAFT BEER DNIPRO",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 4036,
+   "orders": 372,
+   "comm": 1094,
+   "gmv_trend": [
+    813,
+    499,
+    816,
+    468
+   ],
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "KEGOVA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 3931,
+   "orders": 252,
+   "comm": 932,
+   "gmv_trend": [
+    407,
+    758,
+    1247,
+    982
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "LVIVSKI KRANY",
+   "seg": "Mid-market",
+   "stores": 8,
+   "active": 6,
+   "gmv": 3821,
+   "orders": 303,
+   "comm": 895,
+   "gmv_trend": [
+    463,
+    557,
+    593,
+    579
+   ],
+   "loc_trend": [
+    6,
+    6,
+    6,
+    6,
+    6
+   ]
+  },
+  {
+   "name": "TANDEM PYVOMARKET",
+   "seg": "Enterprise",
+   "stores": 24,
+   "active": 3,
+   "gmv": 3701,
+   "orders": 407,
+   "comm": 983,
+   "gmv_trend": [
+    1036,
+    530,
+    19,
+    0
+   ],
+   "loc_trend": [
+    9,
+    8,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "PYVNA SOVA GROUP",
+   "seg": "Mid-market",
+   "stores": 7,
+   "active": 7,
+   "gmv": 3670,
+   "orders": 385,
+   "comm": 862,
+   "gmv_trend": [
+    284,
+    301,
+    315,
+    421
+   ],
+   "loc_trend": [
+    7,
+    7,
+    7,
+    7,
+    7
+   ]
+  },
+  {
+   "name": "MILANO FLOWERS",
+   "seg": "SMB",
+   "stores": 4,
+   "active": 4,
+   "gmv": 3628,
+   "orders": 78,
+   "comm": 674,
+   "gmv_trend": [
+    541,
+    293,
+    570,
+    46
+   ],
+   "loc_trend": [
+    4,
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "name": "PYVANDR",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 3482,
+   "orders": 376,
+   "comm": 833,
+   "gmv_trend": [
+    616,
+    498,
+    547,
+    480
+   ],
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "PYANA VYSHNYA",
+   "seg": "Enterprise",
+   "stores": 17,
+   "active": 16,
+   "gmv": 3385,
+   "orders": 194,
+   "comm": 540,
+   "gmv_trend": [
+    103,
+    136,
+    282,
+    111
+   ],
+   "loc_trend": [
+    13,
+    13,
+    12,
+    11,
+    13
+   ]
+  },
+  {
+   "name": "SHOPYVO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 3384,
+   "orders": 261,
+   "comm": 1040,
+   "gmv_trend": [
+    803,
+    667,
+    860,
+    509
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "LITR BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 3277,
+   "orders": 227,
+   "comm": 786,
+   "gmv_trend": [
+    404,
+    441,
+    948,
+    538
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "ONE SAY",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 2971,
+   "orders": 51,
+   "comm": 558,
+   "gmv_trend": [
+    320,
+    473,
+    1267,
+    164
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "KVITY VAV",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 2957,
+   "orders": 92,
+   "comm": 527,
+   "gmv_trend": [
+    258,
+    434,
+    545,
+    324
+   ],
+   "loc_trend": [
+    2,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "MAHAZYNKAFE KEGA",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 2937,
+   "orders": 193,
+   "comm": 705,
+   "gmv_trend": [
+    346,
+    263,
+    987,
+    486
+   ],
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "PYVOTEKA 2020 GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 2935,
+   "orders": 206,
+   "comm": 576,
+   "gmv_trend": [
+    309,
+    549,
+    627,
+    543
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEER SHOP VINNITSYA",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 2899,
+   "orders": 264,
+   "comm": 802,
+   "gmv_trend": [
+    252,
+    1162,
+    846,
+    753
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "JERKINS AND BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 2518,
+   "orders": 236,
+   "comm": 682,
+   "gmv_trend": [
+    282,
+    208,
+    550,
+    287
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVO TUTA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 2507,
+   "orders": 279,
+   "comm": 634,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "NALYVKY ZI LVOVA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 2500,
+   "orders": 159,
+   "comm": 636,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVOTEKA ODESA",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 2424,
+   "orders": 240,
+   "comm": 380,
+   "gmv_trend": [
+    402,
+    329,
+    302,
+    238
+   ],
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "BRATER",
+   "seg": "SMB",
+   "stores": 4,
+   "active": 4,
+   "gmv": 2337,
+   "orders": 227,
+   "comm": 640,
+   "gmv_trend": [
+    436,
+    513,
+    391,
+    333
+   ],
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    2
+   ]
+  },
+  {
+   "name": "VAPE SHOP KYIV",
+   "seg": "Missing Segment",
+   "stores": 8,
+   "active": 8,
+   "gmv": 2289,
+   "orders": 156,
+   "comm": 289,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    8,
+    8,
+    1
+   ]
+  },
+  {
+   "name": "BEERROOM",
+   "seg": "Mid-market",
+   "stores": 5,
+   "active": 4,
+   "gmv": 2268,
+   "orders": 229,
+   "comm": 617,
+   "gmv_trend": [
+    329,
+    163,
+    216,
+    211
+   ],
+   "loc_trend": [
+    4,
+    4,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "SEIM",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 2246,
+   "orders": 229,
+   "comm": 626,
+   "gmv_trend": [
+    199,
+    358,
+    404,
+    466
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVNA LIHA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 2040,
+   "orders": 223,
+   "comm": 554,
+   "gmv_trend": [
+    333,
+    386,
+    540,
+    318
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "TOP BEER",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 2021,
+   "orders": 131,
+   "comm": 558,
+   "gmv_trend": [
+    135,
+    125,
+    228,
+    321
+   ],
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "PYVNYI KYXOL",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1964,
+   "orders": 209,
+   "comm": 462,
+   "gmv_trend": [
+    254,
+    351,
+    627,
+    255
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "BEER SOTA",
+   "seg": "SMB",
+   "stores": 9,
+   "active": 9,
+   "gmv": 1945,
+   "orders": 212,
+   "comm": 293,
+   "gmv_trend": [
+    220,
+    171,
+    148,
+    0
+   ],
+   "loc_trend": [
+    3,
+    5,
+    2,
+    2,
+    3
+   ]
+  },
+  {
+   "name": "PIV.KO",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 2,
+   "gmv": 1933,
+   "orders": 189,
+   "comm": 476,
+   "gmv_trend": [
+    218,
+    107,
+    171,
+    74
+   ],
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "VINNYTSKIY CRAFT",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 1906,
+   "orders": 183,
+   "comm": 532,
+   "gmv_trend": [
+    204,
+    126,
+    191,
+    175
+   ],
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "L BEER BAR",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 1888,
+   "orders": 89,
+   "comm": 496,
+   "gmv_trend": [
+    91,
+    186,
+    144,
+    100
+   ],
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "RED CAT",
+   "seg": "SMB",
+   "stores": 18,
+   "active": 15,
+   "gmv": 1831,
+   "orders": 161,
+   "comm": 400,
+   "gmv_trend": [
+    96,
+    60,
+    87,
+    83
+   ],
+   "loc_trend": [
+    12,
+    13,
+    11,
+    14,
+    14
+   ]
+  },
+  {
+   "name": "BEER EMPORIUM GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1829,
+   "orders": 189,
+   "comm": 478,
+   "gmv_trend": [
+    333,
+    296,
+    304,
+    273
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEERLAND",
+   "seg": "Mid-market",
+   "stores": 3,
+   "active": 3,
+   "gmv": 1669,
+   "orders": 144,
+   "comm": 414,
+   "gmv_trend": [
+    205,
+    87,
+    108,
+    69
+   ],
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "VINNYTSKE PUVO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1592,
+   "orders": 170,
+   "comm": 453,
+   "gmv_trend": [
+    241,
+    365,
+    416,
+    346
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVKO",
+   "seg": "SMB",
+   "stores": 5,
+   "active": 2,
+   "gmv": 1503,
+   "orders": 107,
+   "comm": 431,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "SHARLOTKA_",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1478,
+   "orders": 117,
+   "comm": 436,
+   "gmv_trend": [
+    304,
+    342,
+    198,
+    172
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "KLAN PYVA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1471,
+   "orders": 111,
+   "comm": 400,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "RWW.ART",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 1462,
+   "orders": 32,
+   "comm": 340,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    2,
+    2,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "VAPE BROTHERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1416,
+   "orders": 108,
+   "comm": 202,
+   "gmv_trend": [
+    241,
+    56,
+    338,
+    272
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVNYJ ETYKET",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 1386,
+   "orders": 139,
+   "comm": 386,
+   "gmv_trend": [
+    111,
+    0,
+    0,
+    0
+   ],
+   "loc_trend": null
+  },
+  {
+   "name": "VAPE STORY",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 1364,
+   "orders": 95,
+   "comm": 254,
+   "gmv_trend": [
+    90,
+    43,
+    42,
+    15
+   ],
+   "loc_trend": [
+    3,
+    4,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "BEER KING",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 1348,
+   "orders": 148,
+   "comm": 367,
+   "gmv_trend": [
+    94,
+    115,
+    0,
+    0
+   ],
+   "loc_trend": [
+    1,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "APIVAS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1347,
+   "orders": 134,
+   "comm": 297,
+   "gmv_trend": [
+    229,
+    220,
+    238,
+    304
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "GOLD BEER PUB",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1235,
+   "orders": 113,
+   "comm": 310,
+   "gmv_trend": [
+    227,
+    263,
+    366,
+    213
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "GANESHABEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1126,
+   "orders": 106,
+   "comm": 325,
+   "gmv_trend": [
+    88,
+    260,
+    282,
+    261
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "DNEPR.YACHT",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1124,
+   "orders": 93,
+   "comm": 335,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "KAFETERIY BILA TSERKVA",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 1120,
+   "orders": 103,
+   "comm": 281,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "LIME FLOWERS&DECOR",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1075,
+   "orders": 40,
+   "comm": 202,
+   "gmv_trend": [
+    205,
+    248,
+    303,
+    19
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "COOL BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1070,
+   "orders": 81,
+   "comm": 308,
+   "gmv_trend": [
+    111,
+    69,
+    226,
+    187
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "WINE GALLERY",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 1061,
+   "orders": 63,
+   "comm": 188,
+   "gmv_trend": [
+    171,
+    137,
+    299,
+    129
+   ],
+   "loc_trend": [
+    2,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVO BAZA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1041,
+   "orders": 95,
+   "comm": 285,
+   "gmv_trend": [
+    169,
+    118,
+    121,
+    217
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYANA VYSHNYA GROUP",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 2,
+   "gmv": 1011,
+   "orders": 54,
+   "comm": 159,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "PORTAL PUB",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 1003,
+   "orders": 16,
+   "comm": 225,
+   "gmv_trend": [
+    151,
+    89,
+    350,
+    82
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEERBERSHOP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 971,
+   "orders": 108,
+   "comm": 261,
+   "gmv_trend": [
+    135,
+    268,
+    194,
+    112
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "ROCK BEER",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 932,
+   "orders": 78,
+   "comm": 264,
+   "gmv_trend": [
+    257,
+    317,
+    142,
+    58
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BERLIN",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 922,
+   "orders": 105,
+   "comm": 175,
+   "gmv_trend": [
+    138,
+    78,
+    205,
+    51
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BOHEMIAN KINGS BEER GROUP",
+   "seg": "SMB",
+   "stores": 5,
+   "active": 5,
+   "gmv": 922,
+   "orders": 77,
+   "comm": 149,
+   "gmv_trend": null,
+   "loc_trend": [
+    4,
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "name": "COFFEE ART PIZZA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 911,
+   "orders": 77,
+   "comm": 259,
+   "gmv_trend": [
+    208,
+    102,
+    212,
+    56
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEER FRESH",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 900,
+   "orders": 85,
+   "comm": 235,
+   "gmv_trend": [
+    100,
+    138,
+    166,
+    97
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "MAHAZYN ROZLYVNOHO PYVA BAVARIA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 894,
+   "orders": 83,
+   "comm": 222,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "FRESH FLOWERS",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 891,
+   "orders": 21,
+   "comm": 162,
+   "gmv_trend": [
+    132,
+    107,
+    202,
+    258
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "SOLO VINO GROUP",
+   "seg": "Mid-market",
+   "stores": 6,
+   "active": 4,
+   "gmv": 878,
+   "orders": 53,
+   "comm": 220,
+   "gmv_trend": [
+    244,
+    215,
+    105,
+    62
+   ],
+   "loc_trend": [
+    4,
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "name": "SOLOD BEER MARKET",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 876,
+   "orders": 88,
+   "comm": 253,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BROVARNIA PYVNA LEHENDA GROUP",
+   "seg": "SMB",
+   "stores": 4,
+   "active": 4,
+   "gmv": 871,
+   "orders": 78,
+   "comm": 242,
+   "gmv_trend": [
+    88,
+    65,
+    116,
+    65
+   ],
+   "loc_trend": [
+    4,
+    4,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "UMANPIVO",
+   "seg": "SMB",
+   "stores": 4,
+   "active": 4,
+   "gmv": 793,
+   "orders": 90,
+   "comm": 120,
+   "gmv_trend": [
+    81,
+    172,
+    119,
+    58
+   ],
+   "loc_trend": [
+    4,
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "name": "DARUI KVITY",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 0,
+   "gmv": 771,
+   "orders": 17,
+   "comm": 147,
+   "gmv_trend": null,
+   "loc_trend": [
+    3,
+    3,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "FERMA BRATA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 767,
+   "orders": 53,
+   "comm": 153,
+   "gmv_trend": [
+    81,
+    47,
+    178,
+    52
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "JAGER BREWERY",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 2,
+   "gmv": 759,
+   "orders": 70,
+   "comm": 176,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEER AND MORE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 751,
+   "orders": 37,
+   "comm": 221,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVOMARKET GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 703,
+   "orders": 69,
+   "comm": 151,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVO TUTA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 695,
+   "orders": 66,
+   "comm": 182,
+   "gmv_trend": [
+    741,
+    545,
+    424,
+    236
+   ],
+   "loc_trend": [
+    2,
+    2,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "TOP BEER GROUP",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 660,
+   "orders": 61,
+   "comm": 179,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "YEPYVO",
+   "seg": "SMB",
+   "stores": 4,
+   "active": 1,
+   "gmv": 632,
+   "orders": 60,
+   "comm": 136,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVNA ZAPRAVKA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 615,
+   "orders": 54,
+   "comm": 170,
+   "gmv_trend": [
+    80,
+    110,
+    128,
+    134
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "UMANPYVO BRANDSTORE",
+   "seg": "Enterprise",
+   "stores": 7,
+   "active": 7,
+   "gmv": 606,
+   "orders": 88,
+   "comm": 91,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    7,
+    7,
+    7
+   ]
+  },
+  {
+   "name": "KRATOM THAI TEA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 562,
+   "orders": 42,
+   "comm": 124,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "ODA FLOWERS",
+   "seg": "SMB",
+   "stores": 6,
+   "active": 6,
+   "gmv": 547,
+   "orders": 13,
+   "comm": 100,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    2,
+    2,
+    4,
+    6
+   ]
+  },
+  {
+   "name": "CRAFT BEER MARKET GROUP",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 544,
+   "orders": 48,
+   "comm": 121,
+   "gmv_trend": null,
+   "loc_trend": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "DAKS MARKET GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 510,
+   "orders": 55,
+   "comm": 140,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "TARANPIVO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 508,
+   "orders": 56,
+   "comm": 102,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "KATRIN'S FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 497,
+   "orders": 19,
+   "comm": 91,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "UMI SEA FOOD",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 493,
+   "orders": 27,
+   "comm": 113,
+   "gmv_trend": [
+    173,
+    35,
+    85,
+    0
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "3.14VO GROUP",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 2,
+   "gmv": 482,
+   "orders": 52,
+   "comm": 119,
+   "gmv_trend": [
+    110,
+    0,
+    0,
+    0
+   ],
+   "loc_trend": [
+    2,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "FLEUR DELICATE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 474,
+   "orders": 22,
+   "comm": 83,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "DROFA",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 471,
+   "orders": 41,
+   "comm": 92,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    1,
+    3,
+    2,
+    0
+   ]
+  },
+  {
+   "name": "VINNIBEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 454,
+   "orders": 28,
+   "comm": 97,
+   "gmv_trend": [
+    119,
+    157,
+    17,
+    17
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "SMOKE KING",
+   "seg": "SMB",
+   "stores": 8,
+   "active": 6,
+   "gmv": 444,
+   "orders": 42,
+   "comm": 58,
+   "gmv_trend": null,
+   "loc_trend": [
+    8,
+    6,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "BRONZE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 432,
+   "orders": 24,
+   "comm": 128,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "NO TABOO",
+   "seg": "Enterprise",
+   "stores": 9,
+   "active": 9,
+   "gmv": 418,
+   "orders": 21,
+   "comm": 75,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    9,
+    9,
+    9,
+    40
+   ]
+  },
+  {
+   "name": "RODYNNA KOVBASKA",
+   "seg": "SMB",
+   "stores": 31,
+   "active": 31,
+   "gmv": 406,
+   "orders": 29,
+   "comm": 35,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    17,
+    15,
+    22
+   ]
+  },
+  {
+   "name": "PO PYVKU",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 403,
+   "orders": 30,
+   "comm": 114,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEER BAR FRIENDS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 378,
+   "orders": 23,
+   "comm": 116,
+   "gmv_trend": [
+    131,
+    72,
+    88,
+    52
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "MAHAZYN BEER HAPPY",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 376,
+   "orders": 42,
+   "comm": 103,
+   "gmv_trend": [
+    87,
+    16,
+    6,
+    0
+   ],
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "OBEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 373,
+   "orders": 34,
+   "comm": 111,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "MOOD SHOP",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 370,
+   "orders": 4,
+   "comm": 72,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "KRAN KHARKIV",
+   "seg": "SMB",
+   "stores": 10,
+   "active": 10,
+   "gmv": 346,
+   "orders": 34,
+   "comm": 99,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    2,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "BEARS BEER",
+   "seg": "Mid-market",
+   "stores": 23,
+   "active": 22,
+   "gmv": 334,
+   "orders": 44,
+   "comm": 38,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    2,
+    11,
+    10,
+    10
+   ]
+  },
+  {
+   "name": "BEERWIEL",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 322,
+   "orders": 33,
+   "comm": 55,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "PYVNA 2 LITRA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 317,
+   "orders": 26,
+   "comm": 94,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVO MAN",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 262,
+   "orders": 26,
+   "comm": 43,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "BEER BROTHERS",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 254,
+   "orders": 17,
+   "comm": 78,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "SWEET HOUSE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 236,
+   "orders": 15,
+   "comm": 61,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "VINOOPOKOLINO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 225,
+   "orders": 10,
+   "comm": 49,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "BEER STATION 13",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 223,
+   "orders": 26,
+   "comm": 62,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAHAZYN ROZLYVNOHO PYVA PYVOTEKA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 214,
+   "orders": 22,
+   "comm": 52,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "SUSHI VESLA",
+   "seg": "SMB",
+   "stores": 7,
+   "active": 7,
+   "gmv": 199,
+   "orders": 20,
+   "comm": 32,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    7,
+    7,
+    7,
+    7
+   ]
+  },
+  {
+   "name": "NASTAV CHAS PYVA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 198,
+   "orders": 17,
+   "comm": 54,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "LILIUM STUDIO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 197,
+   "orders": 4,
+   "comm": 36,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "HMILNYJ GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 189,
+   "orders": 21,
+   "comm": 51,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEER TIME",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 175,
+   "orders": 19,
+   "comm": 46,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "1.0.0 RADS BAR",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 174,
+   "orders": 15,
+   "comm": 48,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEERSTORE365",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 168,
+   "orders": 12,
+   "comm": 30,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "DROVA ODESA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 167,
+   "orders": 7,
+   "comm": 46,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "MAHAZYN HOSPODARSTVO KARVYCKYCH",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 167,
+   "orders": 15,
+   "comm": 35,
+   "gmv_trend": null,
+   "loc_trend": [
+    3,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "AMELI FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 165,
+   "orders": 5,
+   "comm": 29,
+   "gmv_trend": [
+    129,
+    0,
+    16,
+    0
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BRO-BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 162,
+   "orders": 16,
+   "comm": 43,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PO KUKHLIU",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 162,
+   "orders": 14,
+   "comm": 23,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "KAVALER TUTI",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 156,
+   "orders": 14,
+   "comm": 46,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "KULTURA PYVA",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 2,
+   "gmv": 156,
+   "orders": 7,
+   "comm": 44,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "FALCONBEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 154,
+   "orders": 15,
+   "comm": 43,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "DUDKA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 147,
+   "orders": 13,
+   "comm": 14,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "JUST BEER",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 138,
+   "orders": 12,
+   "comm": 26,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BERLOGA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 132,
+   "orders": 11,
+   "comm": 36,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BRATER GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 127,
+   "orders": 10,
+   "comm": 37,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "BEERCOOL",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 116,
+   "orders": 9,
+   "comm": 34,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "BEERSTORE",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 108,
+   "orders": 12,
+   "comm": 15,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "name": "RV-FLOWER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 105,
+   "orders": 3,
+   "comm": 20,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "TERITORYIAPIVA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 105,
+   "orders": 10,
+   "comm": 12,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "BEERCO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 99,
+   "orders": 10,
+   "comm": 22,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "ZOO STRIDER IN DIVERSITY",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 92,
+   "orders": 7,
+   "comm": 24,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "DRAFT BEER",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 1,
+   "gmv": 91,
+   "orders": 9,
+   "comm": 26,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PIVKO KHM",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 90,
+   "orders": 8,
+   "comm": 12,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "SHOPOPIVU GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 82,
+   "orders": 3,
+   "comm": 16,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER TIME KYIV",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 71,
+   "orders": 9,
+   "comm": 19,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "KAVA PYVO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 71,
+   "orders": 7,
+   "comm": 18,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "LIVE BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 70,
+   "orders": 7,
+   "comm": 19,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PINA.BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 70,
+   "orders": 9,
+   "comm": 19,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "LAVANDA FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 61,
+   "orders": 1,
+   "comm": 12,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "MULTI COOK KYIV",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 61,
+   "orders": 4,
+   "comm": 11,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "JUST FLOWERS",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 2,
+   "gmv": 53,
+   "orders": 1,
+   "comm": 10,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    2,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "SPAR",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 50,
+   "orders": 3,
+   "comm": 4,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "SONIACHNA FERMA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 46,
+   "orders": 4,
+   "comm": 6,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "OKKO CAFE GROUP",
+   "seg": "Mid-market",
+   "stores": 1,
+   "active": 1,
+   "gmv": 43,
+   "orders": 4,
+   "comm": 7,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "BEERKA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 41,
+   "orders": 5,
+   "comm": 7,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "REPTO BOUTIQUE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 38,
+   "orders": 7,
+   "comm": 5,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "WHITE SMOKE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 37,
+   "orders": 3,
+   "comm": 8,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "ФІЛАДЕЛЬФІЯ ГРУП",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 32,
+   "orders": 4,
+   "comm": 8,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVNA SICH",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 27,
+   "orders": 2,
+   "comm": 4,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "BEERCRAFT",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 25,
+   "orders": 2,
+   "comm": 5,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "HAVAN",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 25,
+   "orders": 2,
+   "comm": 7,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "MOULIN ROSE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 25,
+   "orders": 2,
+   "comm": 4,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "GAVA CRAFT",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 22,
+   "orders": 1,
+   "comm": 7,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "LIPYMO TA VARYMO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 21,
+   "orders": 3,
+   "comm": 6,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "PODVAPYVA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 21,
+   "orders": 1,
+   "comm": 4,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "YOY_CHE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 20,
+   "orders": 2,
+   "comm": 5,
+   "gmv_trend": null,
+   "loc_trend": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "name": "LAVENDER BY LK",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 16,
+   "orders": 1,
+   "comm": 3,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PRO PYVO",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 15,
+   "orders": 2,
+   "comm": 3,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "DIMPYVAA",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 2,
+   "gmv": 14,
+   "orders": 3,
+   "comm": 1,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MULETTE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 14,
+   "orders": 1,
+   "comm": 4,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "SUNIY KIT",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 12,
+   "orders": 2,
+   "comm": 6,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "YODA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 12,
+   "orders": 2,
+   "comm": 2,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "GRAND BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 11,
+   "orders": 1,
+   "comm": 3,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "BEERLAB",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 7,
+   "orders": 1,
+   "comm": 2,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "CE PYVBAR",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 7,
+   "orders": 1,
+   "comm": 1,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "LET'S BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 7,
+   "orders": 1,
+   "comm": 2,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "DRAFT BEER BROV",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 6,
+   "orders": 1,
+   "comm": 1,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "100ML WHISKEY SHOP GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "1888COFFEETEAM",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "ASBEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BARREL",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER AND CO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "BEER BAR GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER BEN GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER BROTHERS GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER HUB",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER KEG",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER MAGNATE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER MARKET GROUP",
+   "seg": "Enterprise",
+   "stores": 10,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": [
+    132,
+    73,
+    39,
+    53
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "BEER MUG GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER TOWN",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER WAY GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEER&FISH",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEERCULT GROUP",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEERMAX",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEERSET GROUP",
+   "seg": "Mid-market",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BEERSHOP LABEERINT GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BIERWELLE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "BLESS BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BOBEER STORE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BOTTLE MARKET",
+   "seg": "SMB",
+   "stores": 13,
+   "active": 2,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "BRSM-NAFTA",
+   "seg": "Mid-market",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Beer GO",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "CAFFEINE GASTRO PUB",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "CHMILNYJ CRAFT BEER SHOP GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "CUCUMBER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн бульвар Зоряний",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Артеківська",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": [
+    106,
+    87,
+    80,
+    81
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Березинська",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Володимира Вернадського",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Зразкова",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Калинова, 74",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Калинова, 8",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": [
+    173,
+    256,
+    288,
+    49
+   ],
+   "loc_trend": [
+    1,
+    1,
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Незалежності",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Панікахи",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Робоча",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Савкіна",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Старочумацька",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Сімферопольська",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн вул. Юлії Здановської",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн пр. Героїв Небесної сотні",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн провулок Вільний",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн провулок Крушельницької",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн провулок Парусний",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн проспект Володимира Івасюка",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн проспект Героїв",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": [
+    155,
+    76,
+    263,
+    56
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн проспект Дмитра Яворницького",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": [
+    187,
+    337,
+    246,
+    81
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн проспект Лесі Українки",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн проспект Науки",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн проспект Слобожанський",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "Cheese & Wine / Чіз & Вайн шосе Донецьке, 2",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "DELETED, DON'T USE",
+   "seg": "Missing Segment",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "DO NOT, USE. DELETED",
+   "seg": "Enterprise",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "DON BUTON FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    0,
+    1
+   ]
+  },
+  {
+   "name": "DON'T USE, ARCHIVED",
+   "seg": "Missing Segment",
+   "stores": 22,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "DVA DRAKONA GROUP",
+   "seg": "Mid-market",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Delete me",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "EAST YZ",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "EKO DYVO UKRAYINA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "FIRMOVYI MAHAZYN STO PUDIV GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "FISH FAMILY GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "FRANICOFFE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "FRESH HEAVEN SHOP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "GAMBRINUS",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "GIGI BAR-BOUTIQUE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "GOD OF BEER GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "GOLDEN BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "GOOD BEER GROUP",
+   "seg": "Enterprise",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "GOOD BEER KV",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "GOODBEER GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Grocery test account",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    0,
+    1
+   ]
+  },
+  {
+   "name": "HALYA BALUVANA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "HOSPODARSTVO KARVYTSKYKH GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "IKURA KROPYVNYTSKYI GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "IN LOVE FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KATRAN",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KATSUMI.FLO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KEGA",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KEGA GROUP",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KEGABEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KHMILNIY BOB GROUP",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "KHMILNIY DIM",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    0,
+    1
+   ]
+  },
+  {
+   "name": "KHMILʹNA KRYNYTSYA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KOLIBRI",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "KUKHOL PYVA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "KVITKA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "L BEER BAR GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "LA CAFE GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "LE BOUQUET",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "LIBEERTY GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "LIKI24",
+   "seg": "Enterprise",
+   "stores": 314,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "LOCATSIA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ]
+  },
+  {
+   "name": "LVIVSKA CUKERNYA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "LVIVSKI KRANY GROUP",
+   "seg": "Enterprise",
+   "stores": 3,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki.com вул. Липинського, 36",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24 вул. Княгині Ольги, 100Д",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24 вул. Малоголосківська, 40а",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. І.Франка, 13",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Антоновича, 102",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Замарстинівська, 170Л",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Кульпарківська, 156А",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Кульпарківська, 230а",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Любінська, 96",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Пасічна, 70",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "Liki24.com вул. Т. Шевченка, 17",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Т. Шевченка, 358а",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Франка, 39",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Чорновола, 16В, ЖК AVALON",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Liki24.com вул. Шевченка, 38",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Lux Beer",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAHAZYN BEERBEER GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAHAZYN HOSPODARSTVO KARVYCKYCH GROUP",
+   "seg": "Enterprise",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAHAZYN PANIVEHAN",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAHAZYN ROZLYVNYKH NAPOIV BEERMOOD GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAHAZYN UKRKHALIAL GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAHAZYNKAFE AZS BEER GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MAISTERNIYA VARENYKIV GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MEAT ME STEAK",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "MYAS MYAS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "NAF FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "NALYVKY ZI LVOVA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": [
+    278,
+    333,
+    722,
+    630
+   ],
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "OHMYBUKET.UA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PERFECT PARTY",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PIDVALGYM",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PINTA PYVA GROUP",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PIVAS",
+   "seg": "SMB",
+   "stores": 4,
+   "active": 4,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    3,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "PIVLANDIA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PIVNUHA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PIVO VIZMY",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PIZZA BOX GROUP",
+   "seg": "Mid-market",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PIZZA HOUSE GROUP",
+   "seg": "SMB",
+   "stores": 2,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "POLEVYI",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "POLTAVA PYVO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PORT WINE BAR GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYV&KO GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVKO NA PISHCHANOMU",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "PYVNE MISCE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVNI TRADYCII GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVNYI MARKET BOCHKA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVNYJ PATRIOT GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVNYJ SMAK",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVNYTSIA 05",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVO BAZA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVO BUM GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVO YE",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVO Z MISTA BERDYCHIV GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "PYVOTEKA GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "REMESLO BREWERY GROUP",
+   "seg": "Mid-market",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Remeslo Brewery",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "SALATEIRA",
+   "seg": "Mid-market",
+   "stores": 12,
+   "active": 12,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    7,
+    10
+   ]
+  },
+  {
+   "name": "SHOPOPIVU",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": [
+    82,
+    0,
+    0,
+    0
+   ],
+   "loc_trend": [
+    1,
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "SIMPLE FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "SNACK&BEER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "SPICER",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "TEONA-FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "TINA`S RESTO",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "TRUE FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "UKRAINE FLOWERS",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    1,
+    1,
+    0,
+    1
+   ]
+  },
+  {
+   "name": "VAPERY | VAPE SHOP",
+   "seg": "Enterprise",
+   "stores": 36,
+   "active": 36,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    14,
+    11
+   ]
+  },
+  {
+   "name": "VAPORS",
+   "seg": "Missing Segment",
+   "stores": 128,
+   "active": 1,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "VYNOKURNIA ZAKHIDNA",
+   "seg": "SMB",
+   "stores": 15,
+   "active": 15,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "WINETIME GROUP",
+   "seg": "Enterprise",
+   "stores": 3,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "YOSHKIN KIT",
+   "seg": "SMB",
+   "stores": 3,
+   "active": 3,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": [
+    0,
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Yummy Tummy Home (grocery)",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "ZAHODNYA",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "ZHYVE PYVO GROUP",
+   "seg": "SMB",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "delete me",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Галя Балувана Петра Григоренка",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Еліка Державинська",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Еліка просп. Гагаріна",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Рукавичка Городоцька, 76",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Рукавичка Дж. Вашингтона, 5А",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Рукавичка Княгині Ольги, 5Б",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Рукавичка Рудненська, 8K",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  },
+  {
+   "name": "Рукавичка Широка, 64",
+   "seg": "Missing Segment",
+   "stores": 1,
+   "active": 0,
+   "gmv": 0,
+   "orders": 0,
+   "comm": 0,
+   "gmv_trend": null,
+   "loc_trend": null
+  }
+ ],
+ "gmv_months": [
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04"
+ ],
+ "loc_months": [
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05"
  ]
 }

@@ -20,8 +20,13 @@ python3 build_html.py   # згенерувати index.html
 
 ## Дані
 
-Джерело: `Key Account dashboard/data/Merchant-level Overview.csv` (Bolt UA).
+Джерела:
+- `Key Account dashboard/data/Merchant-level Overview.csv` — знімок портфеля (сегменти, GMV, комісія, локації).
+- `Key Account dashboard/data/Entity performance dynamics (PoP) (2).csv` — помісячний GMV (січ–кві 2026) для відстежуваних партнерів.
+- `Active store/active_stores_from_dbx.csv` — щотижневі активні магазини → тренд локацій (січ–тра 2026).
+
 Партнер = Group/Brand, локація = окремий provider. GMV — до знижок.
 
-8 великих мереж зі списку ведення (ATB, FORA, ANRI, ROZETKA, VARUS, THRASH, E-ZOO, РОСТ)
-ведуться централізовано як key accounts і відсутні в цьому датасеті — у звіті позначені окремо.
+Менеджери ведення задані вручну в `build_data.py` (`am_override`): Mykhailo Brynchak,
+Viktor Skalivskiy, Khrystyna Berezna. 9 великих мереж (ATB, FORA, ANRI, ROZETKA, VARUS,
+THRASH, E-ZOO, РОСТ, master zoo) ведуться централізовано і позначені у звіті окремо.
