@@ -53,6 +53,12 @@ def agg_dim(rows):
                 "brand":seg_row.get("brand")}
     return out
 
+EXCLUDE={"OKKO CAFE GROUP"}  # removed from all calculations per request
+C["monthly"]=[r for r in C["monthly"] if str(r["grp"]) not in EXCLUDE]
+C["dim"]=[r for r in C["dim"] if str(r["grp"]) not in EXCLUDE]
+C["man_monthly"]=[r for r in C["man_monthly"] if str(r["grp"]) not in EXCLUDE]
+C["man_dim"]=[r for r in C["man_dim"] if str(r["grp"]) not in EXCLUDE]
+
 UM,UGMV,ULOC=agg_monthly(C["monthly"])
 UD=agg_dim(C["dim"])
 MM,MGMV,MLOC=agg_monthly(C["man_monthly"])
@@ -60,17 +66,45 @@ MD=agg_dim(C["man_dim"])
 
 def series(dmap,k): return [round(dmap[k][m]) for m in MONTHS] if k in dmap else None
 
+# managed AM overrides keyed by DB group_name (so full list shows the same AM as the managed table)
+BRYN="Mykhailo Brynchak"; SKAL="Viktor Skalivskiy"; BER="Khrystyna Berezna"
+resolver={
+ "LEPRUKON":["LEPRUKON"],"DIMPYVA":["DIMPYVA"],"CHILL TIME":["CHILL TIME"],
+ "RODYNNA KOVBASKA":["RODYNNA KOVBASKA"],"NO TABOO":["NO TABOO"],
+ "VAPE SHOP KYIV":["VAPE SHOP KYIV"],"VAPORS":["VAPORS"],"HOP HEY":["HOP HEY"],
+ "BEER MARKET":["BEER MARKET"],"KOPIYKA":["KOPIYKA"],"LOKO":["LOKO"],
+ "PYVNA BORODA":["PYVNA BORODA"],"SANTIM":["SANTIM"],"BRSM":["BRSM"],
+ "CAFE RYNOK":["CAFE RYNOK"],"BEERLAND":["BEERLAND"],"WINETIME":["WINETIME"],
+ "SPRAGA":["SPRAGA"],"MAXBEER":["MAXBEER"],"FLOWERS UA":["FLOWERS"],
+ "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
+ "REMESLO BREWERY":["REMESLO BREWERY"],"TOCHKA":["TOCHKA"],"FLOWER SHOP":["FLOWER SHOP"],
+ "LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],
+ "ATB":["ATB CHERKASY","ATB KYIV"],
+}
+external_nodata=["O'NDE","FORA","ANRI","THRASH","E-ZOO","MASTER ZOO","ROST"]
+am_map={}
+for n in ["KOPIYKA","PYVNA BORODA","WINETIME","SANTIM","MAXBEER","SPRAGA","O'NDE","SPAR",
+          "BRSM","FLOWERS UA","ATB","FORA","ANRI","HOP HEY","BEER MARKET","LOKO",
+          "CAFE RYNOK","BEERLAND","TAISTRA","RUKAVYCHKA"]: am_map[n]=BRYN
+for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO"]: am_map[n]=SKAL
+for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA"]: am_map[n]=BER
+MANAGED_GROUP_AM={}
+for disp,keys in resolver.items():
+    for k in keys: MANAGED_GROUP_AM[k]=am_map.get(disp)
+
+def pctof(part,whole): return round(part/whole*100,1) if whole>0 else None
 def partner_record(k,mt,dim,gmv_m,loc_m):
     d=mt.get(k,{c:0.0 for c in NUMCOLS})
     di=dim.get(k,{"stores":0,"active":0,"seg":"Missing Segment","am":None,"cities":0})
     gmv=d["gmv"]; comm=d["commission"]
     return {"name":k,"seg":di["seg"],"stores":di["stores"],"active":di["active"],
-        "am_data":di["am"],
+        "am":MANAGED_GROUP_AM.get(k) or di["am"],
         "gmv":round(gmv),"orders":int(d["orders"]),"comm":round(comm),
-        "comm_pct":round(comm/gmv*100,1) if gmv>0 else None,
+        "comm_pct":pctof(comm,gmv),
         "eater_fees":round(d["eater_fees"]),"camp_bolt":round(d["camp_bolt"]),
-        "camp_merch":round(d["camp_merch"]),"cp_l1":round(cp_l1(d)),
-        "cp_pct":round(cp_l1(d)/gmv*100,1) if gmv>0 else None,
+        "camp_merch":round(d["camp_merch"]),
+        "camp_bolt_pct":pctof(d["camp_bolt"],gmv),"camp_merch_pct":pctof(d["camp_merch"],gmv),
+        "cp_l1":round(cp_l1(d)),"cp_pct":pctof(cp_l1(d),gmv),
         "gmv_trend":series(gmv_m,k),"loc_trend":series(loc_m,k)}
 
 # ---------------- universe full list ----------------
@@ -88,12 +122,12 @@ T={"partners":len(full),
    "camp_merch":sumf(full,"camp_merch"),"cp_l1":sumf(full,"cp_l1")}
 T["comm_pct"]=round(T["comm"]/T["gmv"]*100,1)
 T["cp_pct"]=round(T["cp_l1"]/T["gmv"]*100,1)
-# unassigned (data AM null)
-unassigned=[p for p in full if not p["am_data"]]
+# unassigned (no AM at all)
+unassigned=[p for p in full if not p["am"]]
 T["unassigned_partners"]=len(unassigned)
 T["unassigned_stores"]=sumf(unassigned,"stores")
 T["unassigned_gmv"]=sumf(unassigned,"gmv")
-T["am_count"]=len({p["am_data"] for p in full if p["am_data"]})
+T["am_count"]=len({p["am"] for p in full if p["am"]})
 
 # ---------------- segment overview ----------------
 SEGS=["Enterprise","Mid-market","SMB","Missing Segment"]
@@ -107,29 +141,7 @@ for s in SEGS:
         "gmv_per":round(gmv/np_) if np_ else 0,"comm_per":round(comm/np_) if np_ else 0,
         "comm_pct":round(comm/gmv*100,1) if gmv>0 else 0})
 
-# ---------------- managed partners ----------------
-BRYN="Mykhailo Brynchak"; SKAL="Viktor Skalivskiy"; BER="Khrystyna Berezna"
-resolver={
- "LEPRUKON":["LEPRUKON"],"DIMPYVA":["DIMPYVA"],"CHILL TIME":["CHILL TIME"],
- "RODYNNA KOVBASKA":["RODYNNA KOVBASKA"],"NO TABOO":["NO TABOO"],
- "VAPE SHOP KYIV":["VAPE SHOP KYIV"],"VAPORS":["VAPORS"],"HOP HEY":["HOP HEY"],
- "BEER MARKET":["BEER MARKET"],"KOPIYKA":["KOPIYKA"],"LOKO":["LOKO"],
- "PYVNA BORODA":["PYVNA BORODA"],"SANTIM":["SANTIM"],"BRSM":["BRSM"],
- "CAFE RYNOK":["CAFE RYNOK"],"BEERLAND":["BEERLAND"],"WINETIME":["WINETIME"],
- "SPRAGA":["SPRAGA"],"MAXBEER":["MAXBEER"],"FLOWERS UA":["FLOWERS"],
- "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
- "REMESLO BREWERY":["REMESLO BREWERY"],"TOCHKA":["TOCHKA"],"FLOWER SHOP":["FLOWER SHOP"],
- "OKKO":["OKKO CAFE GROUP"],"LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],
- "ATB":["ATB CHERKASY","ATB KYIV"],
-}
-external_nodata=["O'NDE","FORA","ANRI","THRASH","E-ZOO","MASTER ZOO","ROST"]
-am_map={}
-for n in ["KOPIYKA","PYVNA BORODA","WINETIME","SANTIM","MAXBEER","SPRAGA","O'NDE","SPAR","OKKO",
-          "BRSM","FLOWERS UA","ATB","FORA","ANRI","HOP HEY","BEER MARKET","LOKO",
-          "CAFE RYNOK","BEERLAND","TAISTRA","RUKAVYCHKA"]: am_map[n]=BRYN
-for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO"]: am_map[n]=SKAL
-for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA"]: am_map[n]=BER
-
+# ---------------- managed partners (resolver/am_map defined above) ----------------
 def merge_groups(dispname,keys):
     d={c:0.0 for c in NUMCOLS}; gmv_m={m:0.0 for m in MONTHS}; loc_m={m:0.0 for m in MONTHS}
     stores=active=cities=0; segs=[]

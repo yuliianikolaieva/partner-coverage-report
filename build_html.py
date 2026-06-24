@@ -43,8 +43,9 @@ def spark(series,color):
     if fnz>0:
         dd=(last-fnz)/fnz*100; arr="▲" if dd>2 else ("▼" if dd<-2 else "▬")
         cl="up" if dd>2 else ("down" if dd<-2 else "flat")
-        badge=f'<span class="tr {cl}">{arr}{abs(dd):.0f}%</span>'
-    return (f'<span class="spark" title="{tip}"><svg width="{w}" height="{h}">'
+        disp="300%+" if dd>300 else f"{abs(dd):.0f}%"
+        badge=f'<span class="tr {cl}">{arr}{disp}</span>'
+    return (f'<span class="spark" title="{tip}"><svg width="{w}" height="{h}" viewBox="0 0 {w} {h}">'
             f'<polyline points="{poly}" fill="none" stroke="{color}" stroke-width="1.6"/>'
             f'<circle cx="{lx}" cy="{ly}" r="2" fill="{color}"/></svg>{badge}</span>')
 
@@ -73,7 +74,7 @@ part_rows=""
 for p in P:
     inv=p["gmv"] is None
     gbar="" if inv else f'<div class="minibar"><div style="width:{(p["gmv"]/maxg*100):.0f}%"></div></div>'
-    am=f'<span class="ext">{p["am"]} · centralised</span>' if inv else p["am"]
+    am=f'<span class="ext">{p["am"]} · future</span>' if inv else p["am"]
     part_rows+=f"""<tr><td style="text-align:left"><b>{p['name']}</b></td>
     <td><span class="seg-pill {seg_class.get(p['seg'],'none')}">{seg_short.get(p['seg'],p['seg'])}</span></td>
     <td>{num(p['stores'])}</td><td style="text-align:left">{eur(p['gmv'])}{gbar}</td>
@@ -86,32 +87,32 @@ for p in P:
 team_rows=""
 max_tg=max(t["gmv"] for t in TEAM) or 1
 for t in TEAM:
-    ext=f' <span class="muted">(+{t["external"]} centralised)</span>' if t["external"] else ""
+    ext=f' <span class="muted">(+{t["external"]} future)</span>' if t["external"] else ""
     team_rows+=f"""<tr><td style="text-align:left"><b>{t['am']}</b>{ext}</td>
     <td>{t['partners']}</td><td style="text-align:left">{num(t['stores'])}</td>
     <td style="text-align:left"><b>{eur(t['gmv'])}</b><div class="minibar"><div style="width:{t['gmv']/max_tg*100:.0f}%"></div></div></td>
     <td class="muted">{pct(t['gmv'],T['gmv'])}</td><td>{num(t['orders'])}</td><td>{eur(t['comm'])}</td>
     <td class="{cpcls(t['cp_l1'])}">{eur(t['cp_l1'])}</td></tr>"""
 
-# ---- full list collapsible ----
+# ---- full list collapsible (compact) ----
 def am_cell(p):
-    return p["am_data"] if p["am_data"] else '<span class="noam">Not assigned</span>'
+    return p["am"] if p.get("am") else '<span class="noam">Not assigned</span>'
 def full_table(seg):
     rows=sorted([p for p in FULL if p["seg"]==seg],key=lambda x:-x["gmv"])
     sgmv=sum(r["gmv"] for r in rows); sst=sum(r["stores"] for r in rows)
     body=""
     for r in rows:
-        body+=f"""<tr><td style="text-align:left">{r['name']}</td>
-        <td>{num(r['stores'])}</td><td>{num(r['active'])}</td>
-        <td style="text-align:left">{eur(r['gmv'])}</td><td>{eur(r['comm'])}</td><td>{pctv(r['comm_pct'])}</td>
-        <td class="{cpcls(r['cp_l1'])}">{eur(r['cp_l1'])}</td>
-        <td>{eur(r['eater_fees'])}</td><td>{eur(r['camp_bolt'])}</td><td>{eur(r['camp_merch'])}</td>
-        <td style="text-align:left;font-size:11.5px">{am_cell(r)}</td>
-        <td style="text-align:left">{spark(r['gmv_trend'],'#2563eb')}</td>
-        <td style="text-align:left">{spark(r['loc_trend'],'#0e7faa')}</td></tr>"""
+        body+=f"""<tr><td class="pn">{r['name']}</td>
+        <td>{num(r['stores'])}</td>
+        <td class="r">{eur(r['gmv'])}</td><td>{pctv(r['comm_pct'])}</td>
+        <td class="{cpcls(r['cp_l1'])} r">{eur(r['cp_l1'])}</td>
+        <td class="r">{eur(r['eater_fees'])}</td><td>{pctv(r['camp_bolt_pct'])}</td><td>{pctv(r['camp_merch_pct'])}</td>
+        <td class="am">{am_cell(r)}</td>
+        <td class="sp">{spark(r['gmv_trend'],'#2563eb')}</td>
+        <td class="sp">{spark(r['loc_trend'],'#0e7faa')}</td></tr>"""
     opn=" open" if seg=="Enterprise" else ""
     return f"""<details class="seg-acc"{opn}><summary><span class="dot {seg_class[seg]}"></span><b>{seg_label[seg]}</b> · {len(rows)} partners · {eur(sgmv)} GMV · {num(sst)} locations <span class="chev">▾</span></summary>
-    <div class="tablewrap"><table class="full"><thead><tr><th style="text-align:left">Partner</th><th>Loc.</th><th>Active</th><th style="text-align:left">GMV</th><th>Comm €</th><th>Comm %</th><th>CP L1</th><th>Eater fees</th><th>Camp Bolt</th><th>Camp Merch</th><th style="text-align:left">Account manager</th><th style="text-align:left">GMV trend</th><th style="text-align:left">Locations trend</th></tr></thead><tbody>{body}</tbody></table></div></details>"""
+    <table class="full"><thead><tr><th class="pn">Partner</th><th>Loc.</th><th class="r">GMV</th><th>Comm%</th><th class="r">CP L1</th><th class="r">Eater fees</th><th>Camp Bolt%</th><th>Camp Merch%</th><th class="am">Acc. manager</th><th class="sp">GMV trend</th><th class="sp">Loc. trend</th></tr></thead><tbody>{body}</tbody></table></details>"""
 full_sections="".join(full_table(s) for s in ["Enterprise","Mid-market","SMB","Missing Segment"])
 
 HTML=f"""<!DOCTYPE html>
@@ -150,7 +151,14 @@ table{{border-collapse:collapse;width:100%;font-size:13px}}
 th,td{{padding:9px 10px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}}
 th{{background:var(--panel2);color:var(--soft);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.3px}}
 tbody tr:hover{{background:#f3f7ff}} td.muted,.muted{{color:var(--muted)}} .tablewrap{{overflow-x:auto}}
-table.full td,table.full th{{padding:7px 9px;font-size:12px}}
+table.full{{table-layout:fixed;width:100%}}
+table.full td{{padding:5px 6px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+table.full th{{padding:5px 6px;font-size:10.5px;white-space:normal;line-height:1.2}}
+table.full td.pn,table.full th.pn{{text-align:left;white-space:normal;width:14%}}
+table.full td.am,table.full th.am{{text-align:left;white-space:normal;width:12%;font-size:10.5px}}
+table.full td.r,table.full th.r{{text-align:right}}
+table.full td.sp,table.full th.sp{{text-align:left;width:9%}}
+table.full .spark svg{{width:54px}}
 .neg{{color:var(--crit);font-weight:600}} .pos{{color:var(--good);font-weight:600}}
 .dot{{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:middle}}
 .dot.ent{{background:var(--ent)}} .dot.mm{{background:var(--mm)}} .dot.smb{{background:var(--smb)}} .dot.none{{background:var(--none)}}
@@ -223,7 +231,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <li>Note on profitability: SMB runs a positive CP L1 ({eur(smb['cp_l1'])}) on high commission rates, while Enterprise/MM are intentionally subsidised (campaigns &amp; incentives) and run negative CP L1 to drive volume. So the constraint is not SMB profitability per euro — it is that each SMB partner is simply too small to justify hands-on management.</li></ul></div></section>
 
 <section id="coverage"><h2 class="section"><span class="bar"></span>4. What we cover today</h2>
-<p class="section-desc">The team manages {MT['partners']} key partners. {MT['in_data']} are live in Bolt UA store data; {MT['external']} large chains (FORA, ANRI, E-ZOO, master zoo, etc.) are managed centrally / not yet on Bolt UA stores and are shown separately. Table includes commission (€ and %), CP L1, eater fees and campaign spend by Bolt and by merchant.</p>
+<p class="section-desc">The team manages {MT['partners']} key partners. {MT['in_data']} are live in Bolt UA store data; {MT['external']} large chains (FORA, ANRI, E-ZOO, master zoo, etc.) are future / planned partners not yet live on Bolt UA stores and are shown separately. Table includes commission (€ and %), CP L1, eater fees and campaign spend by Bolt and by merchant.</p>
 <div class="grid kpis">
 <div class="kpi"><div class="n">{MT['partners']}</div><div class="l">Managed partners</div></div>
 <div class="kpi good"><div class="n">{eur(MT['gmv'])}</div><div class="l">GMV under management</div></div>
@@ -232,7 +240,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="card"><div class="top">Managed partners ({len(P)}) — by GMV</div><div class="body tablewrap"><table>
 <thead><tr><th style="text-align:left">Partner</th><th>Seg</th><th>Loc.</th><th style="text-align:left">GMV</th><th>Comm €</th><th>Comm %</th><th>CP L1</th><th>Eater fees</th><th>Camp Bolt</th><th>Camp Merch</th><th style="text-align:left">Account manager</th></tr></thead>
 <tbody>{part_rows}</tbody></table></div></div>
-<p class="note">"Centralised" = key-account chains handled outside this store dataset (no Bolt UA store GMV in the period). GMV/CP are Jan–May 2026, delivered orders.</p></section>
+<p class="note">"Future" = planned key-account chains not yet live on Bolt UA stores (no GMV in the period). GMV/CP are Jan–May 2026, delivered orders.</p></section>
 
 <section id="team"><h2 class="section"><span class="bar"></span>5. Team load</h2>
 <p class="section-desc">The entire key portfolio is held by {MT['managers']} account managers. The load is extremely uneven and already at the limit.</p>
@@ -244,7 +252,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="card"><div class="top">Load by account manager</div><div class="body tablewrap"><table>
 <thead><tr><th style="text-align:left">Account manager</th><th>Partners</th><th style="text-align:left">Locations</th><th style="text-align:left">GMV</th><th>% GMV</th><th>Orders</th><th>Commission</th><th>CP L1</th></tr></thead>
 <tbody>{team_rows}</tbody></table></div></div>
-<p class="note">GMV/commission/CP are computed over managed partners present in the data; centralised chains add load beyond what is shown. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>
+<p class="note">GMV/commission/CP are computed over managed partners present in the data; future chains will add load on top. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>
 
 <section id="fulllist"><h2 class="section"><span class="bar"></span>6. Full partner list</h2>
 <p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The last column before the trends shows the assigned account manager — or "Not assigned" where none. Trend columns are monthly Jan–May 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
@@ -253,7 +261,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 
 <section id="verdict"><h2 class="section"><span class="bar"></span>7. Conclusion: why there is no capacity for new partners</h2>
 <div class="callout warn"><h3>Argument</h3><ul>
-<li><b>1. Only {MT['managers']} AMs for the whole key portfolio.</b> They already cover {num(MT['stores'])} locations ({MT['in_data']} partners + {MT['external']} central chains). The team is physically at its limit.</li>
+<li><b>1. Only {MT['managers']} AMs for the whole key portfolio.</b> They already cover {num(MT['stores'])} locations ({MT['in_data']} live partners + {MT['external']} future chains). The team is physically at its limit.</li>
 <li><b>2. Concentration risk.</b> One AM (M. Brynchak) holds ~{pct(bryn['gmv'],T['gmv'])} of GMV and {num(bryn['stores'])} locations. Adding partners without adding people deepens the imbalance.</li>
 <li><b>3. Economics against SMB/MM.</b> A new SMB partner brings on average just {eur(smb['gmv_per'])} of GMV yet needs the same onboarding and ongoing support as an Enterprise partner at {eur(ent['gmv_per'])} — a ~{ratio}× worse effort-to-value ratio.</li>
 <li><b>4. Focus on value.</b> {num(T['unassigned_stores'])} locations across {num(T['unassigned_partners'])} partners already have no AM. We are not even fully covering the existing book; spreading thinner onto small SMB/MM would weaken work with top partners.</li>
