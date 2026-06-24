@@ -29,6 +29,9 @@ ent,mm,smb=sg("Enterprise"),sg("Mid-market"),sg("SMB")
 today=datetime.date.today().strftime("%d %b %Y")
 bryn=next(t for t in TEAM if "Brynchak" in t["am"])
 ratio=round(ent["gmv_per"]/smb["gmv_per"]) if smb["gmv_per"] else 0
+CH=D["churn"]
+churn_ratio=round(CH["unmanaged"]["pct"]/CH["managed"]["pct"],1) if CH["managed"]["pct"] else 0
+def chseg(s,key): return next((x for x in CH[key] if x["seg"]==s),None)
 
 def cpcls(v): return "neg" if (v is not None and v<0) else "pos"
 
@@ -116,6 +119,19 @@ def full_table(seg):
     <table class="full"><thead><tr><th class="pn">Partner</th><th>Loc.</th><th class="r">GMV</th><th>Comm%</th><th class="r">CP L1</th><th class="r">Eater fees</th><th>Camp Bolt%</th><th>Camp Merch%</th><th class="am">Acc. manager</th><th class="sp">GMV trend</th><th class="sp">Loc. trend</th></tr></thead><tbody>{body}</tbody></table></details>"""
 full_sections="".join(full_table(s) for s in ["Enterprise","Mid-market","SMB","Missing Segment"])
 
+# ---- churn rows ----
+churn_rows=""
+for s in ["Enterprise","Mid-market","SMB"]:
+    bs=chseg(s,"by_segment"); bm=chseg(s,"by_seg_mgmt")
+    churn_rows+=f"""<tr><td style="text-align:left"><span class="dot {seg_class[s]}"></span>{seg_label[s]}</td>
+    <td>{num(bs['cohort'])}</td><td><b>{bs['pct']}%</b></td>
+    <td class="pos">{bm['man_pct']}% <span class="muted">(n={bm['man_n']})</span></td>
+    <td class="neg">{bm['unm_pct']}% <span class="muted">(n={bm['unm_n']})</span></td></tr>"""
+churn_rows+=f"""<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">All</td>
+    <td>{num(CH['overall']['cohort'])}</td><td>{CH['overall']['pct']}%</td>
+    <td class="pos">{CH['managed']['pct']}% <span class="muted">(n={CH['managed']['cohort']})</span></td>
+    <td class="neg">{CH['unmanaged']['pct']}% <span class="muted">(n={CH['unmanaged']['cohort']})</span></td></tr>"""
+
 HTML=f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Partner Portfolio — Coverage & Segmentation</title>
@@ -183,7 +199,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 </style></head><body>
 <nav class="topnav"><div class="inner"><span class="brand">PARTNER PORTFOLIO</span>
 <a href="#overview">Overview</a><a href="#segments">Segments</a><a href="#economics">Economics</a>
-<a href="#coverage">Coverage</a><a href="#team">Team load</a><a href="#fulllist">All partners</a><a href="#verdict">Conclusion</a></div></nav>
+<a href="#coverage">Coverage</a><a href="#team">Team load</a><a href="#churn">Churn</a><a href="#fulllist">All partners</a><a href="#verdict">Conclusion</a></div></nav>
 <div class="wrap">
 <header class="hero"><span class="tag">Internal analysis · for management</span>
 <h1>Partner Portfolio — Coverage &amp; Segmentation</h1>
@@ -255,18 +271,35 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <tbody>{team_rows}</tbody></table></div></div>
 <p class="note">GMV/commission/CP are computed over managed partners present in the data; future chains will add load on top. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>
 
-<section id="fulllist"><h2 class="section"><span class="bar"></span>6. Full partner list</h2>
+<section id="churn"><h2 class="section"><span class="bar"></span>6. Churn &amp; retention — who holds without an AM</h2>
+<p class="section-desc">Location-level churn in 2026: of stores active in Jan–Feb, the share that stopped trading by Apr–May. Split by segment and by whether the partner has one of our {MT['managers']} dedicated AMs — showing who stays even without help and who falls off without it.</p>
+<div class="grid kpis">
+<div class="kpi"><div class="n">{CH['overall']['pct']}%</div><div class="l">Overall location churn (2026)</div></div>
+<div class="kpi good"><div class="n">{CH['managed']['pct']}%</div><div class="l">Churn — with a dedicated AM</div></div>
+<div class="kpi crit"><div class="n">{CH['unmanaged']['pct']}%</div><div class="l">Churn — no dedicated AM</div></div>
+<div class="kpi high"><div class="n">~{churn_ratio}×</div><div class="l">Higher churn without an AM</div></div></div>
+<div class="card"><div class="top">Churn by segment — with vs without a dedicated AM</div><div class="body tablewrap"><table>
+<thead><tr><th style="text-align:left">Segment</th><th>Active cohort</th><th>Churn (all)</th><th>Churn — managed (n)</th><th>Churn — no AM (n)</th></tr></thead>
+<tbody>{churn_rows}</tbody></table></div></div>
+<div class="callout"><h3>How to read it</h3><ul>
+<li><b>A dedicated AM cuts churn ~{churn_ratio}×</b>: {CH['managed']['pct']}% with an AM vs {CH['unmanaged']['pct']}% without. Hands-on coverage clearly keeps partners alive.</li>
+<li><b>The tail bleeds fastest exactly where we have no capacity:</b> SMB with no AM churns {chseg('SMB','by_seg_mgmt')['unm_pct']}%, while managed SMB stays at {chseg('SMB','by_seg_mgmt')['man_pct']}%. Enterprise is stickier but still churns {chseg('Enterprise','by_seg_mgmt')['unm_pct']}% without an AM.</li>
+<li><b>Implication:</b> the existing book genuinely needs retention attention, but the {MT['managers']} AMs are already full — so the answer is added capacity / self-serve for the tail, not piling more partners onto {MT['managers']} people.</li></ul>
+<p class="note">Churn = location active in Jan–Feb 2026 with no delivered orders in Apr–May 2026. Some managed/no-AM cells have small cohorts (n shown) — read those as directional.</p></div></section>
+
+<section id="fulllist"><h2 class="section"><span class="bar"></span>7. Full partner list</h2>
 <p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–May 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
 {full_sections}
 <p class="note">Source: fact_order_delivery × dim_provider_v2 (Bolt UA, delivery_vertical = store). CP L1 = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. "—" = no delivered orders in the period.</p></section>
 
-<section id="verdict"><h2 class="section"><span class="bar"></span>7. Conclusion: why there is no capacity for new partners</h2>
+<section id="verdict"><h2 class="section"><span class="bar"></span>8. Conclusion: why there is no capacity for new partners</h2>
 <div class="callout warn"><h3>Argument</h3><ul>
 <li><b>1. Only {MT['managers']} AMs for the whole key portfolio.</b> They already cover {num(MT['stores'])} locations ({MT['in_data']} live partners + {MT['external']} future chains). The team is physically at its limit.</li>
 <li><b>2. Concentration risk.</b> One AM (M. Brynchak) holds ~{pct(bryn['gmv'],T['gmv'])} of GMV and {num(bryn['stores'])} locations. Adding partners without adding people deepens the imbalance.</li>
 <li><b>3. Economics against SMB/MM.</b> A new SMB partner brings on average just {eur(smb['gmv_per'])} of GMV yet needs the same onboarding and ongoing support as an Enterprise partner at {eur(ent['gmv_per'])} — a ~{ratio}× worse effort-to-value ratio.</li>
 <li><b>4. Focus on value.</b> {num(T['unassigned_stores'])} locations across {num(T['unassigned_partners'])} partners already have no AM. We are not even fully covering the existing book; spreading thinner onto small SMB/MM would weaken work with top partners.</li>
-<li><b>5. The tail does not scale by hand.</b> {num(smb['partners'])} SMB partners cannot be managed individually with the current team — that is a self-serve / automation job, not an AM job.</li></ul></div>
+<li><b>5. The tail does not scale by hand.</b> {num(smb['partners'])} active SMB partners cannot be managed individually with the current team — that is a self-serve / automation job, not an AM job.</li>
+<li><b>6. Coverage is what keeps partners alive.</b> Partners without a dedicated AM churn ~{churn_ratio}× more ({CH['unmanaged']['pct']}% vs {CH['managed']['pct']}%). The unmanaged tail is already bleeding, yet the {MT['managers']} AMs cannot absorb it — new partners would either get no support (and churn) or pull attention away from the accounts that actually drive GMV.</li></ul></div>
 <div class="callout"><h3>Recommended instead of "take more"</h3><ul>
 <li>Freeze intake of new SMB/MM into hands-on management until additional headcount is added.</li>
 <li>First cover (or move to self-serve) the {num(T['unassigned_stores'])} locations that currently have no AM.</li>

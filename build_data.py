@@ -78,7 +78,7 @@ resolver={
  "SPRAGA":["SPRAGA"],"MAXBEER":["MAXBEER"],"FLOWERS UA":["FLOWERS"],
  "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
  "REMESLO BREWERY":["REMESLO BREWERY"],"TOCHKA":["TOCHKA"],"FLOWER SHOP":["FLOWER SHOP"],
- "LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],"ANRI":["ANRI-PHARM"],
+ "LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],"ANRI-PHARM":["ANRI-PHARM"],
  "ATB":["ATB CHERKASY","ATB KYIV"],
 }
 external_nodata=["O'NDE","FORA","THRASH","E-ZOO","MASTER ZOO","ROST"]
@@ -86,7 +86,7 @@ am_map={}
 for n in ["KOPIYKA","PYVNA BORODA","WINETIME","SANTIM","MAXBEER","SPRAGA","O'NDE","SPAR",
           "BRSM","FLOWERS UA","ATB","FORA","HOP HEY","BEER MARKET","LOKO",
           "CAFE RYNOK","BEERLAND","TAISTRA","RUKAVYCHKA"]: am_map[n]=BRYN
-for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI"]: am_map[n]=SKAL
+for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM"]: am_map[n]=SKAL
 for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA"]: am_map[n]=BER
 MANAGED_GROUP_AM={}
 for disp,keys in resolver.items():
@@ -193,8 +193,30 @@ for am in [BRYN,SKAL,BER]:
         "orders":round(sum(p["orders"] for p in ind)),"comm":round(sum(p["comm"] for p in ind)),
         "cp_l1":round(sum(p["cp_l1"] for p in ind))})
 
+# ---------------- churn (location-level): active Jan-Feb -> lost by Apr-May ----------------
+managed_live_groups=set()
+for keys in resolver.values():
+    for k in keys: managed_live_groups.add(k)
+def cstats(rows):
+    cohort=[r for r in rows if (r.get("m01") or r.get("m02"))]
+    churned=[r for r in cohort if not (r.get("m04") or r.get("m05"))]
+    n=len(cohort)
+    return {"cohort":n,"churned":len(churned),"pct":round(len(churned)/n*100,1) if n else 0}
+ch=C.get("churn",[])
+for r in ch: r["_seg"]=norm_seg(r.get("seg")); r["_man"]=str(r.get("grp")) in managed_live_groups
+churn={"overall":cstats(ch),
+       "managed":cstats([r for r in ch if r["_man"]]),
+       "unmanaged":cstats([r for r in ch if not r["_man"]]),
+       "by_segment":[],"by_seg_mgmt":[]}
+for s in ["Enterprise","Mid-market","SMB"]:
+    rows=[r for r in ch if r["_seg"]==s]
+    st=cstats(rows); st["seg"]=s; churn["by_segment"].append(st)
+    m=cstats([r for r in rows if r["_man"]]); u=cstats([r for r in rows if not r["_man"]])
+    churn["by_seg_mgmt"].append({"seg":s,"man_pct":m["pct"],"man_n":m["cohort"],
+                                 "unm_pct":u["pct"],"unm_n":u["cohort"]})
+
 out={"totals":T,"seg_overview":seg_overview,"partners":partners,"managed_totals":managed_totals,
-     "team":team,"full":full,"months":MONTHS,"data_start":C["start"],"data_end":C["end"]}
+     "team":team,"full":full,"months":MONTHS,"data_start":C["start"],"data_end":C["end"],"churn":churn}
 json.dump(out,open(os.path.join(HERE,"data.json"),"w"),ensure_ascii=False,indent=1)
 
 print("TOTALS",{k:T[k] for k in ['partners','active_partners','stores','gmv','comm','comm_pct','cp_l1','cp_pct','unassigned_partners','unassigned_stores']})
