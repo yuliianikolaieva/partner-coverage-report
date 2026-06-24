@@ -78,15 +78,15 @@ resolver={
  "SPRAGA":["SPRAGA"],"MAXBEER":["MAXBEER"],"FLOWERS UA":["FLOWERS"],
  "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
  "REMESLO BREWERY":["REMESLO BREWERY"],"TOCHKA":["TOCHKA"],"FLOWER SHOP":["FLOWER SHOP"],
- "LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],
+ "LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],"ANRI":["ANRI-PHARM"],
  "ATB":["ATB CHERKASY","ATB KYIV"],
 }
-external_nodata=["O'NDE","FORA","ANRI","THRASH","E-ZOO","MASTER ZOO","ROST"]
+external_nodata=["O'NDE","FORA","THRASH","E-ZOO","MASTER ZOO","ROST"]
 am_map={}
 for n in ["KOPIYKA","PYVNA BORODA","WINETIME","SANTIM","MAXBEER","SPRAGA","O'NDE","SPAR",
-          "BRSM","FLOWERS UA","ATB","FORA","ANRI","HOP HEY","BEER MARKET","LOKO",
+          "BRSM","FLOWERS UA","ATB","FORA","HOP HEY","BEER MARKET","LOKO",
           "CAFE RYNOK","BEERLAND","TAISTRA","RUKAVYCHKA"]: am_map[n]=BRYN
-for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO"]: am_map[n]=SKAL
+for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI"]: am_map[n]=SKAL
 for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA"]: am_map[n]=BER
 MANAGED_GROUP_AM={}
 for disp,keys in resolver.items():
@@ -98,7 +98,7 @@ def partner_record(k,mt,dim,gmv_m,loc_m):
     di=dim.get(k,{"stores":0,"active":0,"seg":"Missing Segment","am":None,"cities":0})
     gmv=d["gmv"]; comm=d["commission"]
     return {"name":k,"seg":di["seg"],"stores":di["stores"],"active":di["active"],
-        "am":MANAGED_GROUP_AM.get(k) or di["am"],
+        "am_managed":MANAGED_GROUP_AM.get(k),"am_data":di["am"],
         "gmv":round(gmv),"orders":int(d["orders"]),"comm":round(comm),
         "comm_pct":pctof(comm,gmv),
         "eater_fees":round(d["eater_fees"]),"camp_bolt":round(d["camp_bolt"]),
@@ -122,19 +122,20 @@ T={"partners":len(full),
    "camp_merch":sumf(full,"camp_merch"),"cp_l1":sumf(full,"cp_l1")}
 T["comm_pct"]=round(T["comm"]/T["gmv"]*100,1)
 T["cp_pct"]=round(T["cp_l1"]/T["gmv"]*100,1)
-# unassigned (no AM at all)
-unassigned=[p for p in full if not p["am"]]
+# unassigned = neither in our 3-AM managed book nor any system AM
+unassigned=[p for p in full if not p["am_managed"] and not p["am_data"]]
 T["unassigned_partners"]=len(unassigned)
 T["unassigned_stores"]=sumf(unassigned,"stores")
 T["unassigned_gmv"]=sumf(unassigned,"gmv")
-T["am_count"]=len({p["am"] for p in full if p["am"]})
+T["am_count"]=len({p["am_data"] for p in full if p["am_data"]})
 
 # ---------------- segment overview ----------------
 SEGS=["Enterprise","Mid-market","SMB","Missing Segment"]
 seg_overview=[]
 for s in SEGS:
     g=[p for p in full if p["seg"]==s]
-    np_=len(g); gmv=sumf(g,"gmv"); comm=sumf(g,"comm")
+    ga=[p for p in g if p["gmv"]>0]            # active partners only
+    np_=len(ga); gmv=sumf(g,"gmv"); comm=sumf(g,"comm")
     seg_overview.append({"seg":s,"partners":np_,"stores":sumf(g,"stores"),
         "active":sumf(g,"active"),"gmv":gmv,"orders":sumf(g,"orders"),"comm":comm,
         "cp_l1":sumf(g,"cp_l1"),
@@ -146,11 +147,13 @@ def merge_groups(dispname,keys):
     d={c:0.0 for c in NUMCOLS}; gmv_m={m:0.0 for m in MONTHS}; loc_m={m:0.0 for m in MONTHS}
     stores=active=cities=0; segs=[]
     for k in keys:
-        dd=MM.get(k)
+        dd=MM.get(k); gsrc,lsrc=(MGMV,MLOC)
+        if not dd: dd=UM.get(k); gsrc,lsrc=(UGMV,ULOC)  # fall back to store universe
         if dd:
             for c in NUMCOLS: d[c]+=dd[c]
-            for m in MONTHS: gmv_m[m]+=MGMV[k][m]; loc_m[m]+=MLOC[k][m]
-        di=MD.get(k)
+            if k in gsrc:
+                for m in MONTHS: gmv_m[m]+=gsrc[k][m]; loc_m[m]+=lsrc[k][m]
+        di=MD.get(k) or UD.get(k)
         if di:
             stores+=di["stores"]; active+=di["active"]; cities+=di["cities"]; segs.append((di["stores"],di["seg"]))
     seg=max(segs,key=lambda x:x[0])[1] if segs else "Missing Segment"

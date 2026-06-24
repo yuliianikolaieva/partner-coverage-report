@@ -50,10 +50,11 @@ def spark(series,color):
             f'<circle cx="{lx}" cy="{ly}" r="2" fill="{color}"/></svg>{badge}</span>')
 
 # ---- segment rows ----
+ACT=T['active_partners']
 seg_rows=""
 for s in SEG:
     seg_rows+=f"""<tr><td style="text-align:left"><span class="dot {seg_class[s['seg']]}"></span>{seg_label[s['seg']]}</td>
-    <td>{num(s['partners'])}</td><td class="muted">{pct(s['partners'],T['partners'])}</td>
+    <td>{num(s['partners'])}</td><td class="muted">{pct(s['partners'],ACT)}</td>
     <td>{num(s['stores'])}</td><td><b>{eur(s['gmv'])}</b></td><td class="muted">{pct(s['gmv'],T['gmv'])}</td>
     <td>{eur(s['gmv_per'])}</td><td>{eur(s['comm'])}</td><td>{s['comm_pct']}%</td>
     <td><b>{eur(s['comm_per'])}</b></td><td class="{cpcls(s['cp_l1'])}">{eur(s['cp_l1'])}</td></tr>"""
@@ -65,7 +66,7 @@ conc_rows=""
 for s in SEG:
     if s["seg"]=="Missing Segment": continue
     conc_rows+=f"""<div class="conc-row"><div class="conc-name"><span class="dot {seg_class[s['seg']]}"></span>{seg_label[s['seg']]}</div>
-    <div class="conc-bars"><div class="conc-line"><span class="conc-lab">Partners {pct(s['partners'],T['partners'])}</span><div class="bartrack">{barb(s['partners'],T['partners'],'c-part')}</div><span class="conc-val">{num(s['partners'])}</span></div>
+    <div class="conc-bars"><div class="conc-line"><span class="conc-lab">Partners {pct(s['partners'],T['active_partners'])}</span><div class="bartrack">{barb(s['partners'],T['active_partners'],'c-part')}</div><span class="conc-val">{num(s['partners'])}</span></div>
     <div class="conc-line"><span class="conc-lab">GMV {pct(s['gmv'],T['gmv'])}</span><div class="bartrack">{barb(s['gmv'],T['gmv'],'c-gmv')}</div><span class="conc-val">{eur(s['gmv'])}</span></div></div></div>"""
 
 # ---- managed table ----
@@ -96,7 +97,7 @@ for t in TEAM:
 
 # ---- full list collapsible (compact) ----
 def am_cell(p):
-    return p["am"] if p.get("am") else '<span class="noam">Not assigned</span>'
+    return p["am_managed"] if p.get("am_managed") else '<span class="muted">—</span>'
 def full_table(seg):
     rows=sorted([p for p in FULL if p["seg"]==seg],key=lambda x:-x["gmv"])
     sgmv=sum(r["gmv"] for r in rows); sst=sum(r["stores"] for r in rows)
@@ -192,8 +193,8 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <span class="pill">GMV (Jan–May 2026): {eur(T['gmv'])}</span><span class="pill">Generated {today}</span></div></header>
 
 <div class="callout warn"><h3>Executive summary (30 sec)</h3><ul>
-<li><b>Portfolio:</b> {num(T['partners'])} partners / {num(T['stores'])} locations / {eur(T['gmv'])} GMV over Jan–May 2026. Steep pyramid: <b>Enterprise + MM = {pct(ent['partners']+mm['partners'],T['partners'])} of partners but {pct(ent['gmv']+mm['gmv'],T['gmv'])} of GMV</b>.</li>
-<li><b>SMB is a long tail:</b> {num(smb['partners'])} partners ({pct(smb['partners'],T['partners'])}) generate just {pct(smb['gmv'],T['gmv'])} of GMV. Average SMB partner = <b>{eur(smb['gmv_per'])}</b> GMV vs {eur(ent['gmv_per'])} for Enterprise — a ~{ratio}× gap.</li>
+<li><b>Portfolio:</b> {num(T['partners'])} partners ({num(T['active_partners'])} active with GMV) / {num(T['stores'])} locations / {eur(T['gmv'])} GMV over Jan–May 2026. Steep pyramid: <b>Enterprise + MM = {pct(ent['partners']+mm['partners'],T['active_partners'])} of active partners but {pct(ent['gmv']+mm['gmv'],T['gmv'])} of GMV</b>.</li>
+<li><b>SMB is a long tail:</b> {num(smb['partners'])} active partners ({pct(smb['partners'],T['active_partners'])}) generate just {pct(smb['gmv'],T['gmv'])} of GMV. Average SMB partner = <b>{eur(smb['gmv_per'])}</b> GMV vs {eur(ent['gmv_per'])} for Enterprise — a ~{ratio}× gap.</li>
 <li><b>The team actively manages {MT['partners']} key partners with only {MT['managers']} account managers (AM)</b> — covering the large majority of portfolio GMV.</li>
 <li><b>Load is critically skewed:</b> one AM (M. Brynchak) carries {num(bryn['stores'])} locations and ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV. Meanwhile {num(T['unassigned_stores'])} locations across {num(T['unassigned_partners'])} partners have <b>no AM assigned</b>.</li>
 <li><b>Conclusion:</b> there is no capacity to onboard more managed partners. Every new SMB/MM partner consumes the same effort as Enterprise but returns a fraction of the value.</li></ul></div>
@@ -211,10 +212,10 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="kpi"><div class="n">{MT['managers']}</div><div class="l">Account managers</div></div></div></section>
 
 <section id="segments"><h2 class="section"><span class="bar"></span>2. Segmentation</h2>
-<p class="section-desc">Partners split into Enterprise, Mid-market (MM) and SMB. Turnover, commission (in € and % of GMV), commission per partner and Contribution Profit L1 (CP L1) per segment.</p>
+<p class="section-desc">Partners split into Enterprise, Mid-market (MM) and SMB. <b>Partner counts and all per-partner figures use only active partners</b> (those with GMV in Jan–May 2026). Turnover, commission (in € and % of GMV), commission per partner and Contribution Profit L1 (CP L1) per segment.</p>
 <div class="card"><div class="top">Portfolio by segment</div><div class="body tablewrap"><table>
 <thead><tr><th style="text-align:left">Segment</th><th>Partners</th><th>% part.</th><th>Loc.</th><th>GMV</th><th>% GMV</th><th>GMV / partner</th><th>Commission</th><th>Comm %</th><th>Comm / partner</th><th>CP L1</th></tr></thead>
-<tbody>{seg_rows}<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">Total</td><td>{num(T['partners'])}</td><td>100%</td><td>{num(T['stores'])}</td><td>{eur(T['gmv'])}</td><td>100%</td><td>{eur(round(T['gmv']/T['partners']))}</td><td>{eur(T['comm'])}</td><td>{T['comm_pct']}%</td><td>{eur(round(T['comm']/T['partners']))}</td><td class="{cpcls(T['cp_l1'])}">{eur(T['cp_l1'])}</td></tr></tbody></table></div></div>
+<tbody>{seg_rows}<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">Total (active)</td><td>{num(ACT)}</td><td>100%</td><td>{num(T['stores'])}</td><td>{eur(T['gmv'])}</td><td>100%</td><td>{eur(round(T['gmv']/ACT))}</td><td>{eur(T['comm'])}</td><td>{T['comm_pct']}%</td><td>{eur(round(T['comm']/ACT))}</td><td class="{cpcls(T['cp_l1'])}">{eur(T['cp_l1'])}</td></tr></tbody></table></div></div>
 <div class="card"><div class="top">Concentration: where partners are vs where the money is</div><div class="body" style="padding:6px 18px 14px"><div class="conc">{conc_rows}</div>
 <p class="note">Grey bar = share of partners, blue = share of GMV. Inverted pyramid: SMB has most partners but little turnover.</p></div></div></section>
 
@@ -227,11 +228,11 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="kpi crit"><div class="n">~{ratio}×</div><div class="l">Enterprise vs SMB GMV/partner</div></div></div>
 <div class="callout"><h3>How to read it</h3><ul>
 <li>For the same managing effort, an Enterprise partner delivers {eur(ent['gmv_per'])} of GMV; an SMB partner delivers only {eur(smb['gmv_per'])}.</li>
-<li>SMB is {pct(smb['partners'],T['partners'])} of partners but just {pct(smb['gmv'],T['gmv'])} of GMV. As a tail it can only be served at scale (self-serve / automation), not one-by-one by an AM.</li>
+<li>SMB is {pct(smb['partners'],T['active_partners'])} of active partners but just {pct(smb['gmv'],T['gmv'])} of GMV. As a tail it can only be served at scale (self-serve / automation), not one-by-one by an AM.</li>
 <li>Note on profitability: SMB runs a positive CP L1 ({eur(smb['cp_l1'])}) on high commission rates, while Enterprise/MM are intentionally subsidised (campaigns &amp; incentives) and run negative CP L1 to drive volume. So the constraint is not SMB profitability per euro — it is that each SMB partner is simply too small to justify hands-on management.</li></ul></div></section>
 
 <section id="coverage"><h2 class="section"><span class="bar"></span>4. What we cover today</h2>
-<p class="section-desc">The team manages {MT['partners']} key partners. {MT['in_data']} are live in Bolt UA store data; {MT['external']} large chains (FORA, ANRI, E-ZOO, master zoo, etc.) are future / planned partners not yet live on Bolt UA stores and are shown separately. Table includes commission (€ and %), CP L1, eater fees and campaign spend by Bolt and by merchant.</p>
+<p class="section-desc">The team manages {MT['partners']} key partners. {MT['in_data']} are live in Bolt UA store data; {MT['external']} large chains (FORA, E-ZOO, master zoo, etc.) are future / planned partners not yet live on Bolt UA stores and are shown separately. Table includes commission (€ and %), CP L1, eater fees and campaign spend by Bolt and by merchant.</p>
 <div class="grid kpis">
 <div class="kpi"><div class="n">{MT['partners']}</div><div class="l">Managed partners</div></div>
 <div class="kpi good"><div class="n">{eur(MT['gmv'])}</div><div class="l">GMV under management</div></div>
@@ -255,7 +256,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <p class="note">GMV/commission/CP are computed over managed partners present in the data; future chains will add load on top. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>
 
 <section id="fulllist"><h2 class="section"><span class="bar"></span>6. Full partner list</h2>
-<p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The last column before the trends shows the assigned account manager — or "Not assigned" where none. Trend columns are monthly Jan–May 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
+<p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–May 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
 {full_sections}
 <p class="note">Source: fact_order_delivery × dim_provider_v2 (Bolt UA, delivery_vertical = store). CP L1 = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. "—" = no delivered orders in the period.</p></section>
 
