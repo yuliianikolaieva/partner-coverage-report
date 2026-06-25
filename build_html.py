@@ -85,6 +85,7 @@ for p in P:
     <td>{eur(p['comm'])}</td><td>{pctv(p['comm_pct'])}</td>
     <td class="{cpcls(p['cp_l1'])}">{eur(p['cp_l1'])}</td>
     <td>{eur(p['eater_fees'])}</td><td>{eur(p['camp_bolt'])}</td><td>{eur(p['camp_merch'])}</td>
+    <td class="{('neg' if (p['camp_vs_comm'] is not None and p['camp_vs_comm']>=50) else '')}">{pctv(p['camp_vs_comm'])}</td>
     <td style="text-align:left;font-size:12px">{am}</td></tr>"""
 
 # ---- team table ----
@@ -276,14 +277,14 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <li>Note on profitability: SMB runs a positive CP L1 ({eur(smb['cp_l1'])}) on high commission rates, while Enterprise/MM are intentionally subsidised (campaigns &amp; incentives) and run negative CP L1 to drive volume. So the constraint is not SMB profitability per euro — it is that each SMB partner is simply too small to justify hands-on management.</li></ul></div></section>
 
 <section id="coverage"><h2 class="section"><span class="bar"></span>4. What we cover today</h2>
-<p class="section-desc">The team manages {MT['partners']} key partners. {MT['in_data']} are live in Bolt UA store data; {MT['external']} large chains (FORA, E-ZOO, master zoo, etc.) are future / planned partners not yet live on Bolt UA stores and are shown separately. Table includes commission (€ and %), CP L1, eater fees and campaign spend by Bolt and by merchant.</p>
+<p class="section-desc">The team manages {MT['partners']} key partners. {MT['in_data']} are live in Bolt UA store data; {MT['external']} large chains (FORA, E-ZOO, master zoo, etc.) are future / planned partners not yet live on Bolt UA stores and are shown separately. Table includes commission (€ and %), CP L1, eater fees, campaign spend by Bolt and by merchant, and <b>Bolt campaign spend as a share of the commission we earn</b> (our cost vs our revenue).</p>
 <div class="grid kpis">
 <div class="kpi"><div class="n">{MT['partners']}</div><div class="l">Managed partners</div></div>
 <div class="kpi good"><div class="n">{eur(MT['gmv'])}</div><div class="l">GMV under management</div></div>
 <div class="kpi"><div class="n">{eur(MT['comm'])}</div><div class="l">Commission under management</div></div>
 <div class="kpi crit"><div class="n">{MT['managers']}</div><div class="l">AMs covering all of it</div></div></div>
 <div class="card"><div class="top">Managed partners ({len(P)}) — by GMV</div><div class="body tablewrap"><table>
-<thead><tr><th style="text-align:left">Partner</th><th>Seg</th><th>Loc.</th><th style="text-align:left">GMV</th><th>Comm €</th><th>Comm %</th><th>CP L1</th><th>Eater fees</th><th>Camp Bolt</th><th>Camp Merch</th><th style="text-align:left">Account manager</th></tr></thead>
+<thead><tr><th style="text-align:left">Partner</th><th>Seg</th><th>Loc.</th><th style="text-align:left">GMV</th><th>Comm €</th><th>Comm %</th><th>CP L1</th><th>Eater fees</th><th>Camp Bolt</th><th>Camp Merch</th><th>Camp Bolt / Comm</th><th style="text-align:left">Account manager</th></tr></thead>
 <tbody>{part_rows}</tbody></table></div></div>
 <p class="note">"Future" = planned key-account chains not yet live on Bolt UA stores (no GMV in the period). GMV/CP are Jan–May 2026, delivered orders.</p></section>
 

@@ -165,6 +165,7 @@ def merge_groups(dispname,keys):
         "eater_fees":round(d["eater_fees"]),"camp_bolt":round(d["camp_bolt"]),
         "camp_merch":round(d["camp_merch"]),"cp_l1":round(cp_l1(d)),
         "cp_pct":round(cp_l1(d)/gmv*100,1) if gmv>0 else None,
+        "camp_vs_comm":round(d["camp_bolt"]/comm*100,1) if comm>0 else None,
         "am":am_map.get(dispname,"—"),
         "gmv_trend":[round(gmv_m[m]) for m in MONTHS] if gmv>0 else None,
         "loc_trend":[round(loc_m[m]) for m in MONTHS] if gmv>0 else None,
@@ -174,7 +175,7 @@ partners=[merge_groups(n,ks) for n,ks in resolver.items()]
 for e in external_nodata:
     partners.append({"name":("РОСТ" if e=="ROST" else e),"seg":"Enterprise","stores":None,"active":None,
         "gmv":None,"orders":None,"comm":None,"comm_pct":None,"eater_fees":None,
-        "camp_bolt":None,"camp_merch":None,"cp_l1":None,"cp_pct":None,
+        "camp_bolt":None,"camp_merch":None,"cp_l1":None,"cp_pct":None,"camp_vs_comm":None,
         "am":am_map.get(e,SKAL),"gmv_trend":None,"loc_trend":None,"external":True})
 partners=sorted(partners,key=lambda x:(x["gmv"] is None,-(x["gmv"] or 0)))
 
