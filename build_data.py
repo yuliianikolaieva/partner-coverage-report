@@ -249,8 +249,77 @@ for s in ["Enterprise","Mid-market","SMB"]:
     churn["gmv_lost_by_segment"].append(gl)
 churn["gmv_lost"]["pct_of_gmv"]=round(churn["gmv_lost"]["total"]/T["gmv"]*100,1) if T["gmv"] else 0
 
+# ---------------- SMB onboarding / forecast / ROI ----------------
+import statistics as _st
+from collections import defaultdict as _dd
+tm=C.get("trend_monthly",[]); fs=C.get("first_seen",[])
+WIN=[f"2025-{m:02d}" for m in range(6,13)]+[f"2026-{m:02d}" for m in range(1,6)]  # trailing 12m
+smb_tm=sorted([r for r in tm if norm_seg(r["seg"])=="SMB" and r["period"] in WIN],key=lambda r:r["period"])
+smb_gmv_avg=_st.mean(r["gmv"] for r in smb_tm)
+smb_gmv_annual=round(smb_gmv_avg*12)
+smb_part_avg=_st.mean(r["partners"] for r in smb_tm)
+smb_part_now=smb_tm[-1]["partners"]; smb_loc_now=smb_tm[-1]["locations"]
+net_part_yr=smb_part_now-smb_tm[0]["partners"]; net_loc_yr=smb_loc_now-smb_tm[0]["locations"]
+gmv_growth_yr=round(smb_tm[-1]["gmv"]/smb_tm[0]["gmv"]-1,3)
+gmv_per_part_yr=round(smb_gmv_annual/smb_part_avg)
+# gross onboarding (first order in window)
+grp_first=_dd(lambda:"9999"); grp_seg={}
+for r in fs:
+    g=str(r["grp"]); grp_seg[g]=norm_seg(r["seg"])
+    if r["first_m"] and r["first_m"]<grp_first[g]: grp_first[g]=r["first_m"]
+onb_loc_yr=sum(1 for r in fs if norm_seg(r["seg"])=="SMB" and r["first_m"] in WIN)
+onb_part_yr=sum(1 for g,fm in grp_first.items() if grp_seg.get(g)=="SMB" and fm in WIN)
+leak_part=onb_part_yr-net_part_yr
+leak_pct=round(leak_part/onb_part_yr*100) if onb_part_yr else 0
+
+# assumptions (clearly exposed)
+AGENT_COST_MO=1000
+CH_UNM=next(x["unm_pct"] for x in churn["by_seg_mgmt"] if x["seg"]=="SMB")/100   # SMB no-AM churn
+CH_TARGET=0.05                                                                   # target churn with outsourced coverage
+AGENT_CAP=120                                                                    # SMB partners per outsource agent
+RAMP=0.5                                                                         # first-year realization of steady-state GMV
+smb_comm_rate=next(s["comm_pct"] for s in seg_overview if s["seg"]=="SMB")/100
+# forecast — status quo (continue observed trajectory)
+sq_part=smb_part_now+net_part_yr; sq_loc=smb_loc_now+net_loc_yr
+sq_gmv_annual=round(smb_gmv_annual*(1+gmv_growth_yr))
+# forecast — outsourced (retain onboarding, churn ~5%)
+net_part_out=onb_part_yr-round(CH_TARGET*smb_part_now)
+out_part=smb_part_now+net_part_out
+out_loc=smb_loc_now+round(onb_loc_yr*(1-CH_TARGET))
+extra_part=out_part-sq_part
+incr_gmv_steady=round(extra_part*gmv_per_part_yr)
+incr_gmv_y1=round(incr_gmv_steady*RAMP)
+out_gmv_annual=sq_gmv_annual+incr_gmv_y1
+# ROI
+agents=max(1,round(out_part/AGENT_CAP))
+cost_yr=agents*AGENT_COST_MO*12
+churn_saved_gmv=round((CH_UNM-CH_TARGET)*smb_gmv_annual)
+benefit_gmv=churn_saved_gmv+incr_gmv_y1
+benefit_comm=round(benefit_gmv*smb_comm_rate)
+roi_pct=round((benefit_comm-cost_yr)/cost_yr*100)
+payback_mo=round(cost_yr/(benefit_comm/12),1) if benefit_comm else None
+
+smb={
+ "losses":{"loc":churn["overall"]["churned"],"part":churn["p_overall"]["churned"],
+           "gmv":churn["gmv_lost"]["total"],"runrate":churn["gmv_lost"]["runrate"],
+           "annualized":round(churn["gmv_lost"]["runrate"]*12)},
+ "now":{"part":smb_part_now,"loc":smb_loc_now,"gmv_annual":smb_gmv_annual,
+        "gmv_per_part_yr":gmv_per_part_yr,"comm_rate":round(smb_comm_rate*100,1)},
+ "onboard":{"part_yr":onb_part_yr,"loc_yr":onb_loc_yr,"net_part_yr":net_part_yr,
+            "net_loc_yr":net_loc_yr,"leak_part":leak_part,"leak_pct":leak_pct,
+            "gmv_growth_yr":round(gmv_growth_yr*100)},
+ "forecast":{"sq_part":sq_part,"sq_loc":sq_loc,"sq_gmv":sq_gmv_annual,
+             "out_part":out_part,"out_loc":out_loc,"out_gmv":out_gmv_annual,
+             "extra_part":extra_part,"incr_gmv_y1":incr_gmv_y1},
+ "roi":{"agents":agents,"agent_cost_mo":AGENT_COST_MO,"cost_yr":cost_yr,
+        "ch_unm":round(CH_UNM*100,1),"ch_target":round(CH_TARGET*100,1),"agent_cap":AGENT_CAP,
+        "churn_saved_gmv":churn_saved_gmv,"incr_gmv_y1":incr_gmv_y1,"benefit_gmv":benefit_gmv,
+        "benefit_comm":benefit_comm,"roi_pct":roi_pct,"payback_mo":payback_mo,"ramp":int(RAMP*100)},
+}
+
 out={"totals":T,"seg_overview":seg_overview,"partners":partners,"managed_totals":managed_totals,
-     "team":team,"full":full,"months":MONTHS,"data_start":C["start"],"data_end":C["end"],"churn":churn}
+     "team":team,"full":full,"months":MONTHS,"data_start":C["start"],"data_end":C["end"],
+     "churn":churn,"smb":smb}
 json.dump(out,open(os.path.join(HERE,"data.json"),"w"),ensure_ascii=False,indent=1)
 
 print("TOTALS",{k:T[k] for k in ['partners','active_partners','stores','gmv','comm','comm_pct','cp_l1','cp_pct','unassigned_partners','unassigned_stores']})

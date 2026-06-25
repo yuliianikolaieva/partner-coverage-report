@@ -32,6 +32,7 @@ ratio=round(ent["gmv_per"]/smb["gmv_per"]) if smb["gmv_per"] else 0
 CH=D["churn"]
 churn_ratio=round(CH["unmanaged"]["pct"]/CH["managed"]["pct"],1) if CH["managed"]["pct"] else 0
 def chseg(s,key): return next((x for x in CH[key] if x["seg"]==s),None)
+S=D["smb"]; SL=S["losses"]; SN=S["now"]; SO=S["onboard"]; SF=S["forecast"]; SR=S["roi"]
 
 def cpcls(v): return "neg" if (v is not None and v<0) else "pos"
 
@@ -228,7 +229,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 </style></head><body>
 <nav class="topnav"><div class="inner"><span class="brand">PARTNER PORTFOLIO</span>
 <a href="#overview">Overview</a><a href="#segments">Segments</a><a href="#economics">Economics</a>
-<a href="#coverage">Coverage</a><a href="#team">Team load</a><a href="#churn">Churn</a><a href="#fulllist">All partners</a><a href="#verdict">Conclusion</a></div></nav>
+<a href="#coverage">Coverage</a><a href="#team">Team load</a><a href="#churn">Churn</a><a href="#outsource">SMB → Cognizant</a><a href="#fulllist">All partners</a><a href="#verdict">Conclusion</a></div></nav>
 <div class="wrap">
 <header class="hero"><span class="tag">Internal analysis · for management</span>
 <h1>Partner Portfolio — Coverage &amp; Segmentation</h1>
@@ -346,12 +347,65 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 </ul>
 <p class="note">Example — Enterprise: 532 active in Jan–Feb; 14 churned → 2.6%. Of those, 521 are managed (12 churned → 2.3%) and 11 have no AM (2 churned → 18.2%); 12 + 2 = 14.</p></div></section>
 
-<section id="fulllist"><h2 class="section"><span class="bar"></span>7. Full partner list</h2>
+<section id="outsource"><h2 class="section"><span class="bar"></span>7. SMB → outsource to Cognizant: the case, forecast &amp; ROI</h2>
+<p class="section-desc">The SMB tail is too large and too low-value to manage with in-house AMs, yet it churns badly without help. Outsourcing it to Cognizant (at €{SR['agent_cost_mo']:,}/agent/month) covers the tail cheaply, stops the leakage, and frees the {MT['managers']} in-house AMs for high-value Enterprise/MM.</p>
+
+<div class="callout"><h3>Why SMB should be outsourced to Cognizant</h3><ul>
+<li><b>1. Volume the in-house team can't reach.</b> {num(smb['partners'])} active SMB partners and ~{SO['part_yr']} new SMB partners onboarded per year — while {MT['managers']} AMs are already maxed on Enterprise/MM. The SMB tail is structurally unmanageable in-house.</li>
+<li><b>2. It leaks without coverage.</b> Of ~{SO['part_yr']} SMB partners onboarded in the last 12 months, only <b>+{SO['net_part_yr']} stuck</b> — about <b>{SO['leak_pct']}% leaked away</b>. SMB locations with no AM churn {SR['ch_unm']}% vs {chseg('SMB','by_seg_mgmt')['man_pct']}% when managed.</li>
+<li><b>3. The unit economics only work outsourced.</b> An SMB partner is worth ~{eur(SN['gmv_per_part_yr'])} GMV/year — far too little to justify a full in-house AM, but easily profitable for a €{SR['agent_cost_mo']:,}/month agent covering ~{SR['agent_cap']} partners.</li>
+<li><b>4. SMB is profitable at contribution level</b> ({SN['comm_rate']}% commission, positive CP L1) — it is worth keeping, just not at in-house cost.</li>
+<li><b>5. It frees our 3 AMs for the real growth.</b> Enterprise GMV is scaling fast (≈4× in 12 months); every hour spent on a €{SN['gmv_per_part_yr']:,}-a-year SMB partner is an hour not spent there.</li>
+<li><b>6. SMB management is standardised &amp; repeatable</b> (onboarding, menu/photo coverage, availability, promo nudges, basic QBRs) — an ideal playbook to hand to an outsourcing partner.</li>
+</ul></div>
+
+<h3 style="margin:26px 0 0;font-size:15px">What we lost in 2026 (churn)</h3>
+<div class="grid kpis">
+<div class="kpi crit"><div class="n">{SL['part']}</div><div class="l">Partners lost (fully churned)</div></div>
+<div class="kpi crit"><div class="n">{SL['loc']}</div><div class="l">Locations lost</div></div>
+<div class="kpi high"><div class="n">{eur(SL['gmv'])}</div><div class="l">GMV lost (Jan–May)</div></div>
+<div class="kpi high"><div class="n">{eur(SL['annualized'])}</div><div class="l">Annualised lost run-rate</div></div></div>
+<p class="note">Lost = active early 2026 then went silent. Run-rate annualised = monthly GMV of churned locations × 12 — the recurring revenue we keep bleeding if nothing changes.</p>
+
+<h3 style="margin:26px 0 0;font-size:15px">The onboarding leak — why volume doesn't convert</h3>
+<div class="grid kpis">
+<div class="kpi"><div class="n">{SO['part_yr']}</div><div class="l">SMB partners onboarded (12m)</div></div>
+<div class="kpi crit"><div class="n">+{SO['net_part_yr']}</div><div class="l">Net partners actually kept</div></div>
+<div class="kpi crit"><div class="n">{SO['leak_pct']}%</div><div class="l">Onboarding leaked / churned</div></div>
+<div class="kpi"><div class="n">+{SO['gmv_growth_yr']}%</div><div class="l">SMB GMV growth (12m, despite churn)</div></div></div>
+<p class="note">We onboard a lot of SMB but most falls off without anyone to keep it alive — so GMV treads water. Coverage converts that wasted onboarding into a growing book.</p>
+
+<h3 style="margin:26px 0 0;font-size:15px">12-month forecast — keep onboarding SMB: with vs without coverage</h3>
+<div class="card"><div class="top">Projection (next 12 months, continuing the current onboarding pace)</div><div class="body tablewrap"><table>
+<thead><tr><th style="text-align:left">Metric</th><th>Status quo (no coverage)</th><th>With Cognizant (outsourced)</th><th>Delta</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Net new SMB partners (12m)</td><td>+{SO['net_part_yr']}</td><td>+{SF['out_part']-SN['part']}</td><td class="pos">+{SF['extra_part']}</td></tr>
+<tr><td style="text-align:left">SMB partners (end of period)</td><td>{num(SF['sq_part'])}</td><td>{num(SF['out_part'])}</td><td class="pos">+{num(SF['out_part']-SF['sq_part'])}</td></tr>
+<tr><td style="text-align:left">SMB locations (end of period)</td><td>{num(SF['sq_loc'])}</td><td>{num(SF['out_loc'])}</td><td class="pos">+{num(SF['out_loc']-SF['sq_loc'])}</td></tr>
+<tr style="font-weight:800"><td style="text-align:left">SMB GMV (annual run-rate)</td><td>{eur(SF['sq_gmv'])}</td><td>{eur(SF['out_gmv'])}</td><td class="pos">+{eur(SF['incr_gmv_y1'])}</td></tr>
+</tbody></table></div></div>
+<p class="note">Status quo extrapolates the observed last-12-month trajectory (heavy onboarding, ~{SO['leak_pct']}% leakage → GMV roughly flat). "With Cognizant" assumes churn falls to {SR['ch_target']}% (the level we already see on managed SMB), so onboarding is retained instead of leaking; first-year GMV uplift discounted to {SR['ramp']}% for ramp-up.</p>
+
+<h3 style="margin:26px 0 0;font-size:15px">ROI of outsourcing SMB to Cognizant</h3>
+<div class="grid kpis">
+<div class="kpi"><div class="n">{eur(SR['cost_yr'])}</div><div class="l">Annual cost ({SR['agents']} agents × €{SR['agent_cost_mo']:,}/mo)</div></div>
+<div class="kpi good"><div class="n">{eur(SR['benefit_comm'])}</div><div class="l">Annual benefit (Bolt commission)</div></div>
+<div class="kpi good"><div class="n">{SR['roi_pct']}%</div><div class="l">ROI (year 1)</div></div>
+<div class="kpi"><div class="n">{SR['payback_mo']} mo</div><div class="l">Payback period</div></div></div>
+<div class="callout"><h3>ROI model &amp; assumptions</h3><ul>
+<li><b>Cost:</b> {SR['agents']} outsourced agents × €{SR['agent_cost_mo']:,}/month = <b>{eur(SR['cost_yr'])}/year</b> (capacity assumed at ~{SR['agent_cap']} SMB partners per agent → covers the projected {num(SF['out_part'])}-partner book).</li>
+<li><b>Benefit (GMV protected + gained):</b> churn cut from {SR['ch_unm']}% to {SR['ch_target']}% saves <b>{eur(SR['churn_saved_gmv'])}</b> of SMB GMV/year; retained onboarding adds <b>{eur(SR['incr_gmv_y1'])}</b> (year 1) → <b>{eur(SR['benefit_gmv'])}</b> incremental GMV.</li>
+<li><b>To Bolt revenue:</b> at the SMB commission rate of {SN['comm_rate']}%, that is <b>{eur(SR['benefit_comm'])}</b> of commission/year vs {eur(SR['cost_yr'])} cost → <b>ROI ≈ {SR['roi_pct']}%</b>, payback ≈ {SR['payback_mo']} months.</li>
+<li><b>Not even counted:</b> freeing the {MT['managers']} in-house AMs for Enterprise/MM (where GMV is growing ~4×) is worth far more than the outsourcing cost — that is the real upside.</li>
+<li><b>Conservative floor:</b> even on churn-savings alone ({eur(SR['churn_saved_gmv'])} GMV → ~{eur(round(SR['churn_saved_gmv']*SN['comm_rate']/100))} commission), a single €{SR['agent_cost_mo']*12:,}/yr agent already pays back.</li>
+</ul></div></section>
+
+<section id="fulllist"><h2 class="section"><span class="bar"></span>8. Full partner list</h2>
 <p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–May 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
 {full_sections}
 <p class="note">Source: fact_order_delivery × dim_provider_v2 (Bolt UA, delivery_vertical = store). CP L1 = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. "—" = no delivered orders in the period.</p></section>
 
-<section id="verdict"><h2 class="section"><span class="bar"></span>8. Conclusion: why there is no capacity for new partners</h2>
+<section id="verdict"><h2 class="section"><span class="bar"></span>9. Conclusion: why there is no capacity for new partners</h2>
 <div class="callout warn"><h3>Argument</h3><ul>
 <li><b>1. Only {MT['managers']} AMs for the whole key portfolio.</b> They already cover {num(MT['stores'])} locations ({MT['in_data']} live partners + {MT['external']} future chains). The team is physically at its limit.</li>
 <li><b>2. Concentration risk.</b> One AM (M. Brynchak) holds ~{pct(bryn['gmv'],T['gmv'])} of GMV and {num(bryn['stores'])} locations. Adding partners without adding people deepens the imbalance.</li>
@@ -364,7 +418,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <li>First cover (or move to self-serve) the {num(T['unassigned_stores'])} locations that currently have no AM.</li>
 <li>Rebalance the book to remove the ~{pct(bryn['gmv'],T['gmv'])} GMV single-AM concentration risk.</li>
 <li>Onboard new partners only selectively in Enterprise / high-MM above segment-average GMV.</li>
-<li>Serve the SMB tail through automated / group processes, not individual management.</li></ul></div></section>
+<li><b>Outsource the SMB tail to Cognizant</b> (~€{SR['agent_cost_mo']:,}/agent/month): it stops the {SO['leak_pct']}% onboarding leak, cuts churn from {SR['ch_unm']}% to ~{SR['ch_target']}%, and pays back in ~{SR['payback_mo']} months (ROI ≈ {SR['roi_pct']}%) — while freeing the {MT['managers']} in-house AMs for Enterprise/MM.</li></ul></div></section>
 
 <div class="foot">Source: Databricks — hive_metastore.ng_delivery_spark.fact_order_delivery joined to dim_provider_v2 (Bolt UA, store vertical), delivered orders, {D['data_start']} → {D['data_end']}. Partner = group_name, location = provider. GMV before discounts, EUR. Managed-partner figures include cross-vertical group activity where applicable. Generated {today}.</div>
 </div></body></html>"""
