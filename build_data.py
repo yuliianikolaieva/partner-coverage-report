@@ -5,9 +5,22 @@ from collections import defaultdict
 HERE=os.path.dirname(os.path.abspath(__file__))
 C=json.load(open(os.path.join(HERE,"dbx_cache.json"),encoding="utf-8"))
 MONTHS=["2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"]
-SEG_OVERRIDE={"WINETIME":"Mid-market","FLOWERS":"Enterprise","LEPRUKON":"Enterprise",
-              "ATB CHERKASY":"Enterprise","ATB KYIV":"Enterprise",
-              "BEERLAND":"Enterprise","BEERLAND K":"Enterprise"}  # manual segment corrections by group_name
+# merge/rename fragmented DB groups into one canonical partner
+GROUP_MERGE={
+ "ATB KYIV":"ATB","ATB CHERKASY":"ATB",
+ "WINETIME GROUP":"WINETIME","BEER MARKET GROUP":"BEER MARKET",
+ "KOPIYKA":"KOPIYKA GROUP","KOPIYKA MINI":"KOPIYKA GROUP","SANTIM":"KOPIYKA GROUP",
+ "FLOWERS":"FLOWERS UA",
+}
+def canon(g):
+    return GROUP_MERGE.get(str(g),str(g))
+for _key in ("monthly","dim","man_monthly","man_dim","churn","first_seen"):
+    for _r in C.get(_key,[]):
+        if "grp" in _r: _r["grp"]=canon(_r["grp"])
+NAME_MEMBERS={"KOPIYKA GROUP":"Kopiyka, Kopiyka Mini, Santim","BEERLAND":"Beerland, Beerland K"}
+SEG_OVERRIDE={"WINETIME":"Mid-market","FLOWERS UA":"Enterprise","LEPRUKON":"Enterprise",
+              "ATB":"Enterprise","KOPIYKA GROUP":"Enterprise",
+              "BEERLAND":"Enterprise","BEERLAND K":"Enterprise"}  # manual segment corrections by canonical group
 NUMCOLS=["orders","locations","gmv","commission","eater_fees","camp_bolt","camp_merch",
          "delivery_rev","courier_cost","refunds","demand_incentives","supply_incentives"]
 
@@ -75,8 +88,8 @@ resolver={
  "LEPRUKON":["LEPRUKON"],"DIMPYVA":["DIMPYVA"],"CHILL TIME":["CHILL TIME"],
  "RODYNNA KOVBASKA":["RODYNNA KOVBASKA"],"NO TABOO":["NO TABOO"],
  "VAPE SHOP KYIV":["VAPE SHOP KYIV"],"VAPORS":["VAPORS"],"HOP HEY":["HOP HEY"],
- "BEER MARKET":["BEER MARKET"],"KOPIYKA":["KOPIYKA"],"LOKO":["LOKO"],
- "PYVNA BORODA":["PYVNA BORODA"],"SANTIM":["SANTIM"],"BRSM":["BRSM"],
+ "BEER MARKET":["BEER MARKET"],"KOPIYKA GROUP":["KOPIYKA GROUP"],"LOKO":["LOKO"],
+ "PYVNA BORODA":["PYVNA BORODA"],"BRSM":["BRSM"],
  "CAFE RYNOK":["CAFE RYNOK"],"BEERLAND":["BEERLAND"],"WINETIME":["WINETIME"],
  "SPRAGA":["SPRAGA"],"MAXBEER":["MAXBEER"],"FLOWERS UA":["FLOWERS"],
  "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
@@ -90,7 +103,7 @@ resolver={
 external_nodata=["THRASH","E-ZOO","MASTER ZOO","ROST","BYLE TA SYKHE","FORA","ANC","AUCHAN","BLYZENKO",
                  "ATB","FLOWERS UA","FLOWER SHOP","GOOD BEER VIN"]
 am_map={}
-for n in ["KOPIYKA","WINETIME","SANTIM","SPAR",
+for n in ["KOPIYKA GROUP","WINETIME","SPAR",
           "BRSM","FLOWERS UA","ATB","HOP HEY","BEER MARKET","LOKO",
           "CAFE RYNOK","BEERLAND","BEERLAND K","TAISTRA"]: am_map[n]=BRYN
 for n in ["REMESLO BREWERY","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM","RUKAVYCHKA","BYLE TA SYKHE","PYVNA BORODA","LIKI 24","FORA","ANC","AUCHAN","BLYZENKO"]: am_map[n]=SKAL
@@ -195,8 +208,7 @@ managed_totals={"partners":len(partners),"in_data":len(mp),
     "cp_l1":round(sum(p["cp_l1"] for p in mp))}
 
 # display groupings inside each AM's partner list
-GROUPINGS=[("KOPIYKA GROUP",["KOPIYKA","SANTIM"],"KOPIYKA, KOPIYKA MINI, SANTIM"),
-           ("BEERLAND",["BEERLAND","BEERLAND K"],"BEERLAND, BEERLAND K")]
+GROUPINGS=[("BEERLAND",["BEERLAND","BEERLAND K"],"BEERLAND, BEERLAND K")]
 def _sumf(items,k): return round(sum(p[k] for p in items if p.get(k) is not None))
 def build_items(plist):
     used=set(); items=[]
@@ -216,7 +228,7 @@ def build_items(plist):
             "external":len(ind)==0})
     for p in plist:
         if p["name"] in used: continue
-        items.append({"name":p["name"],"members":None,"seg":p["seg"],"stores":p["stores"],
+        items.append({"name":p["name"],"members":NAME_MEMBERS.get(p["name"]),"seg":p["seg"],"stores":p["stores"],
             "gmv":p["gmv"],"comm":p["comm"],"comm_pct":p["comm_pct"],"cp_l1":p["cp_l1"],
             "orders":p["orders"],"camp_bolt":p["camp_bolt"],"camp_vs_comm":p.get("camp_vs_comm"),
             "external":p["external"]})
