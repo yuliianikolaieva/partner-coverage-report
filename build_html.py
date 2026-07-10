@@ -119,7 +119,8 @@ for t in TEAM:
 def am_cell(p):
     return p["am_managed"] if p.get("am_managed") else '<span class="muted">—</span>'
 def full_table(seg):
-    rows=sorted([p for p in FULL if p["seg"]==seg],key=lambda x:-x["gmv"])
+    rows=sorted([p for p in FULL if p["seg"]==seg and (p["gmv"] or 0)>0],key=lambda x:-x["gmv"])
+    if not rows: return ""
     sgmv=sum(r["gmv"] for r in rows); sst=sum(r["stores"] for r in rows)
     body=""
     for r in rows:
@@ -406,7 +407,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 </ul></div></section>
 
 <section id="fulllist"><h2 class="section"><span class="bar"></span>7. Full partner list</h2>
-<p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–Jun 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
+<p class="section-desc">All {num(T['active_partners'])} active partners (with GMV in Jan–Jun 2026) with full metrics, grouped by segment (click to expand). Partners with €0 GMV in the period (onboarding / inactive) are excluded here — they appear under Team load as "onboarding". The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–Jun 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
 {full_sections}
 <p class="note">Source: fact_order_delivery × dim_provider_v2 (Bolt UA, delivery_vertical = store). CP L1 = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. "—" = no delivered orders in the period.</p></section>
 
