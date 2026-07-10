@@ -93,16 +93,26 @@ for p in P:
     <td class="{('neg' if (p['camp_vs_comm'] is not None and p['camp_vs_comm']>=50) else '')}">{pctv(p['camp_vs_comm'])}</td>
     <td style="text-align:left;font-size:12px">{am}</td></tr>"""
 
-# ---- team table ----
-team_rows=""
-max_tg=max(t["gmv"] for t in TEAM) or 1
+# ---- team: expandable per-AM blocks ----
+def team_item_row(it):
+    mem=f' <span class="muted" style="font-size:11px">({it["members"]})</span>' if it.get("members") else ""
+    am_note=' <span class="ext">· future</span>' if it.get("external") else ""
+    seg=f'<span class="seg-pill {seg_class.get(it["seg"],"none")}">{seg_short.get(it["seg"],"—")}</span>'
+    return f"""<tr><td style="text-align:left"><b>{it['name']}</b>{mem}{am_note}</td>
+    <td>{seg}</td><td>{num(it['stores'])}</td><td style="text-align:left">{eur(it['gmv'])}</td>
+    <td>{gshare(it['gmv']) if it['gmv'] is not None else '—'}</td>
+    <td>{eur(it['comm'])}</td><td>{pctv(it['comm_pct'])}</td>
+    <td class="{cpcls(it['cp_l1'])}">{eur(it['cp_l1'])}</td>
+    <td class="{('neg' if (it.get('camp_vs_comm') is not None and it['camp_vs_comm']>=50) else '')}">{pctv(it.get('camp_vs_comm'))}</td></tr>"""
+team_blocks=""
 for t in TEAM:
     ext=f' <span class="muted">(+{t["external"]} future)</span>' if t["external"] else ""
-    team_rows+=f"""<tr><td style="text-align:left"><b>{t['am']}</b>{ext}</td>
-    <td>{t['partners']}</td><td style="text-align:left">{num(t['stores'])}</td>
-    <td style="text-align:left"><b>{eur(t['gmv'])}</b><div class="minibar"><div style="width:{t['gmv']/max_tg*100:.0f}%"></div></div></td>
-    <td class="muted">{pct(t['gmv'],T['gmv'])}</td><td>{num(t['orders'])}</td><td>{eur(t['comm'])}</td>
-    <td class="{cpcls(t['cp_l1'])}">{eur(t['cp_l1'])}</td></tr>"""
+    rows="".join(team_item_row(it) for it in t["items"])
+    team_blocks+=f"""<details class="seg-acc"><summary>
+      <b>{t['am']}</b>{ext}
+      <span class="am-metrics">{t['partners']} partners · {num(t['stores'])} loc · <b>{eur(t['gmv'])}</b> ({pct(t['gmv'],T['gmv'])} GMV) · comm {eur(t['comm'])} · CP <span class="{cpcls(t['cp_l1'])}">{eur(t['cp_l1'])}</span></span>
+      <span class="chev">▾</span></summary>
+      <div class="tablewrap"><table><thead><tr><th style="text-align:left">Partner / group</th><th>Seg</th><th>Loc.</th><th style="text-align:left">GMV</th><th>% GMV</th><th>Comm €</th><th>Comm %</th><th>CP L1</th><th>Camp Bolt / Comm</th></tr></thead><tbody>{rows}</tbody></table></div></details>"""
 
 # ---- full list collapsible (compact) ----
 def am_cell(p):
@@ -227,13 +237,15 @@ details.seg-acc{{background:var(--panel);border:1px solid var(--line);border-rad
 details.seg-acc summary{{cursor:pointer;list-style:none;padding:14px 18px;font-size:14px;background:var(--panel2);display:flex;align-items:center;gap:8px}}
 details.seg-acc summary::-webkit-details-marker{{display:none}}
 details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform .2s}} details.seg-acc[open] .chev{{transform:rotate(180deg)}}
+.am-metrics{{font-size:12.5px;color:var(--soft);font-weight:400}} .am-metrics b{{color:var(--text)}}
+@media(max-width:820px){{.am-metrics{{display:block;width:100%;margin-top:4px}}}}
 .note{{font-size:12px;color:var(--muted);margin-top:8px}}
 .foot{{margin-top:50px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px}}
 @media(max-width:820px){{.kpis{{grid-template-columns:repeat(2,1fr)}}.conc-row{{grid-template-columns:1fr}}}}
 </style></head><body>
 <nav class="topnav"><div class="inner"><span class="brand">PARTNER PORTFOLIO</span>
 <a href="#overview">Overview</a><a href="#segments">Segments</a><a href="#economics">Economics</a>
-<a href="#coverage">Coverage</a><a href="#team">Team load</a><a href="#churn">Churn</a><a href="#outsource">SMB → Cognizant</a><a href="#fulllist">All partners</a><a href="#verdict">Conclusion</a></div></nav>
+<a href="#coverage">Coverage</a><a href="#churn">Churn</a><a href="#outsource">SMB → Cognizant</a><a href="#fulllist">All partners</a><a href="#team">Team load</a><a href="#verdict">Conclusion</a></div></nav>
 <div class="wrap">
 <header class="hero"><span class="tag">Internal analysis · for management</span>
 <h1>Partner Portfolio — Coverage &amp; Segmentation</h1>
@@ -293,19 +305,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <tbody>{part_rows}</tbody></table></div></div>
 <p class="note">"Future" = planned key-account chains not yet live on Bolt UA stores (no GMV in the period). GMV/CP are Jan–Jun 2026, delivered orders.</p></section>
 
-<section id="team"><h2 class="section"><span class="bar"></span>5. Team load</h2>
-<p class="section-desc">The entire key portfolio is held by {MT['managers']} account managers. The load is extremely uneven and already at the limit.</p>
-<div class="grid kpis">
-<div class="kpi"><div class="n">{MT['managers']}</div><div class="l">Account managers</div></div>
-<div class="kpi"><div class="n">{num(MT['stores'])}</div><div class="l">Managed locations</div></div>
-<div class="kpi high"><div class="n">~{pct(bryn['gmv'],T['gmv'])}</div><div class="l">GMV on one AM (Brynchak)</div></div>
-<div class="kpi crit"><div class="n">{num(T['unassigned_stores'])}</div><div class="l">Locations with no AM</div></div></div>
-<div class="card"><div class="top">Load by account manager</div><div class="body tablewrap"><table>
-<thead><tr><th style="text-align:left">Account manager</th><th>Partners</th><th style="text-align:left">Locations</th><th style="text-align:left">GMV</th><th>% GMV</th><th>Orders</th><th>Commission</th><th>CP L1</th></tr></thead>
-<tbody>{team_rows}</tbody></table></div></div>
-<p class="note">GMV/commission/CP are computed over managed partners present in the data; future chains will add load on top. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>
-
-<section id="churn"><h2 class="section"><span class="bar"></span>6. Churn &amp; retention — who holds without an AM</h2>
+<section id="churn"><h2 class="section"><span class="bar"></span>5. Churn &amp; retention — who holds without an AM</h2>
 <p class="section-desc">Location-level churn in 2026: of stores active in Jan–Feb, the share that stopped trading by May–Jun. Split by segment and by whether the partner has one of our {MT['managers']} dedicated AMs — showing who stays even without help and who falls off without it.</p>
 <div class="grid kpis">
 <div class="kpi"><div class="n">{CH['overall']['pct']}%</div><div class="l">Overall location churn (2026)</div></div>
@@ -351,7 +351,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 </ul>
 <p class="note">Example — Enterprise: {chseg('Enterprise','by_segment')['cohort']} active in Jan–Feb; {chseg('Enterprise','by_segment')['churned']} churned → {chseg('Enterprise','by_segment')['pct']}%. Of those, {chseg('Enterprise','by_seg_mgmt')['man_n']} are managed ({chseg('Enterprise','by_seg_mgmt')['man_ch']} churned → {chseg('Enterprise','by_seg_mgmt')['man_pct']}%) and {chseg('Enterprise','by_seg_mgmt')['unm_n']} have no AM ({chseg('Enterprise','by_seg_mgmt')['unm_ch']} churned → {chseg('Enterprise','by_seg_mgmt')['unm_pct']}%).</p></div></section>
 
-<section id="outsource"><h2 class="section"><span class="bar"></span>7. SMB → outsource to Cognizant: the case, forecast &amp; ROI</h2>
+<section id="outsource"><h2 class="section"><span class="bar"></span>6. SMB → outsource to Cognizant: the case, forecast &amp; ROI</h2>
 <p class="section-desc">The SMB tail is too large and too low-value to manage with in-house AMs, yet it churns badly without help. Outsourcing it to Cognizant (at €{SR['agent_cost_mo']:,}/agent/month) covers the tail cheaply, stops the leakage, and frees the {MT['managers']} in-house AMs for high-value Enterprise/MM.</p>
 
 <div class="callout"><h3>Why SMB should be outsourced to Cognizant</h3><ul>
@@ -404,10 +404,20 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <li><b>Conservative floor:</b> even on churn-savings alone ({eur(SR['churn_saved_gmv'])} GMV → ~{eur(round(SR['churn_saved_gmv']*SN['comm_rate']/100))} commission), a single €{SR['agent_cost_mo']*12:,}/yr agent already pays back.</li>
 </ul></div></section>
 
-<section id="fulllist"><h2 class="section"><span class="bar"></span>8. Full partner list</h2>
+<section id="fulllist"><h2 class="section"><span class="bar"></span>7. Full partner list</h2>
 <p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–Jun 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
 {full_sections}
 <p class="note">Source: fact_order_delivery × dim_provider_v2 (Bolt UA, delivery_vertical = store). CP L1 = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. "—" = no delivered orders in the period.</p></section>
+
+<section id="team"><h2 class="section"><span class="bar"></span>8. Team load — by account manager</h2>
+<p class="section-desc">The entire key portfolio is held by {MT['managers']} account managers. Each row shows that AM's total load; click to open the full list of partners they manage (with related brands grouped, e.g. KOPIYKA GROUP = Kopiyka + Kopiyka Mini + Santim).</p>
+<div class="grid kpis">
+<div class="kpi"><div class="n">{MT['managers']}</div><div class="l">Account managers</div></div>
+<div class="kpi"><div class="n">{num(MT['stores'])}</div><div class="l">Managed locations</div></div>
+<div class="kpi high"><div class="n">~{pct(bryn['gmv'],T['gmv'])}</div><div class="l">GMV on one AM (Brynchak)</div></div>
+<div class="kpi crit"><div class="n">{num(T['unassigned_stores'])}</div><div class="l">Locations with no AM</div></div></div>
+{team_blocks}
+<p class="note">GMV/commission/CP are computed over managed partners present in the data; future chains (shown as "· future") will add load on top. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>
 
 <section id="verdict"><h2 class="section"><span class="bar"></span>9. Conclusion: why there is no capacity for new partners</h2>
 <div class="callout warn"><h3>Argument</h3><ul>

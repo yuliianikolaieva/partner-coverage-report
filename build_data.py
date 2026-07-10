@@ -190,6 +190,34 @@ managed_totals={"partners":len(partners),"in_data":len(mp),
     "orders":round(sum(p["orders"] for p in mp)),"comm":round(sum(p["comm"] for p in mp)),
     "cp_l1":round(sum(p["cp_l1"] for p in mp))}
 
+# display groupings inside each AM's partner list
+GROUPINGS=[("KOPIYKA GROUP",["KOPIYKA","SANTIM"],"KOPIYKA, KOPIYKA MINI, SANTIM"),
+           ("TAISTRA + O'NDE",["TAISTRA","O'NDE"],"TAISTRA, O'NDE")]
+def _sumf(items,k): return round(sum(p[k] for p in items if p.get(k) is not None))
+def build_items(plist):
+    used=set(); items=[]
+    for gname,members,label in GROUPINGS:
+        present=[p for p in plist if p["name"] in members]
+        if not present: continue
+        used.update(p["name"] for p in present)
+        ind=[p for p in present if p["gmv"] is not None]
+        gmv=_sumf(ind,"gmv"); comm=_sumf(ind,"comm")
+        seg=(max(ind,key=lambda p:p["gmv"])["seg"] if ind else "Enterprise")
+        items.append({"name":gname,"members":label,"seg":seg,
+            "stores":_sumf(ind,"stores"),"gmv":gmv,"comm":comm,
+            "comm_pct":round(comm/gmv*100,1) if gmv>0 else None,
+            "cp_l1":_sumf(ind,"cp_l1"),"orders":_sumf(ind,"orders"),
+            "camp_bolt":_sumf(ind,"camp_bolt"),
+            "camp_vs_comm":round(_sumf(ind,"camp_bolt")/comm*100,1) if comm>0 else None,
+            "external":len(ind)==0})
+    for p in plist:
+        if p["name"] in used: continue
+        items.append({"name":p["name"],"members":None,"seg":p["seg"],"stores":p["stores"],
+            "gmv":p["gmv"],"comm":p["comm"],"comm_pct":p["comm_pct"],"cp_l1":p["cp_l1"],
+            "orders":p["orders"],"camp_bolt":p["camp_bolt"],"camp_vs_comm":p.get("camp_vs_comm"),
+            "external":p["external"]})
+    return sorted(items,key=lambda x:(x["gmv"] is None,-(x["gmv"] or 0)))
+
 team=[]
 for am in [BRYN,SKAL,BER]:
     g=[p for p in partners if p["am"]==am]
@@ -197,7 +225,7 @@ for am in [BRYN,SKAL,BER]:
     team.append({"am":am,"partners":len(g),"external":len(g)-len(ind),
         "stores":round(sum(p["stores"] for p in ind)),"gmv":round(sum(p["gmv"] for p in ind)),
         "orders":round(sum(p["orders"] for p in ind)),"comm":round(sum(p["comm"] for p in ind)),
-        "cp_l1":round(sum(p["cp_l1"] for p in ind))})
+        "cp_l1":round(sum(p["cp_l1"] for p in ind)),"items":build_items(g)})
 
 # ---------------- churn (location-level): active Jan-Feb -> lost by Apr-May ----------------
 managed_live_groups=set()
