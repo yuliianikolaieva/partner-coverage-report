@@ -21,17 +21,17 @@ CHURN=f"""
 SELECT f.provider_id,
   MAX(p.group_name) AS grp,
   MAX(p.business_segment_v2) AS seg,
-  {col('01')},{col('02')},{col('03')},{col('04')},{col('05')},
-  {gcol('01')},{gcol('02')},{gcol('03')},{gcol('04')},{gcol('05')}
+  {col('01')},{col('02')},{col('03')},{col('04')},{col('05')},{col('06')},
+  {gcol('01')},{gcol('02')},{gcol('03')},{gcol('04')},{gcol('05')},{gcol('06')}
 FROM hive_metastore.ng_delivery_spark.fact_order_delivery f
 JOIN hive_metastore.ng_delivery_spark.dim_provider_v2 p ON f.provider_id=p.provider_id
 WHERE p.country_code='ua' AND f.order_state='delivered'
   AND p.delivery_vertical LIKE 'store%'
-  AND f.order_created_date>=DATE'2026-01-01' AND f.order_created_date<=DATE'2026-05-31'
+  AND f.order_created_date>=DATE'2026-01-01' AND f.order_created_date<=DATE'2026-06-30'
 GROUP BY f.provider_id
 """
 cur.execute(CHURN); cols=[d[0] for d in cur.description]
-GCOLS={f"g0{i}" for i in range(1,6)}; MCOLS={f"m0{i}" for i in range(1,6)}
+GCOLS={f"g0{i}" for i in range(1,7)}; MCOLS={f"m0{i}" for i in range(1,7)}
 def conv(c,x):
     if x is None: return None
     if c in GCOLS: return float(x)

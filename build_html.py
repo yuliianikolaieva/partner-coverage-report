@@ -5,7 +5,7 @@ HERE=os.path.dirname(os.path.abspath(__file__))
 D=json.load(open(os.path.join(HERE,"data.json"),encoding="utf-8"))
 T=D["totals"]; SEG=D["seg_overview"]; P=D["partners"]; MT=D["managed_totals"]
 TEAM=D["team"]; FULL=D["full"]; MONTHS=D["months"]
-ML=["Jan","Feb","Mar","Apr","May"]
+ML=["Jan","Feb","Mar","Apr","May","Jun"]
 
 def eur(v):
     if v is None: return "—"
@@ -15,6 +15,10 @@ def num(v):
     if v is None: return "—"
     return f"{v:,.0f}".replace(","," ")
 def pctv(v): return "—" if v is None else f"{v:.1f}%"
+def gshare(v):
+    if not v: return "0%"
+    p=v/D["totals"]["gmv"]*100
+    return f"{p:.1f}%" if p>=0.1 else (f"{p:.2f}%" if p>=0.01 else "<0.01%")
 def pct(p,w,d=1):
     if not w: return "0%"
     return f"{p/w*100:.{d}f}%"
@@ -110,7 +114,7 @@ def full_table(seg):
     for r in rows:
         body+=f"""<tr><td class="pn">{r['name']}</td>
         <td>{num(r['stores'])}</td>
-        <td class="r">{eur(r['gmv'])}</td><td>{pctv(r['comm_pct'])}</td>
+        <td class="r">{eur(r['gmv'])}</td><td>{gshare(r['gmv'])}</td><td>{pctv(r['comm_pct'])}</td>
         <td class="{cpcls(r['cp_l1'])} r">{eur(r['cp_l1'])}</td>
         <td class="r">{eur(r['eater_fees'])}</td><td>{pctv(r['camp_bolt_pct'])}</td><td>{pctv(r['camp_merch_pct'])}</td>
         <td class="am">{am_cell(r)}</td>
@@ -118,7 +122,7 @@ def full_table(seg):
         <td class="sp">{spark(r['loc_trend'],'#0e7faa')}</td></tr>"""
     opn=" open" if seg=="Enterprise" else ""
     return f"""<details class="seg-acc"{opn}><summary><span class="dot {seg_class[seg]}"></span><b>{seg_label[seg]}</b> · {len(rows)} partners · {eur(sgmv)} GMV · {num(sst)} locations <span class="chev">▾</span></summary>
-    <table class="full"><thead><tr><th class="pn">Partner</th><th>Loc.</th><th class="r">GMV</th><th>Comm%</th><th class="r">CP L1</th><th class="r">Eater fees</th><th>Camp Bolt%</th><th>Camp Merch%</th><th class="am">Acc. manager</th><th class="sp">GMV trend</th><th class="sp">Loc. trend</th></tr></thead><tbody>{body}</tbody></table></details>"""
+    <table class="full"><thead><tr><th class="pn">Partner</th><th>Loc.</th><th class="r">GMV</th><th>% GMV</th><th>Comm%</th><th class="r">CP L1</th><th class="r">Eater fees</th><th>Camp Bolt%</th><th>Camp Merch%</th><th class="am">Acc. manager</th><th class="sp">GMV trend</th><th class="sp">Loc. trend</th></tr></thead><tbody>{body}</tbody></table></details>"""
 full_sections="".join(full_table(s) for s in ["Enterprise","Mid-market","SMB","Missing Segment"])
 
 # ---- churn rows ----
@@ -201,11 +205,11 @@ tbody tr:hover{{background:#f3f7ff}} td.muted,.muted{{color:var(--muted)}} .tabl
 table.full{{table-layout:fixed;width:100%}}
 table.full td{{padding:5px 6px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 table.full th{{padding:5px 6px;font-size:10.5px;white-space:normal;line-height:1.2}}
-table.full td.pn,table.full th.pn{{text-align:left;white-space:normal;width:14%}}
-table.full td.am,table.full th.am{{text-align:left;white-space:normal;width:12%;font-size:10.5px}}
+table.full td.pn,table.full th.pn{{text-align:left;white-space:normal;width:13%}}
+table.full td.am,table.full th.am{{text-align:left;white-space:normal;width:11%;font-size:10px}}
 table.full td.r,table.full th.r{{text-align:right}}
-table.full td.sp,table.full th.sp{{text-align:left;width:9%}}
-table.full .spark svg{{width:54px}}
+table.full td.sp,table.full th.sp{{text-align:left;width:8%}}
+table.full .spark svg{{width:46px}}
 .neg{{color:var(--crit);font-weight:600}} .pos{{color:var(--good);font-weight:600}}
 .dot{{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:middle}}
 .dot.ent{{background:var(--ent)}} .dot.mm{{background:var(--mm)}} .dot.smb{{background:var(--smb)}} .dot.none{{background:var(--none)}}
@@ -236,20 +240,20 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <p class="sub">How many partners we have, how they split by segment, turnover (GMV) and profitability, how much the team currently covers — and why there is no capacity to take on new partners, especially in SMB and Mid-market (MM).</p>
 <div class="meta"><span class="pill">For: team · director · sales director</span>
 <span class="pill">Partners: {num(T['partners'])}</span><span class="pill">Locations: {num(T['stores'])}</span>
-<span class="pill">GMV (Jan–May 2026): {eur(T['gmv'])}</span><span class="pill">Generated {today}</span></div></header>
+<span class="pill">GMV (Jan–Jun 2026): {eur(T['gmv'])}</span><span class="pill">Generated {today}</span></div></header>
 
 <div class="callout warn"><h3>Executive summary (30 sec)</h3><ul>
-<li><b>Portfolio:</b> {num(T['partners'])} partners ({num(T['active_partners'])} active with GMV) / {num(T['stores'])} locations / {eur(T['gmv'])} GMV over Jan–May 2026. Steep pyramid: <b>Enterprise + MM = {pct(ent['partners']+mm['partners'],T['active_partners'])} of active partners but {pct(ent['gmv']+mm['gmv'],T['gmv'])} of GMV</b>.</li>
+<li><b>Portfolio:</b> {num(T['partners'])} partners ({num(T['active_partners'])} active with GMV) / {num(T['stores'])} locations / {eur(T['gmv'])} GMV over Jan–Jun 2026. Steep pyramid: <b>Enterprise + MM = {pct(ent['partners']+mm['partners'],T['active_partners'])} of active partners but {pct(ent['gmv']+mm['gmv'],T['gmv'])} of GMV</b>.</li>
 <li><b>SMB is a long tail:</b> {num(smb['partners'])} active partners ({pct(smb['partners'],T['active_partners'])}) generate just {pct(smb['gmv'],T['gmv'])} of GMV. Average SMB partner = <b>{eur(smb['gmv_per'])}</b> GMV vs {eur(ent['gmv_per'])} for Enterprise — a ~{ratio}× gap.</li>
 <li><b>The team actively manages {MT['partners']} key partners with only {MT['managers']} account managers (AM)</b> — covering the large majority of portfolio GMV.</li>
 <li><b>Load is critically skewed:</b> one AM (M. Brynchak) carries {num(bryn['stores'])} locations and ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV. Meanwhile {num(T['unassigned_stores'])} locations across {num(T['unassigned_partners'])} partners have <b>no AM assigned</b>.</li>
 <li><b>Conclusion:</b> there is no capacity to onboard more managed partners. Every new SMB/MM partner consumes the same effort as Enterprise but returns a fraction of the value.</li></ul></div>
 
 <section id="overview"><h2 class="section"><span class="bar"></span>1. Big picture</h2>
-<p class="section-desc">"Partner" = brand/chain (group), "location" = individual store (provider). All figures are Jan–May 2026, delivered orders, GMV before discounts, in EUR.</p>
+<p class="section-desc">"Partner" = brand/chain (group), "location" = individual store (provider). All figures are Jan–Jun 2026, delivered orders, GMV before discounts, in EUR.</p>
 <div class="grid kpis">
 <div class="kpi"><div class="n">{num(T['partners'])}</div><div class="l">Partners in portfolio</div></div>
-<div class="kpi"><div class="n">{num(T['active_partners'])}</div><div class="l">Partners with GMV (Jan–May)</div></div>
+<div class="kpi"><div class="n">{num(T['active_partners'])}</div><div class="l">Partners with GMV (Jan–Jun)</div></div>
 <div class="kpi"><div class="n">{num(T['stores'])}</div><div class="l">Locations</div></div>
 <div class="kpi"><div class="n">{num(T['orders'])}</div><div class="l">Delivered orders</div></div>
 <div class="kpi"><div class="n">{eur(T['gmv'])}</div><div class="l">GMV</div></div>
@@ -258,7 +262,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="kpi"><div class="n">{MT['managers']}</div><div class="l">Account managers</div></div></div></section>
 
 <section id="segments"><h2 class="section"><span class="bar"></span>2. Segmentation</h2>
-<p class="section-desc">Partners split into Enterprise, Mid-market (MM) and SMB. <b>Partner counts and all per-partner figures use only active partners</b> (those with GMV in Jan–May 2026). Turnover, commission (in € and % of GMV), commission per partner and Contribution Profit L1 (CP L1) per segment.</p>
+<p class="section-desc">Partners split into Enterprise, Mid-market (MM) and SMB. <b>Partner counts and all per-partner figures use only active partners</b> (those with GMV in Jan–Jun 2026). Turnover, commission (in € and % of GMV), commission per partner and Contribution Profit L1 (CP L1) per segment.</p>
 <div class="card"><div class="top">Portfolio by segment</div><div class="body tablewrap"><table>
 <thead><tr><th style="text-align:left">Segment</th><th>Partners</th><th>% part.</th><th>Loc.</th><th>GMV</th><th>% GMV</th><th>GMV / partner</th><th>Commission</th><th>Comm %</th><th>Comm / partner</th><th>CP L1</th></tr></thead>
 <tbody>{seg_rows}<tr style="background:#f3f7ff;font-weight:800"><td style="text-align:left">Total (active)</td><td>{num(ACT)}</td><td>100%</td><td>{num(T['stores'])}</td><td>{eur(T['gmv'])}</td><td>100%</td><td>{eur(round(T['gmv']/ACT))}</td><td>{eur(T['comm'])}</td><td>{T['comm_pct']}%</td><td>{eur(round(T['comm']/ACT))}</td><td class="{cpcls(T['cp_l1'])}">{eur(T['cp_l1'])}</td></tr></tbody></table></div></div>
@@ -287,7 +291,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="card"><div class="top">Managed partners ({len(P)}) — by GMV</div><div class="body tablewrap"><table>
 <thead><tr><th style="text-align:left">Partner</th><th>Seg</th><th>Loc.</th><th style="text-align:left">GMV</th><th>Comm €</th><th>Comm %</th><th>CP L1</th><th>Eater fees</th><th>Camp Bolt</th><th>Camp Merch</th><th>Camp Bolt / Comm</th><th style="text-align:left">Account manager</th></tr></thead>
 <tbody>{part_rows}</tbody></table></div></div>
-<p class="note">"Future" = planned key-account chains not yet live on Bolt UA stores (no GMV in the period). GMV/CP are Jan–May 2026, delivered orders.</p></section>
+<p class="note">"Future" = planned key-account chains not yet live on Bolt UA stores (no GMV in the period). GMV/CP are Jan–Jun 2026, delivered orders.</p></section>
 
 <section id="team"><h2 class="section"><span class="bar"></span>5. Team load</h2>
 <p class="section-desc">The entire key portfolio is held by {MT['managers']} account managers. The load is extremely uneven and already at the limit.</p>
@@ -302,7 +306,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <p class="note">GMV/commission/CP are computed over managed partners present in the data; future chains will add load on top. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>
 
 <section id="churn"><h2 class="section"><span class="bar"></span>6. Churn &amp; retention — who holds without an AM</h2>
-<p class="section-desc">Location-level churn in 2026: of stores active in Jan–Feb, the share that stopped trading by Apr–May. Split by segment and by whether the partner has one of our {MT['managers']} dedicated AMs — showing who stays even without help and who falls off without it.</p>
+<p class="section-desc">Location-level churn in 2026: of stores active in Jan–Feb, the share that stopped trading by May–Jun. Split by segment and by whether the partner has one of our {MT['managers']} dedicated AMs — showing who stays even without help and who falls off without it.</p>
 <div class="grid kpis">
 <div class="kpi"><div class="n">{CH['overall']['pct']}%</div><div class="l">Overall location churn (2026)</div></div>
 <div class="kpi good"><div class="n">{CH['managed']['pct']}%</div><div class="l">Churn — with a dedicated AM</div></div>
@@ -317,21 +321,21 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <thead><tr><th style="text-align:left">Segment</th><th>Partners</th><th>Churn (all) · churned</th><th>Managed (churned/cohort)</th><th>No AM (churned/cohort)</th></tr></thead>
 <tbody>{pchurn_rows}</tbody></table></div></div>
 <div class="card"><div class="top">GMV lost via churned locations</div><div class="body tablewrap"><table>
-<thead><tr><th style="text-align:left">Segment</th><th>Churned loc.</th><th class="r">GMV lost (Jan–May)</th><th>% of seg GMV</th><th class="r">Run-rate / mo</th></tr></thead>
+<thead><tr><th style="text-align:left">Segment</th><th>Churned loc.</th><th class="r">GMV lost (Jan–Jun)</th><th>% of seg GMV</th><th class="r">Run-rate / mo</th></tr></thead>
 <tbody>{gmv_lost_rows}</tbody></table></div></div>
 </div>
 <div class="grid kpis">
 <div class="kpi good"><div class="n">{CH['p_managed']['pct']}%</div><div class="l">Partners churned — with a dedicated AM ({CH['p_managed']['churned']} of {CH['p_managed']['cohort']})</div></div>
 <div class="kpi crit"><div class="n">{CH['p_unmanaged']['pct']}%</div><div class="l">Partners churned — no dedicated AM ({CH['p_unmanaged']['churned']} of {CH['p_unmanaged']['cohort']})</div></div>
-<div class="kpi high"><div class="n">{eur(GL['total'])}</div><div class="l">GMV lost to churn (Jan–May, {GL['pct_of_gmv']}% of GMV)</div></div>
+<div class="kpi high"><div class="n">{eur(GL['total'])}</div><div class="l">GMV lost to churn (Jan–Jun, {GL['pct_of_gmv']}% of GMV)</div></div>
 <div class="kpi"><div class="n">{eur(GL['runrate'])}</div><div class="l">Monthly run-rate lost</div></div></div>
 <div class="callout"><h3>How to read it</h3><ul>
 <li><b>A dedicated AM cuts churn ~{churn_ratio}×</b>: {CH['managed']['pct']}% with an AM vs {CH['unmanaged']['pct']}% without. Hands-on coverage clearly keeps partners alive.</li>
 <li><b>The tail bleeds fastest exactly where we have no capacity:</b> SMB with no AM churns {chseg('SMB','by_seg_mgmt')['unm_pct']}%, while managed SMB stays at {chseg('SMB','by_seg_mgmt')['man_pct']}%. Enterprise is stickier but still churns {chseg('Enterprise','by_seg_mgmt')['unm_pct']}% without an AM.</li>
 <li><b>At network (partner) level it is even starker:</b> {CH['p_managed']['pct']}% of partners with a dedicated AM fully churned ({CH['p_managed']['churned']} of {CH['p_managed']['cohort']}) vs {CH['p_unmanaged']['pct']}% without ({CH['p_unmanaged']['churned']} of {CH['p_unmanaged']['cohort']}). A dedicated AM essentially stops whole partners from dying.</li>
-<li><b>In money:</b> churned locations represent {eur(GL['total'])} of Jan–May GMV ({GL['pct_of_gmv']}% of the total) and ~{eur(GL['runrate'])}/month of run-rate now gone. Most of it ({eur(glseg('SMB')['total'])}, {glseg('SMB')['pct_of_gmv']}% of SMB GMV) is the unmanaged SMB tail.</li>
+<li><b>In money:</b> churned locations represent {eur(GL['total'])} of Jan–Jun GMV ({GL['pct_of_gmv']}% of the total) and ~{eur(GL['runrate'])}/month of run-rate now gone. Most of it ({eur(glseg('SMB')['total'])}, {glseg('SMB')['pct_of_gmv']}% of SMB GMV) is the unmanaged SMB tail.</li>
 <li><b>Implication:</b> the existing book genuinely needs retention attention, but the {MT['managers']} AMs are already full — so the answer is added capacity / self-serve for the tail, not piling more partners onto {MT['managers']} people.</li></ul>
-<p class="note">Churn = active in Jan–Feb 2026 with no delivered orders in Apr–May 2026. Location churn counts stores; partner churn counts whole groups (a partner churns only if all its stores go silent). GMV lost = the Jan–May GMV of churned locations; run-rate = their pre-churn Jan–Feb monthly average. Small cohorts (n shown) are directional.</p></div>
+<p class="note">Churn = active in Jan–Feb 2026 with no delivered orders in May–Jun 2026. Location churn counts stores; partner churn counts whole groups (a partner churns only if all its stores go silent). GMV lost = the Jan–Jun GMV of churned locations; run-rate = their pre-churn Jan–Feb monthly average. Small cohorts (n shown) are directional.</p></div>
 <div class="callout"><h3>How each metric is calculated</h3>
 <ul>
 <li><b>Unit = location</b> (an individual store / <code>provider_id</code>), not the partner-chain. Source: Databricks <code>fact_order_delivery</code> × <code>dim_provider_v2</code> — Ukraine, store vertical, delivered orders, 2026. Monthly delivered-order counts per location (Jan…May).</li>
@@ -342,10 +346,10 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <li><b>Churn — managed (n)</b> = churn only among locations whose partner has one of the 3 dedicated AMs; <b>(n)</b> = that sub-cohort's size.</li>
 <li><b>Churn — no AM (n)</b> = churn among locations with no dedicated AM; <b>(n)</b> = that sub-cohort's size. Note: managed n + no-AM n = Active cohort.</li>
 <li><b>"Churn (all)" is a weighted figure, not the average</b> of the two sub-columns — it leans toward whichever group has more locations (e.g. Enterprise toward managed, SMB toward no-AM).</li>
-<li><b>Partner-level churn</b> applies the same rule to the whole chain (group): a partner is in the cohort if any of its stores was active in Jan–Feb, and churns only if <b>all</b> its stores went silent by Apr–May. Big multi-store chains almost never fully churn, so this is naturally lower than location churn.</li>
-<li><b>GMV lost</b> = the actual Jan–May GMV generated by churned locations (revenue that existed and has now stopped). <b>Run-rate / mo</b> = those same locations' average monthly GMV while active (Jan–Feb), i.e. the recurring revenue no longer coming in. <b>% of seg GMV</b> = GMV lost ÷ that segment's total GMV.</li>
+<li><b>Partner-level churn</b> applies the same rule to the whole chain (group): a partner is in the cohort if any of its stores was active in Jan–Feb, and churns only if <b>all</b> its stores went silent by May–Jun. Big multi-store chains almost never fully churn, so this is naturally lower than location churn.</li>
+<li><b>GMV lost</b> = the actual Jan–Jun GMV generated by churned locations (revenue that existed and has now stopped). <b>Run-rate / mo</b> = those same locations' average monthly GMV while active (Jan–Feb), i.e. the recurring revenue no longer coming in. <b>% of seg GMV</b> = GMV lost ÷ that segment's total GMV.</li>
 </ul>
-<p class="note">Example — Enterprise: 532 active in Jan–Feb; 14 churned → 2.6%. Of those, 521 are managed (12 churned → 2.3%) and 11 have no AM (2 churned → 18.2%); 12 + 2 = 14.</p></div></section>
+<p class="note">Example — Enterprise: {chseg('Enterprise','by_segment')['cohort']} active in Jan–Feb; {chseg('Enterprise','by_segment')['churned']} churned → {chseg('Enterprise','by_segment')['pct']}%. Of those, {chseg('Enterprise','by_seg_mgmt')['man_n']} are managed ({chseg('Enterprise','by_seg_mgmt')['man_ch']} churned → {chseg('Enterprise','by_seg_mgmt')['man_pct']}%) and {chseg('Enterprise','by_seg_mgmt')['unm_n']} have no AM ({chseg('Enterprise','by_seg_mgmt')['unm_ch']} churned → {chseg('Enterprise','by_seg_mgmt')['unm_pct']}%).</p></div></section>
 
 <section id="outsource"><h2 class="section"><span class="bar"></span>7. SMB → outsource to Cognizant: the case, forecast &amp; ROI</h2>
 <p class="section-desc">The SMB tail is too large and too low-value to manage with in-house AMs, yet it churns badly without help. Outsourcing it to Cognizant (at €{SR['agent_cost_mo']:,}/agent/month) covers the tail cheaply, stops the leakage, and frees the {MT['managers']} in-house AMs for high-value Enterprise/MM.</p>
@@ -363,7 +367,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="grid kpis">
 <div class="kpi crit"><div class="n">{SL['part']}</div><div class="l">Partners lost (fully churned)</div></div>
 <div class="kpi crit"><div class="n">{SL['loc']}</div><div class="l">Locations lost</div></div>
-<div class="kpi high"><div class="n">{eur(SL['gmv'])}</div><div class="l">GMV lost (Jan–May)</div></div>
+<div class="kpi high"><div class="n">{eur(SL['gmv'])}</div><div class="l">GMV lost (Jan–Jun)</div></div>
 <div class="kpi high"><div class="n">{eur(SL['annualized'])}</div><div class="l">Annualised lost run-rate</div></div></div>
 <p class="note">Lost = active early 2026 then went silent. Run-rate annualised = monthly GMV of churned locations × 12 — the recurring revenue we keep bleeding if nothing changes.</p>
 
@@ -401,7 +405,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 </ul></div></section>
 
 <section id="fulllist"><h2 class="section"><span class="bar"></span>8. Full partner list</h2>
-<p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–May 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
+<p class="section-desc">All {num(T['partners'])} partners with full metrics, grouped by segment (click to expand). The "Acc. manager" column marks only our 3 managers (Mykhailo Brynchak, Viktor Skalivskiy, Khrystyna Berezna) from the Managed partners table; anyone else is shown as "—". Trend columns are monthly Jan–Jun 2026: <b>GMV</b> and number of <b>active locations</b>. Hover a sparkline for values; the arrow shows the change from the first to the last month.</p>
 {full_sections}
 <p class="note">Source: fact_order_delivery × dim_provider_v2 (Bolt UA, delivery_vertical = store). CP L1 = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. "—" = no delivered orders in the period.</p></section>
 

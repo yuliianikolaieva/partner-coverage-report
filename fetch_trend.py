@@ -38,7 +38,7 @@ SELECT DATE_FORMAT(f.order_created_date,'yyyy-MM') AS period,
 FROM hive_metastore.ng_delivery_spark.fact_order_delivery f
 JOIN hive_metastore.ng_delivery_spark.dim_provider_v2 p ON f.provider_id=p.provider_id
 WHERE p.country_code='ua' AND f.order_state='delivered' AND p.delivery_vertical LIKE 'store%'
-  AND f.order_created_date>=DATE'2024-06-01' AND f.order_created_date<=DATE'2026-05-31'
+  AND f.order_created_date>=DATE'2024-06-01' AND f.order_created_date<=DATE'2026-06-30'
 GROUP BY 1,2 ORDER BY 1,2
 """
 FIRST=f"""
@@ -49,7 +49,7 @@ SELECT f.provider_id,
 FROM hive_metastore.ng_delivery_spark.fact_order_delivery f
 JOIN hive_metastore.ng_delivery_spark.dim_provider_v2 p ON f.provider_id=p.provider_id
 WHERE p.country_code='ua' AND f.order_state='delivered' AND p.delivery_vertical LIKE 'store%'
-  AND f.order_created_date>=DATE'2024-01-01' AND f.order_created_date<=DATE'2026-05-31'
+  AND f.order_created_date>=DATE'2024-01-01' AND f.order_created_date<=DATE'2026-06-30'
 GROUP BY f.provider_id
 """
 print("monthly..."); m=run(MONTHLY); print("rows",len(m))

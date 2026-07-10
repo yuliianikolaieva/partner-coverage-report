@@ -19,7 +19,7 @@ def q(sql):
     cur.execute(sql); cols=[d[0] for d in cur.description]
     return [dict(zip(cols,[float(x) if hasattr(x,'__float__') and not isinstance(x,bool) else x for x in r])) for r in cur.fetchall()]
 
-START="2026-01-01"; END="2026-05-31"
+START="2026-01-01"; END="2026-06-30"
 BOLT="(COALESCE(f.bolt_spend_am_spend_campaign,0)+COALESCE(f.bolt_spend_liquidity_campaign,0)+COALESCE(f.bolt_spend_marketing_campaign,0)+COALESCE(f.bolt_spend_user_lifecycle_campaign,0)+COALESCE(f.bolt_spend_merchant_lifecycle_campaign,0)+COALESCE(f.bolt_spend_other_campaign,0))"
 MERCH="(COALESCE(f.provider_spend_am_spend_campaign,0)+COALESCE(f.provider_spend_liquidity_campaign,0)+COALESCE(f.provider_spend_marketing_campaign,0)+COALESCE(f.provider_spend_user_lifecycle_campaign,0)+COALESCE(f.provider_spend_merchant_lifecycle_campaign,0)+COALESCE(f.provider_spend_other_campaign,0))"
 

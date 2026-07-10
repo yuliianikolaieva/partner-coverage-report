@@ -4,7 +4,8 @@ import json, os
 from collections import defaultdict
 HERE=os.path.dirname(os.path.abspath(__file__))
 C=json.load(open(os.path.join(HERE,"dbx_cache.json"),encoding="utf-8"))
-MONTHS=["2026-01","2026-02","2026-03","2026-04","2026-05"]
+MONTHS=["2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"]
+SEG_OVERRIDE={"WINETIME":"Mid-market"}  # manual segment corrections by group_name
 NUMCOLS=["orders","locations","gmv","commission","eater_fees","camp_bolt","camp_merch",
          "delivery_rev","courier_cost","refunds","demand_incentives","supply_incentives"]
 
@@ -78,17 +79,18 @@ resolver={
  "SPRAGA":["SPRAGA"],"MAXBEER":["MAXBEER"],"FLOWERS UA":["FLOWERS"],
  "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
  "REMESLO BREWERY":["REMESLO BREWERY"],"TOCHKA":["TOCHKA"],"FLOWER SHOP":["FLOWER SHOP"],
- "LIKI 24":["LIKI24"],"VARUS":["VARUS"],"ROZETKA":["ROZETKA"],"ANRI-PHARM":["ANRI-PHARM"],
+ "VARUS":["VARUS"],"ROZETKA":["ROZETKA"],"ANRI-PHARM":["ANRI-PHARM"],
  "ATB":["ATB CHERKASY","ATB KYIV"],"BEERLAND K":["BEERLAND K"],
- "VAPERY | VAPE SHOP":["VAPERY | VAPE SHOP"],
+ "VAPERY | VAPE SHOP":["VAPERY | VAPE SHOP"],"RUKAVYCHKA":["RUKAVYCHKA"],
+ "PYANA VYSHNYA":["PYANA VYSHNYA"],"PIVASOV":["PIVASOV"],
 }
-external_nodata=["O'NDE","FORA","THRASH","E-ZOO","MASTER ZOO","ROST"]
+external_nodata=["O'NDE","FORA","THRASH","E-ZOO","MASTER ZOO","ROST","BYLE TA SYKHE"]
 am_map={}
 for n in ["KOPIYKA","PYVNA BORODA","WINETIME","SANTIM","MAXBEER","SPRAGA","O'NDE","SPAR",
           "BRSM","FLOWERS UA","ATB","FORA","HOP HEY","BEER MARKET","LOKO",
-          "CAFE RYNOK","BEERLAND","BEERLAND K","TAISTRA","RUKAVYCHKA"]: am_map[n]=BRYN
-for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","LIKI 24","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM"]: am_map[n]=SKAL
-for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA","VAPERY | VAPE SHOP"]: am_map[n]=BER
+          "CAFE RYNOK","BEERLAND","BEERLAND K","TAISTRA"]: am_map[n]=BRYN
+for n in ["REMESLO BREWERY","TOCHKA","FLOWER SHOP","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM","RUKAVYCHKA","BYLE TA SYKHE"]: am_map[n]=SKAL
+for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA","VAPERY | VAPE SHOP","PYANA VYSHNYA","PIVASOV"]: am_map[n]=BER
 MANAGED_GROUP_AM={}
 for disp,keys in resolver.items():
     for k in keys: MANAGED_GROUP_AM[k]=am_map.get(disp)
@@ -98,7 +100,7 @@ def partner_record(k,mt,dim,gmv_m,loc_m):
     d=mt.get(k,{c:0.0 for c in NUMCOLS})
     di=dim.get(k,{"stores":0,"active":0,"seg":"Missing Segment","am":None,"cities":0})
     gmv=d["gmv"]; comm=d["commission"]
-    return {"name":k,"seg":di["seg"],"stores":di["stores"],"active":di["active"],
+    return {"name":k,"seg":SEG_OVERRIDE.get(k,di["seg"]),"stores":di["stores"],"active":di["active"],
         "am_managed":MANAGED_GROUP_AM.get(k),"am_data":di["am"],
         "gmv":round(gmv),"orders":int(d["orders"]),"comm":round(comm),
         "comm_pct":pctof(comm,gmv),
@@ -158,6 +160,8 @@ def merge_groups(dispname,keys):
         if di:
             stores+=di["stores"]; active+=di["active"]; cities+=di["cities"]; segs.append((di["stores"],di["seg"]))
     seg=max(segs,key=lambda x:x[0])[1] if segs else "Missing Segment"
+    for k in keys:
+        if k in SEG_OVERRIDE: seg=SEG_OVERRIDE[k]
     gmv=d["gmv"]; comm=d["commission"]
     return {"name":dispname,"seg":seg,"stores":stores,"active":active,
         "gmv":round(gmv),"orders":int(d["orders"]),"comm":round(comm),
@@ -200,7 +204,7 @@ managed_live_groups=set()
 for keys in resolver.values():
     for k in keys: managed_live_groups.add(k)
 def active_early(r): return bool(r.get("m01") or r.get("m02"))
-def active_late(r):  return bool(r.get("m04") or r.get("m05"))
+def active_late(r):  return bool(r.get("m05") or r.get("m06"))
 def cstats(rows):  # location-level churn
     cohort=[r for r in rows if active_early(r)]
     churned=[r for r in cohort if not active_late(r)]
@@ -209,13 +213,13 @@ def cstats(rows):  # location-level churn
 def pstats(rows):  # partner-level (group) churn
     g={}
     for r in rows:
-        d=g.setdefault(str(r.get("grp")),{"m01":0,"m02":0,"m04":0,"m05":0})
-        for k in ("m01","m02","m04","m05"): d[k]+=r.get(k) or 0
+        d=g.setdefault(str(r.get("grp")),{"m01":0,"m02":0,"m05":0,"m06":0})
+        for k in ("m01","m02","m05","m06"): d[k]+=r.get(k) or 0
     cohort=[k for k,d in g.items() if d["m01"] or d["m02"]]
-    churned=[k for k in cohort if not (g[k]["m04"] or g[k]["m05"])]
+    churned=[k for k in cohort if not (g[k]["m05"] or g[k]["m06"])]
     n=len(cohort)
     return {"cohort":n,"churned":len(churned),"pct":round(len(churned)/n*100,1) if n else 0}
-def gmv5(r): return sum(r.get(f"g0{i}") or 0 for i in range(1,6))
+def gmv5(r): return sum(r.get(f"g0{i}") or 0 for i in range(1,7))
 def glost(rows):  # GMV lost via churned locations
     churned=[r for r in rows if active_early(r) and not active_late(r)]
     total=sum(gmv5(r) for r in churned)
@@ -253,7 +257,7 @@ churn["gmv_lost"]["pct_of_gmv"]=round(churn["gmv_lost"]["total"]/T["gmv"]*100,1)
 import statistics as _st
 from collections import defaultdict as _dd
 tm=C.get("trend_monthly",[]); fs=C.get("first_seen",[])
-WIN=[f"2025-{m:02d}" for m in range(6,13)]+[f"2026-{m:02d}" for m in range(1,6)]  # trailing 12m
+WIN=[f"2025-{m:02d}" for m in range(7,13)]+[f"2026-{m:02d}" for m in range(1,7)]  # trailing 12m
 smb_tm=sorted([r for r in tm if norm_seg(r["seg"])=="SMB" and r["period"] in WIN],key=lambda r:r["period"])
 smb_gmv_avg=_st.mean(r["gmv"] for r in smb_tm)
 smb_gmv_annual=round(smb_gmv_avg*12)

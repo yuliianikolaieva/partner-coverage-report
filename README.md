@@ -8,7 +8,7 @@ especially in SMB / MM.
 ## Structure
 
 - `index.html` — the report (published to GitHub Pages). English.
-- `fetch_dbx.py` — pulls per-partner (group_name) per-month metrics from Databricks (Jan–May 2026) → `dbx_cache.json`.
+- `fetch_dbx.py` — pulls per-partner (group_name) per-month metrics from Databricks (Jan–Jun 2026) → `dbx_cache.json`.
 - `build_data.py` — aggregates the cache into `data.json` (segments, managed partners, team load, full list, trends).
 - `build_html.py` — renders `index.html` from `data.json`.
 
@@ -23,7 +23,7 @@ python3 build_html.py    # render index.html
 ## Data & definitions
 
 Source: Databricks `hive_metastore.ng_delivery_spark.fact_order_delivery` joined to
-`dim_provider_v2`, Bolt UA, `delivery_vertical = store`, delivered orders, Jan–May 2026.
+`dim_provider_v2`, Bolt UA, `delivery_vertical = store`, delivered orders, Jan–Jun 2026.
 GMV is before discounts, in EUR. Partner = `group_name`, location = provider.
 
 - **CP L1** = commission + eater fees + delivery revenue − courier cost − demand incentives − Bolt campaign spend − refunds. (Validated against the Key Account dashboard: ≈ −0.1% of GMV.)
