@@ -106,11 +106,12 @@ def team_item_row(it):
     <td class="{('neg' if (it.get('camp_vs_comm') is not None and it['camp_vs_comm']>=50) else '')}">{pctv(it.get('camp_vs_comm'))}</td></tr>"""
 team_blocks=""
 for t in TEAM:
+    onb=f' · {t["onboarding"]} onboarding' if t.get("onboarding") else ""
     ext=f' <span class="muted">(+{t["external"]} future)</span>' if t["external"] else ""
     rows="".join(team_item_row(it) for it in t["items"])
     team_blocks+=f"""<details class="seg-acc"><summary>
       <b>{t['am']}</b>{ext}
-      <span class="am-metrics">{t['partners']} partners · {num(t['stores'])} loc · <b>{eur(t['gmv'])}</b> ({pct(t['gmv'],T['gmv'])} GMV) · comm {eur(t['comm'])} · CP <span class="{cpcls(t['cp_l1'])}">{eur(t['cp_l1'])}</span></span>
+      <span class="am-metrics">{t['partners']} partners{onb} · {num(t['stores'])} loc · <b>{eur(t['gmv'])}</b> ({pct(t['gmv'],T['gmv'])} GMV) · comm {eur(t['comm'])} · CP <span class="{cpcls(t['cp_l1'])}">{eur(t['cp_l1'])}</span></span>
       <span class="chev">▾</span></summary>
       <div class="tablewrap"><table><thead><tr><th style="text-align:left">Partner / group</th><th>Seg</th><th>Loc.</th><th style="text-align:left">GMV</th><th>% GMV</th><th>Comm €</th><th>Comm %</th><th>CP L1</th><th>Camp Bolt / Comm</th></tr></thead><tbody>{rows}</tbody></table></div></details>"""
 
@@ -414,7 +415,7 @@ details.seg-acc .chev{{margin-left:auto;color:var(--muted);transition:transform 
 <div class="grid kpis">
 <div class="kpi"><div class="n">{MT['managers']}</div><div class="l">Account managers</div></div>
 <div class="kpi"><div class="n">{num(MT['stores'])}</div><div class="l">Managed locations</div></div>
-<div class="kpi high"><div class="n">~{pct(bryn['gmv'],T['gmv'])}</div><div class="l">GMV on one AM (Brynchak)</div></div>
+<div class="kpi good"><div class="n">{pct(MT['gmv'],T['gmv'])}</div><div class="l">Portfolio GMV managed by all AMs</div></div>
 <div class="kpi crit"><div class="n">{num(T['unassigned_stores'])}</div><div class="l">Locations with no AM</div></div></div>
 {team_blocks}
 <p class="note">GMV/commission/CP are computed over managed partners present in the data; future chains (shown as "· future") will add load on top. One AM holds ~{pct(bryn['gmv'],T['gmv'])} of portfolio GMV — a single point of concentration risk.</p></section>

@@ -82,18 +82,19 @@ resolver={
  "TAISTRA":["TAISTRA"],"SPAR":["SPAR"],"RUKAVYCHKA":["RUKAVYCHKA"],
  "REMESLO BREWERY":["REMESLO BREWERY"],"TOCHKA":["TOCHKA"],
  "VARUS":["VARUS"],"ROZETKA":["ROZETKA"],"ANRI-PHARM":["ANRI-PHARM"],
- "ATB":["ATB CHERKASY","ATB KYIV"],"BEERLAND K":["BEERLAND K"],
+ "BEERLAND K":["BEERLAND K"],
  "VAPERY | VAPE SHOP":["VAPERY | VAPE SHOP"],"RUKAVYCHKA":["RUKAVYCHKA"],
  "PYANA VYSHNYA":["PYANA VYSHNYA"],"PIVASOV":["PIVASOV"],"ALTBIER":["ALTBIER"],
  "LIKI 24":["LIKI24"],
 }
-external_nodata=["O'NDE","THRASH","E-ZOO","MASTER ZOO","ROST","BYLE TA SYKHE","FORA","ANC","AUCHAN","BLYZENKO"]
+external_nodata=["THRASH","E-ZOO","MASTER ZOO","ROST","BYLE TA SYKHE","FORA","ANC","AUCHAN","BLYZENKO",
+                 "ATB","FLOWERS UA","FLOWER SHOP","GOOD BEER VIN"]
 am_map={}
-for n in ["KOPIYKA","WINETIME","SANTIM","SPAR","O'NDE",
+for n in ["KOPIYKA","WINETIME","SANTIM","SPAR",
           "BRSM","FLOWERS UA","ATB","HOP HEY","BEER MARKET","LOKO",
           "CAFE RYNOK","BEERLAND","BEERLAND K","TAISTRA"]: am_map[n]=BRYN
 for n in ["REMESLO BREWERY","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM","RUKAVYCHKA","BYLE TA SYKHE","PYVNA BORODA","LIKI 24","FORA","ANC","AUCHAN","BLYZENKO"]: am_map[n]=SKAL
-for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA","VAPERY | VAPE SHOP","PYANA VYSHNYA","PIVASOV","TOCHKA","SPRAGA","MAXBEER","ALTBIER"]: am_map[n]=BER
+for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA","VAPERY | VAPE SHOP","PYANA VYSHNYA","PIVASOV","TOCHKA","SPRAGA","MAXBEER","ALTBIER","FLOWER SHOP","GOOD BEER VIN"]: am_map[n]=BER
 MANAGED_GROUP_AM={}
 for disp,keys in resolver.items():
     for k in keys: MANAGED_GROUP_AM[k]=am_map.get(disp)
@@ -195,7 +196,6 @@ managed_totals={"partners":len(partners),"in_data":len(mp),
 
 # display groupings inside each AM's partner list
 GROUPINGS=[("KOPIYKA GROUP",["KOPIYKA","SANTIM"],"KOPIYKA, KOPIYKA MINI, SANTIM"),
-           ("TAISTRA + O'NDE",["TAISTRA","O'NDE"],"TAISTRA, O'NDE"),
            ("BEERLAND",["BEERLAND","BEERLAND K"],"BEERLAND, BEERLAND K")]
 def _sumf(items,k): return round(sum(p[k] for p in items if p.get(k) is not None))
 def build_items(plist):
@@ -226,7 +226,9 @@ team=[]
 for am in [BRYN,SKAL,BER]:
     g=[p for p in partners if p["am"]==am]
     ind=[p for p in g if p["gmv"] is not None]
-    team.append({"am":am,"partners":len(g),"external":len(g)-len(ind),
+    active=[p for p in ind if (p["gmv"] or 0)>0]
+    team.append({"am":am,"partners":len(active),"onboarding":len(ind)-len(active),
+        "external":len(g)-len(ind),
         "stores":round(sum(p["stores"] for p in ind)),"gmv":round(sum(p["gmv"] for p in ind)),
         "orders":round(sum(p["orders"] for p in ind)),"comm":round(sum(p["comm"] for p in ind)),
         "cp_l1":round(sum(p["cp_l1"] for p in ind)),"items":build_items(g)})
