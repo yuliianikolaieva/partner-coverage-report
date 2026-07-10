@@ -19,7 +19,8 @@ for _key in ("monthly","dim","man_monthly","man_dim","churn","first_seen"):
 NAME_MEMBERS={"KOPIYKA GROUP":"Kopiyka, Kopiyka Mini, Santim","BEERLAND":"Beerland, Beerland K"}
 SEG_OVERRIDE={"WINETIME":"Mid-market","LEPRUKON":"Enterprise",
               "ATB":"Enterprise","KOPIYKA GROUP":"Enterprise",
-              "BEERLAND":"Enterprise","BEERLAND K":"Enterprise"}  # manual segment corrections by canonical group
+              "BEERLAND":"Enterprise","BEERLAND K":"Enterprise",
+              "FLOWER SHOP":"Mid-market","GOOD BEER VIN":"Mid-market"}  # manual segment corrections by canonical group
 NUMCOLS=["orders","locations","gmv","commission","eater_fees","camp_bolt","camp_merch",
          "delivery_rev","courier_cost","refunds","demand_incentives","supply_incentives"]
 
@@ -96,16 +97,17 @@ resolver={
  "VARUS":["VARUS"],"ANRI-PHARM":["ANRI-PHARM"],
  "BEERLAND K":["BEERLAND K"],
  "VAPERY | VAPE SHOP":["VAPERY | VAPE SHOP"],"RUKAVYCHKA":["RUKAVYCHKA"],
- "PYANA VYSHNYA":["PYANA VYSHNYA"],"PIVASOV":["PIVASOV"],"ALTBIER":["ALTBIER"],
+ "PIVASOV":["PIVASOV"],"ALTBIER":["ALTBIER"],
+ "FLOWER SHOP":["FLOWER SHOP"],"GOOD BEER VIN":["GOOD BEER VIN"],
 }
 external_nodata=["THRASH","E-ZOO","MASTER ZOO","ROST","BYLE TA SYKHE","FORA","ANC","AUCHAN","BLYZENKO",
-                 "ATB","FLOWERS UA","FLOWER SHOP","GOOD BEER VIN","LIKI 24"]
+                 "ATB","FLOWERS UA","LIKI 24"]
 am_map={}
 for n in ["KOPIYKA GROUP","WINETIME","SPAR",
           "BRSM","FLOWERS UA","ATB","HOP HEY","BEER MARKET","LOKO",
-          "CAFE RYNOK","BEERLAND","BEERLAND K","TAISTRA"]: am_map[n]=BRYN
-for n in ["REMESLO BREWERY","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM","RUKAVYCHKA","BYLE TA SYKHE","PYVNA BORODA","LIKI 24","FORA","ANC","AUCHAN","BLYZENKO"]: am_map[n]=SKAL
-for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","VAPERY | VAPE SHOP","PYANA VYSHNYA","PIVASOV","TOCHKA","SPRAGA","MAXBEER","ALTBIER","FLOWER SHOP","GOOD BEER VIN"]: am_map[n]=BER
+          "CAFE RYNOK","BEERLAND","BEERLAND K","TAISTRA","AUCHAN"]: am_map[n]=BRYN
+for n in ["REMESLO BREWERY","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM","RUKAVYCHKA","BYLE TA SYKHE","PYVNA BORODA","LIKI 24","FORA","ANC","BLYZENKO"]: am_map[n]=SKAL
+for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","VAPERY | VAPE SHOP","PIVASOV","TOCHKA","SPRAGA","MAXBEER","ALTBIER","FLOWER SHOP","GOOD BEER VIN"]: am_map[n]=BER
 MANAGED_GROUP_AM={}
 for disp,keys in resolver.items():
     for k in keys: MANAGED_GROUP_AM[k]=am_map.get(disp)
