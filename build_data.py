@@ -5,7 +5,9 @@ from collections import defaultdict
 HERE=os.path.dirname(os.path.abspath(__file__))
 C=json.load(open(os.path.join(HERE,"dbx_cache.json"),encoding="utf-8"))
 MONTHS=["2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"]
-SEG_OVERRIDE={"WINETIME":"Mid-market"}  # manual segment corrections by group_name
+SEG_OVERRIDE={"WINETIME":"Mid-market","FLOWERS":"Enterprise","LEPRUKON":"Enterprise",
+              "ATB CHERKASY":"Enterprise","ATB KYIV":"Enterprise",
+              "BEERLAND":"Enterprise","BEERLAND K":"Enterprise"}  # manual segment corrections by group_name
 NUMCOLS=["orders","locations","gmv","commission","eater_fees","camp_bolt","camp_merch",
          "delivery_rev","courier_cost","refunds","demand_incentives","supply_incentives"]
 
@@ -83,13 +85,14 @@ resolver={
  "ATB":["ATB CHERKASY","ATB KYIV"],"BEERLAND K":["BEERLAND K"],
  "VAPERY | VAPE SHOP":["VAPERY | VAPE SHOP"],"RUKAVYCHKA":["RUKAVYCHKA"],
  "PYANA VYSHNYA":["PYANA VYSHNYA"],"PIVASOV":["PIVASOV"],"ALTBIER":["ALTBIER"],
+ "LIKI 24":["LIKI24"],
 }
-external_nodata=["O'NDE","FORA","THRASH","E-ZOO","MASTER ZOO","ROST","BYLE TA SYKHE"]
+external_nodata=["O'NDE","THRASH","E-ZOO","MASTER ZOO","ROST","BYLE TA SYKHE","FORA","ANC","AUCHAN","BLYZENKO"]
 am_map={}
 for n in ["KOPIYKA","WINETIME","SANTIM","SPAR","O'NDE",
-          "BRSM","FLOWERS UA","ATB","FORA","HOP HEY","BEER MARKET","LOKO",
+          "BRSM","FLOWERS UA","ATB","HOP HEY","BEER MARKET","LOKO",
           "CAFE RYNOK","BEERLAND","BEERLAND K","TAISTRA"]: am_map[n]=BRYN
-for n in ["REMESLO BREWERY","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM","RUKAVYCHKA","BYLE TA SYKHE","PYVNA BORODA"]: am_map[n]=SKAL
+for n in ["REMESLO BREWERY","VARUS","THRASH","E-ZOO","ROST","MASTER ZOO","ANRI-PHARM","RUKAVYCHKA","BYLE TA SYKHE","PYVNA BORODA","LIKI 24","FORA","ANC","AUCHAN","BLYZENKO"]: am_map[n]=SKAL
 for n in ["LEPRUKON","DIMPYVA","CHILL TIME","VAPE SHOP KYIV","NO TABOO","RODYNNA KOVBASKA","VAPORS","ROZETKA","VAPERY | VAPE SHOP","PYANA VYSHNYA","PIVASOV","TOCHKA","SPRAGA","MAXBEER","ALTBIER"]: am_map[n]=BER
 MANAGED_GROUP_AM={}
 for disp,keys in resolver.items():
@@ -192,7 +195,8 @@ managed_totals={"partners":len(partners),"in_data":len(mp),
 
 # display groupings inside each AM's partner list
 GROUPINGS=[("KOPIYKA GROUP",["KOPIYKA","SANTIM"],"KOPIYKA, KOPIYKA MINI, SANTIM"),
-           ("TAISTRA + O'NDE",["TAISTRA","O'NDE"],"TAISTRA, O'NDE")]
+           ("TAISTRA + O'NDE",["TAISTRA","O'NDE"],"TAISTRA, O'NDE"),
+           ("BEERLAND",["BEERLAND","BEERLAND K"],"BEERLAND, BEERLAND K")]
 def _sumf(items,k): return round(sum(p[k] for p in items if p.get(k) is not None))
 def build_items(plist):
     used=set(); items=[]
